@@ -28,7 +28,7 @@ function App() {
       children:[
         {
           path:'/Admin',
-          children:<p>Component in Outlet</p>
+          element:<p>Component in Outlet</p>
         }
       ]
     },
