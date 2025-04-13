@@ -1,37 +1,39 @@
 import { useEffect, useRef, useState } from 'react'
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
-
+import Login from './Pages/Login';
 import axios from 'axios'
 
 function App() {
   const [User, setUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  
+
 
 
   useEffect(() => {
 
     // Logic to check Authentication
-    const checkAuth = async () => {}
+    // const checkAuth = async () => {}
 
-    checkAuth();
+    // checkAuth();
 
   }, [])
 
-  const updateUser = (user) => {
-    setUser(user);
-  }
+  // const updateUser = (user) => {
+    // setUser(user);
+  // }
 
   const router= createBrowserRouter([
-    {
-      path:'/Admin',
-      element: User && User.role === 'admin' ? <h1>Admin Panel</h1> : <Navigate to='/Home' />,
-      children:[
-        {
-          path:'/Admin',
-          element:<p>Component in Outlet</p>
-        }
-      ]
-    },
+    // {
+    //   path:'/Admin',
+    //   element: User && User.role === 'admin' ? <h1>Admin Panel</h1> : <Navigate to='/Login' />,
+    //   children:[
+    //     {
+    //       path:'/Admin',
+    //       element:<p>Component in Outlet</p>
+    //     }
+    //   ]
+    // },
     {
       path:'/Recruiter',
       element: User && User.role === 'recruiter' ? <h1>Recruiter Panel</h1> : <Navigate to='/Home' />,
@@ -41,12 +43,12 @@ function App() {
       element: User && User.role === 'candidate' ? <h1>Candidate Panel</h1> : <Navigate to='/Home' />,
     },
     {
-      path:'/Home',
+      path:'/',
       element: <h1>Home</h1>,
     },
     {
       path:'/Login',
-      element: <h1>Login</h1>,
+      element: <Login/>,
     },
     {
       path:'/Signup',
