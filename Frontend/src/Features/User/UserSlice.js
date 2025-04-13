@@ -17,11 +17,13 @@ export const UserSlice =createSlice({
                 email:action.payload.email,
                 password:action.payload.password,
             }
-            state.value=newUser;
+            state.email=newUser.email,
+            state.password=newUser.password
         },
         // ? Clear User Data
         clearUserData:(state)=>{
-            state.value={}
+            state.email="",
+            state.password=""
         }
     }
 })
