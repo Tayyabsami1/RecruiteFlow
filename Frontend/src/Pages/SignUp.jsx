@@ -11,6 +11,7 @@ import Logo from "../assets/Logo.jpg"
 const SignUp = () => {
 
   const navigate = useNavigate();
+  const [User,setUser]=useState({});
 
   const [formData, setFormData] = useState({
     name: '',
@@ -18,25 +19,25 @@ const SignUp = () => {
     phone: '',
     email: '',
     password: '',
-    userType: 'Individual', // Default value
-    role:'user',
+    userType: 'Jobseeker', // Default value
   });
 
-  const { name, cnic, phone, email, password, userType, role } = formData;
+  const { name, cnic, phone, email, password, userType } = formData;
 
-  // useEffect(() => {
-  //   if (User?.role === 'superadmin') {
-  //     navigate('/'); // Redirect to dashboard for superadmin
-  //   }
+  useEffect(() => {
+    if (User?.userType === 'Admin') {
+      navigate('/admin'); 
+    }
 
-  //   if (User?.role === 'admin') {
-  //     navigate('/'); // Redirect to dashboard for admin
-  //   }
-  //   else if (User?.role === 'user') {
-  //     navigate('/Payment');
-  //   }
+    if (User?.userType === 'Recruiter') {
+      console.log("Recruiter")
+      navigate('/Recruiter'); 
+    }
+    else if (User?.userType === 'Jobseeker') {
+      navigate('/');
+    }
 
-  // }, [User,navigate])
+  }, [User,navigate])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,8 +47,8 @@ const SignUp = () => {
   const handleSubmit =async (e) => {
     e.preventDefault();
 
-    try{
-      console.log("Hello")
+    // try{
+      setUser(formData);
       // const response = await axios.post(`/api/v1/users/signup`, {
       //   name,
       //   cnic,
@@ -58,11 +59,11 @@ const SignUp = () => {
       //   role,
       // },{withCredentials:true});
       // updateUser(response.data.data.createdUser);
-    }
-    catch(err)
-    {
-      console.log(err);
-    }
+    // }
+    // catch(err)
+    // {
+      // console.log(err);
+    // }
     // updateUser(formData);
     // navigate('/payment');
   };
@@ -150,9 +151,8 @@ const SignUp = () => {
               value={formData.userType}
               onChange={handleChange}
             >
-              <option value="Individual">Individual</option>
-              <option value="Startup">Startup</option>
-              <option value="Corporation">Corporation</option>
+              <option value="Jobseeker">Job Seeker</option>
+              <option value="Recruiter">Recruiter</option>
             </select>
           </div>
 

@@ -11,6 +11,7 @@ const Login = () => {
 
 
   const navigate = useNavigate();
+  const [User, setUser] = useState(null);
 
   const [formData, setFormData] = useState({
     email: '',
@@ -24,34 +25,37 @@ const Login = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-//   useEffect(() => {
-//     if (User?.role === 'superadmin') {
-//       navigate('/Admin'); // Redirect to dashboard for superadmin
-//     }
+  useEffect(() => {
+    if (User?.userType === 'Admin') {
+      navigate('/Admin'); 
+    }
 
-//     if (User?.role === 'admin') {
-//       navigate('/'); // Redirect to dashboard for admin
-//     }
-//     else if (User?.role === 'user') {
-//       navigate('/Home');
-//     }
+    if (User?.userType === 'Recruiter') {
+      navigate('/Recruiter'); 
+    }
+    else if (User?.userType === 'Jobseeker') {
+      navigate('/');
+    }
 
-//   }, [User,navigate])
+  }, [User,navigate])
 
   const handleSubmit =async (e) => {
     e.preventDefault();
-    try{
-      console.log("Hello")
+    console.log("Hello")
+    // try{
       // const response = await axios.post(`/api/v1/users/login`, {
         // email,
         // password,
       // });
     //   updateUser(response.data.data.LoggedInUser);
-    }
-    catch(err)
-    {
-      console.log(err);
-    }
+    setUser(formData);
+    setUser(prev=>({...prev, userType: "Jobseeker"}));
+
+    // }
+    // catch(err)
+    // {
+      // console.log(err);
+    // }
   };
 
   return (

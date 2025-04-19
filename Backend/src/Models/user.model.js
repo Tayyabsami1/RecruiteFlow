@@ -35,7 +35,7 @@ const userSchema = new Schema({
     userType: {
         type: String,
         required: true,
-        enum: ['Jobseeker', 'recruiter', 'admin'], // Assuming these are the user types
+        enum: ['Jobseeker', 'Recruiter', 'Admin'], // Assuming these are the user types
     },
     refreshToken: {
         type: String,
