@@ -6,6 +6,7 @@ import { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
+import Logo from "../assets/Logo.jpg"
 
 const SignUp = () => {
 
@@ -69,14 +70,16 @@ const SignUp = () => {
   return (
     <div className="SignIn">
       <div className="left">
-        {/* <img src={} alt="" /> */}
+        <div className='img'>
+          <img src={Logo} alt="hello" />
+        </div>
       </div>
     
 
 
       <div className="right">
         <div className="wrapper">
-        <h1>Strong <span>legal </span>representation. One click away.</h1>
+        <h1>Join  <span>RecruitFlow </span>where talent meets opportunity.</h1>
         <form onSubmit={handleSubmit}>
 
           <div>

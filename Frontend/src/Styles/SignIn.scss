@@ -2,7 +2,7 @@
     display: flex;
     height: 100vh;
     width: 100vw;
-    color: white;
+    color: #EEEEEE;
 
     .left {
         flex: 1;
@@ -10,23 +10,16 @@
         position: relative;
         height: 100%;
         width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #0F044C;
 
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        &::after {
-            content: "";
-            background: #131D29;
-            height: 100%;
-            width: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 1;
-            opacity: 0.5;
+        .img {
+            img{
+            height: 600px;
+            width: 600px;
+            }
         }
 
         @media(max-width:701px) {
@@ -38,7 +31,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: #131D29;
+        background-color: #EEEEEE;
         flex: 1;
         height: 100%;
         width: 100%;
@@ -58,13 +51,15 @@
                 text-align: center;
                 margin: 30px 0;
                 font-size: 35px;
+                color: #141E61;
                 @media(max-width:1240px) {
                     font-size: 28px;
                     margin-top: 70px;
                 }
 
                 span {
-                    color: #CB935D;
+                    color: #141E61;
+                    font-weight: lighter;
                 }
 
                 @media(max-width:1100px) {
@@ -87,6 +82,7 @@
                         display: block;
                         margin-bottom: 5px;
                         font-size: 18px;
+                        color: #141E61;
                     }
 
                     input,
@@ -94,16 +90,16 @@
                     option {
                         width: 95%;
                         padding: 8px;
-                        border: 1px solid #ccc;
+                        border: 1px solid #141E61;
                         border-radius: 4px;
                         margin: auto;
-                        color: white;
+                        color: #141E61;
                         background-color: transparent;
                     }
 
                     option {
-                        color: white;
-                        background-color: #131D29;
+                        color: #EEEEEE;
+                        background-color: #141E61;
                     }
                 }
 
@@ -119,20 +115,23 @@
                         width: 50%;
                         padding: 10px;
                         background-color: transparent;
-                        color: white;
-                        border: 1px solid #CB935D;
+                        color: #0F044C;
+                        border: 1px solid #0F044C;
                         cursor: pointer;
                         font-size: 18px;
                         transition: all 200ms ease-in;
+                        border-radius: 4px;
 
                         &:hover {
-                            background-color: #CB935D;
+                            color: #EEEEEE;
+                            background-color: #0F044C;
                         }
                     }
 
                     a {
                         font-size: 16px;
                         transition: all 200ms ease-in;
+                        color: #141E61;
 
                         &:hover {
                             transform: scale(1.1);

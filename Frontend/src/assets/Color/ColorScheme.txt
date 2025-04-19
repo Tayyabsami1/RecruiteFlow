@@ -1,4 +1,4 @@
-#222831 Darkest 
-#393E46 Dark 
-#00ADB5 Primary
+#0F044C Darkest 
+#141E61 Dark 
+#787A91 Primary
 #EEEEEE Light
