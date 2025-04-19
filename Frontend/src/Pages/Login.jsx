@@ -1,65 +1,121 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from "react-redux"
-import { setUserData } from '../Features/User/UserSlice';
+/* eslint-disable no-unused-vars */
+import { Link } from 'react-router-dom';
+import '../Styles/Login.scss'
+import { useNavigate } from 'react-router-dom';
+
+import { useState, useEffect } from 'react';
+
+import axios from "axios"
+
 const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    // A Dispatch is used to dispatch actions to the store
-    const dispatch = useDispatch()
-    // A Selector is used to get the state from the store
-    const User=useSelector(state=>state.User)
 
 
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-    };
+  const navigate = useNavigate();
 
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
-    };
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(User)
-        console.log('Email:', email);
-        console.log('Password:', password);
+  const { email, password } = formData;
 
-        // Just testing the Redux Store 
-        dispatch(
-            setUserData({
-                email: email,
-                password: password,
-            })
-        )
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-    };
+//   useEffect(() => {
+//     if (User?.role === 'superadmin') {
+//       navigate('/Admin'); // Redirect to dashboard for superadmin
+//     }
 
-    return (
-        <div>
-            <h1>Login</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Email:</label>
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={handleEmailChange}
-                        placeholder="Enter your email"
-                    />
-                </div>
-                <div>
-                    <label>Password:</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={handlePasswordChange}
-                        placeholder="Enter your password"
-                    />
-                </div>
-                <button type="submit">Login</button>
-            </form>
+//     if (User?.role === 'admin') {
+//       navigate('/'); // Redirect to dashboard for admin
+//     }
+//     else if (User?.role === 'user') {
+//       navigate('/Home');
+//     }
+
+//   }, [User,navigate])
+
+  const handleSubmit =async (e) => {
+    e.preventDefault();
+    try{
+      console.log("Hello")
+      // const response = await axios.post(`/api/v1/users/login`, {
+        // email,
+        // password,
+      // });
+    //   updateUser(response.data.data.LoggedInUser);
+    }
+    catch(err)
+    {
+      console.log(err);
+    }
+  };
+
+  return (
+    <div className="LogIn">
+      <div className="left">
+        <div className="wrapper">
+          <h1>Access Your <span>Legal </span>matters</h1>
+          <form onSubmit={handleSubmit}>
+
+            <div>
+              <label htmlFor="email">Email:</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div>
+              <label htmlFor="password">Password:</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            {/* <div>
+              <label htmlFor="userType">Log in as:</label>
+              <select
+                id="userType"
+                name="userType"
+                value={formData.userType}
+                onChange={handleChange}
+              >
+                <option value="Individual">Individual</option>
+                <option value="Startup">Startup</option>
+                <option value="Corporation">Corporation</option>
+              </select>
+            </div> */}
+
+            <div className="btns">
+              <button type="submit" >Log in </button>
+              <Link to='/signup'>Don't have an account? Sign up </Link>
+            </div>
+
+          </form>
         </div>
-    );
-};
+      </div>
 
-export default Login;
+
+
+      <div className="right">
+        {/* <img src={BgImg} alt="" /> */}
+
+      </div>
+    </div>
+  )
+}
+
+export default Login

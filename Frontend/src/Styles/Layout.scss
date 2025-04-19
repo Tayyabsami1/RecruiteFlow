@@ -1,0 +1,10 @@
+.layout {
+    height: 100vh;
+    overflow: scroll;
+    overflow-x: hidden;
+
+
+    .content {
+        height: calc(100vh - 100px);
+    }
+}

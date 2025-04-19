@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import Login from './Pages/Login';
-import axios from 'axios'
 
+import SignUp from './Pages/SignUp';
+import "./index.css"
+import Layout from './Pages/Layout';
 function App() {
   const [User, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -44,7 +46,7 @@ function App() {
     },
     {
       path:'/',
-      element: <h1>Home</h1>,
+      element: <Layout/>,
     },
     {
       path:'/Login',
@@ -52,7 +54,7 @@ function App() {
     },
     {
       path:'/Signup',
-      element:<h1>Signup</h1>
+      element:<SignUp/>
     }
   ])
 

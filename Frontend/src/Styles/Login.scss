@@ -1,0 +1,145 @@
+.LogIn {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    color: white;
+
+    .left {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #131D29;
+        flex: 1;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            width: 95%;
+
+            // Tag line styling
+            h1 {
+                text-align: center;
+                margin: 30px 0;
+                font-size: 35px;
+
+                span {
+                    color: #CB935D;
+                }
+
+                @media(max-width:1100px) {
+                    font-size: 25px;
+                }
+            }
+
+            // From Container Start
+            form {
+                width: auto;
+                padding: 20px 30px;
+                border: none;
+                border-radius: 4px;
+                background-color: transparent;
+
+                div {
+                    margin-bottom: 15px;
+
+                    label {
+                        display: block;
+                        margin-bottom: 5px;
+                        font-size: 18px;
+                    }
+
+                    input,
+                    select,
+                    option {
+                        width: 95%;
+                        padding: 8px;
+                        border: 1px solid #ccc;
+                        border-radius: 4px;
+                        margin: auto;
+                        color: white;
+                        background-color: transparent;
+                    }
+
+                    option {
+                        color: white;
+                        background-color: #131D29;
+                    }
+                }
+
+                // Login Sign Container
+                .btns {
+                    display: flex;
+                    margin-top: 30px;
+                    align-items: center;
+                    justify-content: space-between;
+
+                    // Login /SignUp Button
+                    button {
+                        width: 50%;
+                        padding: 10px;
+                        background-color: transparent;
+                        color: white;
+                        border: 1px solid #CB935D;
+                        cursor: pointer;
+                        font-size: 18px;
+                        transition: all 200ms ease-in;
+
+                        &:hover {
+                            background-color: #CB935D;
+                        }
+                    }
+
+                    a {
+                        font-size: 16px;
+                        transition: all 200ms ease-in;
+
+                        &:hover {
+                            transform: scale(1.1);
+                        }
+                    }
+
+                    @media(max-width:1100px) {
+                        flex-direction: column;
+                        gap: 10px;
+                    }
+                }
+            }
+          // Form Container End 
+        }
+    }
+
+    .right {
+        
+        flex: 1;
+        overflow: hidden;
+        position: relative;
+        height: 100%;
+        width: 100%;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        &::after {
+            content: "";
+            background: #131D29;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            opacity: 0.5;
+        }
+
+        @media(max-width:701px) {
+            display: none;
+        }
+       
+    }
+}
