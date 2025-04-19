@@ -1,0 +1,4 @@
+#222831 Darkest 
+#393E46 Dark 
+#00ADB5 Primary
+#EEEEEE Light
