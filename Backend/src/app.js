@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from "cors"
 import cookieparser from 'cookie-parser'
+import AuthRouter from "./Routes/auth.routes.js"
 const app = express();
 
 // Some security options using Middlewares
@@ -19,6 +20,8 @@ app.use(cors({
     origin: process.env.CORS_ORIGIN,
     credentials: true,
 }));
+
+app.use("/api/Auth",AuthRouter);
 
 
 export { app };

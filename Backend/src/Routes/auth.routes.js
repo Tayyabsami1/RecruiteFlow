@@ -1,14 +1,14 @@
 import { Router } from "express";
-import { LoginUser,LogoutUser,SignUpUser,AuthorizationCheck } from "../Controllers/auth.controller";
-import { verifyJWT } from "../Middlewares/auth.middleware";
+import { LoginUser,LogoutUser,SignUpUser,AuthorizationCheck } from "../Controllers/auth.controller.js";
+import { verifyJWT } from "../Middlewares/auth.middleware.js";
 
-const Router=Router();
+const authRouter=Router();
 
-Router.route('/login').post(LoginUser);
+authRouter.route('/login').post(LoginUser);
 
-Router.route('/signup').post(SignUpUser);
+authRouter.route('/signup').post(SignUpUser);
 
-Router.route('/logout').post(verifyJWT, LogoutUser);
-Router.route('/').get(AuthorizationCheck);
+authRouter.route('/logout').post(verifyJWT, LogoutUser);
+authRouter.route('/').get(AuthorizationCheck);
 
-export default Router;
+export default authRouter;
