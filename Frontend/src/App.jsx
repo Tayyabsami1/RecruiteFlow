@@ -1,21 +1,31 @@
 import { useEffect, useRef, useState } from 'react'
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
 import Login from './Pages/Login';
 
 import SignUp from './Pages/SignUp';
 import "./index.css"
 import Layout from './Pages/Layout';
+import { setUserData } from './Features/User/UserSlice';
 function App() {
   const [User, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   
+  const dispatch = useDispatch();
+
 
 
 
   useEffect(() => {
 
     // Logic to check Authentication
-    // const checkAuth = async () => {}
+    // const checkAuth = async () => {
+
+
+      // }
+
+      dispatch(setUserData(User))
+      setIsLoading(false);
 
     // checkAuth();
 

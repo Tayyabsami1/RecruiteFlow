@@ -5,6 +5,9 @@ import '../Styles/SignIn.scss'
 import { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import {useDispatch} from 'react-redux'
+import { setUserData } from '../Features/User/UserSlice';
+
 import axios from 'axios';
 import Logo from "../assets/Logo.jpg"
 
@@ -12,6 +15,7 @@ const SignUp = () => {
 
   const navigate = useNavigate();
   const [User,setUser]=useState({});
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -47,7 +51,7 @@ const SignUp = () => {
   const handleSubmit =async (e) => {
     e.preventDefault();
 
-    // try{
+    try{
       setUser(formData);
       // const response = await axios.post(`/api/v1/users/signup`, {
       //   name,
@@ -59,11 +63,12 @@ const SignUp = () => {
       //   role,
       // },{withCredentials:true});
       // updateUser(response.data.data.createdUser);
-    // }
-    // catch(err)
-    // {
-      // console.log(err);
-    // }
+      dispatch(setUserData(formData));
+    }
+    catch(err)
+    {
+      console.log(err);
+    }
     // updateUser(formData);
     // navigate('/payment');
   };

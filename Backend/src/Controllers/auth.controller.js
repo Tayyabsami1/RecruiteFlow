@@ -1,14 +1,14 @@
 // Sp that we dont have to write the try-catch block in every route handler
-import { asyncHandler } from "../../utils/asyncHandler.js"
+import { asyncHandler } from "../Utils/asyncHandler.js"
 
 // To standardize the API Error responses
-import { ApiError } from "../../utils/apiError.js"
+import { ApiError } from "../Utils/apiError.js"
 
 // To standardize the API Responses
-import { ApiResponse } from "../../utils/apiResponse.js"
+import { ApiResponse } from "../Utils/apiResponse.js"
 
 // User Model 
-import { User } from "../../Models/user.model.js"
+import { User } from "../Models/user.model.js"
 import jwt from "jsonwebtoken";
 
 
