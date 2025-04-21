@@ -6,12 +6,14 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Logo from "../assets/Logo.jpg"
 import axios from "axios"
+import { useSelector,useDispatch } from 'react-redux';
+import { setUserData } from '../Features/User/UserSlice';
 
 const Login = () => {
 
-
   const navigate = useNavigate();
-  const [User, setUser] = useState(null);
+  const {User}= useSelector((state)=>state.User);
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
     email: '',
@@ -37,25 +39,23 @@ const Login = () => {
       navigate('/');
     }
 
-  }, [User,navigate])
+  }, [User,navigate,dispatch])
 
   const handleSubmit =async (e) => {
     e.preventDefault();
-    console.log("Hello")
-    // try{
-      // const response = await axios.post(`/api/v1/users/login`, {
-        // email,
-        // password,
-      // });
-    //   updateUser(response.data.data.LoggedInUser);
-    setUser(formData);
-    setUser(prev=>({...prev, userType: "Jobseeker"}));
+    try{
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/auth/login`, {
+        email,
+        password,
+      });
 
-    // }
-    // catch(err)
-    // {
-      // console.log(err);
-    // }
+    dispatch(setUserData(response.data.data.LoggedInUser));
+
+    }
+    catch(err)
+    {
+      console.log(err.response.data.msg);
+    }
   };
 
   return (
