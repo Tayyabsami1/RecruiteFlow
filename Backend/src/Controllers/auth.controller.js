@@ -26,25 +26,24 @@ const generateAccessAndRefreshToken = async (userID) => {
         return { accessToken, refreshToken };
     }
     catch (err) {
-        throw new ApiError(500, "Something went wrong while generating your tokens")
+        return res.status(500).json(new ApiError(500, "Something went wrong while generating your tokens"));
     }
 }
-
 
 export const LoginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-        throw new ApiError(400, "Please fill in all the credentials");
+        return res.status(400).json(new ApiError(400, "Please fill in all the credentials"));
     }
 
     const MyUser = await User.findOne({ email });
 
-    if (!MyUser) throw new ApiError(400, "User doesnot exist");
+    if (!MyUser) return res.status(409).json(new ApiError(400, "User doesnot exist"))
 
     const isPassValid = await MyUser.isPasswordCorrect(password);
 
-    if (!isPassValid) throw new ApiError(401, "Password is Incorrect");
+    if (!isPassValid) return res.status(409).json(new ApiError(401, "Password is Incorrect"))
 
     const { accessToken, refreshToken } = await generateAccessAndRefreshToken(MyUser._id);
 
@@ -65,9 +64,8 @@ export const LoginUser = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, { LoggedInUser, accessToken, refreshToken }, "User Logged In Successfully"));
 });
 
-// TODO (Modify it according to Our Need)
 export const SignUpUser = asyncHandler(async (req, res) => {
-    const { name, cnic, phone, email, password, userType} = req.body;
+    const { name, cnic, phone, email, password, userType } = req.body;
     const role = "user";
 
     if (!email || !password || !name || !cnic || !phone || !userType) {
@@ -80,23 +78,28 @@ export const SignUpUser = asyncHandler(async (req, res) => {
     });
 
     // If user exists we simply throw the Error
-    if (UserExist) throw new ApiError(409, "This User already exists");
-
-    const MyNewUser = await User.create({
-        name: name.toLowerCase(),
-        password,
-        email,
-        cnic,
-        phone,
-        userType,
-        role,
-    });
+    if (UserExist) return res.status(409).json(new ApiError(409, "This User already exists"))
+    
+    let MyNewUser;
+    try {
+         MyNewUser = await User.create({
+            name: name.toLowerCase(),
+            password,
+            email,
+            cnic,
+            phone,
+            userType,
+        });
+    }
+    catch (err) {
+        return res.status(409).json(new ApiError(500, "The Email, CNIC or Phone Number is already registered"));
+    }
 
     const { accessToken, refreshToken } = await generateAccessAndRefreshToken(MyNewUser._id);
 
     const createdUser = await User.findById(MyNewUser._id).select("-password -refreshToken");
 
-    if (!createdUser) throw new ApiError(500, "Something went wrong while creating the User");
+    if (!createdUser) return res.status(500).json(new ApiError(500, "Something went wrong while creating the User"));
 
     // Cookies Options 
     const options = {
@@ -106,10 +109,10 @@ export const SignUpUser = asyncHandler(async (req, res) => {
     }
 
     return res
-    .status(200)
-    .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", refreshToken, options)
-    .json(new ApiResponse(200, {createdUser,refreshToken,accessToken}, "User registered successfully"));
+        .status(200)
+        .cookie("accessToken", accessToken, options)
+        .cookie("refreshToken", refreshToken, options)
+        .json(new ApiResponse(200, { createdUser, refreshToken, accessToken }, "User registered successfully"));
 
 });
 
@@ -139,20 +142,20 @@ export const LogoutUser = asyncHandler(async (req, res) => {
 });
 
 export const AuthorizationCheck = asyncHandler(async (req, res) => {
-    const token= req.cookies?.accessToken|| req.header("Authorization")?.replace("Bearer ","");
+    const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "");
 
-     // If we didnt get the code from the cookies this means user is not logged in 
-   if(!token) throw new ApiError(401,"Unauthorized Request");
+    // If we didnt get the code from the cookies this means user is not logged in 
+    if (!token) return res.status(401).json(new ApiError(401, "Unauthorized Request"));
 
-   // lets verify the token with our jwt 
-   const decodedToken=jwt.verify(token,process.env.ACCESS_TOKEN_SECRET);
+    // lets verify the token with our jwt 
+    const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
-   // Take the ID from our DB and remove the password and refresh token from it 
-   const user=await User.findById(decodedToken._id).select("-password -refreshToken");
+    // Take the ID from our DB and remove the password and refresh token from it 
+    const user = await User.findById(decodedToken._id).select("-password -refreshToken");
 
-   // At this point if we dont have the user then our Invalid Token is incorrect 
-   if(!user)
-    throw new ApiError(401,"Invalid Access Token");
+    // At this point if we dont have the user then our Invalid Token is incorrect 
+    if (!user)
+        return res.status(401).json(new ApiError(401, "Invalid Access Token"));
 
-   return res.status(200).json(new ApiResponse(200, user,"User is Authorized"));
+    return res.status(200).json(new ApiResponse(200, user, "User is Authorized"));
 })

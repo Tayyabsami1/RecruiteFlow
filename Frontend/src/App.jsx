@@ -1,86 +1,96 @@
-import { useEffect, useRef, useState } from 'react'
-import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
-import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react'
+import { createBrowserRouter, Link, Navigate, RouterProvider } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
 import Login from './Pages/Login';
 
 import SignUp from './Pages/SignUp';
 import "./index.css"
 import Layout from './Pages/Layout';
 import { setUserData } from './Features/User/UserSlice';
+import axios from 'axios';
 function App() {
-  const [User, setUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  
+  const { User } = useSelector((state) => state.User);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
+
   const dispatch = useDispatch();
 
-
-
-
   useEffect(() => {
+    // ! Important Code 
+    const checkAuth = async () => {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/Auth`, { withCredentials: true });
+        dispatch(setUserData(res.data.data));
+        setIsLoading(false);
 
-    // Logic to check Authentication
-    // const checkAuth = async () => {
+      }
+      catch (err) {
+        console.log(err.response.data.msg);
+        setError(err.response.data.msg);
+        setIsLoading(false);
+      }
+
+    }
+
+    if(!User)
+    checkAuth();
+    else setIsLoading(false);
+    console.log(User)
 
 
-      // }
-
-      dispatch(setUserData(User))
-      setIsLoading(false);
-
-    // checkAuth();
-
-  }, [])
+  }, [User,dispatch])
 
   // const updateUser = (user) => {
-    // setUser(user);
+  // setUser(user);
   // }
 
-  const router= createBrowserRouter([
+  const router = createBrowserRouter([
     {
-      path:'/Admin',
-      // element: User && User.role === 'admin' ? <h1>Admin Panel</h1> : <Navigate to='/Login' />,
-      element: <h1>Admin Panel</h1>,
-    //   children:[
-    //     {
-    //       path:'/Admin',
-    //       element:<p>Component in Outlet</p>
-    //     }
-    //   ]
+      path: '/Admin',
+      element: User && User.userType === 'admin' ? <h1>Admin Panel</h1> : <Navigate to='/' />,
+      //   children:[
+      //     {
+      //       path:'/Admin',
+      //       element:<p>Component in Outlet</p>
+      //     }
+      //   ]
     },
     {
-      path:'/Recruiter',
-      // element: User && User.role === 'recruiter' ? <h1>Recruiter Panel</h1> : <Navigate to='/' />,
-      element: <h1>Recruiter Panel</h1>,
+      path: '/Recruiter',
+      element: User && User.userType === 'Recruiter' ? <h1>Recruiter Panel</h1> : <Navigate to='/' />,
+      // element:<h1>hello fuck u</h1>
     },
-    // {
-      // path:'/',
-      // element: User && User.role === 'candidate' ? <h1>Candidate Panel</h1> : <Navigate to='/' />,
-      // element: <h1>Home </h1>,
-    // },
     {
-      path:'/',
-      element: <Layout/>,
-      children:[
+      path: '/',
+      element: <Layout />,
+      children: [
         {
-          path:'/',
-          element:<h1>Candidate Panel</h1>
+          path: '/',
+          element: <h1>
+            Candidate Panel
+            {User && <p>Logout plz if you want no pressure </p>}
+            <br></br>
+            {!User && <Link to='/Login' > Login</Link>}
+          </h1>
         }
       ]
     },
     {
-      path:'/Login',
-      element: <Login/>,
+      path: '/Login',
+      element: <Login />,
     },
     {
-      path:'/Signup',
-      element:<SignUp/>
+      path: '/Signup',
+      element: <SignUp />
     }
   ])
 
-  if(isLoading) return <h1>Loading...</h1>
+  if(error) <Navigate to='/Login'/>
+  if (isLoading) return <h1>Loading...</h1>
+  else
   return (
 
-    <RouterProvider router={router}/>
+    <RouterProvider router={router} />
 
   )
 }

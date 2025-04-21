@@ -5,7 +5,7 @@ import '../Styles/SignIn.scss'
 import { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import {useDispatch} from 'react-redux'
+import {useDispatch,useSelector} from 'react-redux'
 import { setUserData } from '../Features/User/UserSlice';
 
 import axios from 'axios';
@@ -14,7 +14,6 @@ import Logo from "../assets/Logo.jpg"
 const SignUp = () => {
 
   const navigate = useNavigate();
-  const [User,setUser]=useState({});
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
@@ -26,22 +25,24 @@ const SignUp = () => {
     userType: 'Jobseeker', // Default value
   });
 
+  const {User}=useSelector((state)=>state.User);
+
   const { name, cnic, phone, email, password, userType } = formData;
 
   useEffect(() => {
+
     if (User?.userType === 'Admin') {
       navigate('/admin'); 
     }
 
     if (User?.userType === 'Recruiter') {
-      console.log("Recruiter")
       navigate('/Recruiter'); 
     }
     else if (User?.userType === 'Jobseeker') {
       navigate('/');
     }
 
-  }, [User,navigate])
+  }, [User,navigate,dispatch])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -50,27 +51,21 @@ const SignUp = () => {
 
   const handleSubmit =async (e) => {
     e.preventDefault();
-
     try{
-      setUser(formData);
-      // const response = await axios.post(`/api/v1/users/signup`, {
-      //   name,
-      //   cnic,
-      //   phone,
-      //   email,
-      //   password,
-      //   userType,
-      //   role,
-      // },{withCredentials:true});
-      // updateUser(response.data.data.createdUser);
-      dispatch(setUserData(formData));
+      const  response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/Auth/signup`, {
+        name,
+        cnic,
+        phone,
+        email,
+        password,
+        userType,
+      },{withCredentials:true});
+      dispatch(setUserData(response.data.data.createdUser));
     }
     catch(err)
     {
-      console.log(err);
+      console.log(err.response.data.msg);
     }
-    // updateUser(formData);
-    // navigate('/payment');
   };
 
   return (
