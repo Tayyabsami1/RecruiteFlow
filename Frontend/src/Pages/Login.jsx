@@ -28,16 +28,18 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (User?.userType === 'Admin') {
+    if(User){
+    if (User.userType === 'Admin') {
       navigate('/Admin'); 
     }
 
-    if (User?.userType === 'Recruiter') {
+    if (User.userType === 'Recruiter') {
       navigate('/Recruiter'); 
     }
-    else if (User?.userType === 'Jobseeker') {
+    else if (User.userType === 'Jobseeker') {
       navigate('/');
     }
+  }
 
   }, [User,navigate,dispatch])
 

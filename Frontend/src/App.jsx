@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { createBrowserRouter, Link, Navigate, RouterProvider } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import Login from './Pages/Login';
@@ -32,67 +32,75 @@ function App() {
 
     }
 
-    if(!User)
-    checkAuth();
+    if (!User)
+      checkAuth();
     else setIsLoading(false);
     console.log(User)
 
 
-  }, [User,dispatch])
+  }, [User, dispatch])
 
   // const updateUser = (user) => {
   // setUser(user);
   // }
 
-  const router = createBrowserRouter([
-    {
-      path: '/Admin',
-      element: User && User.userType === 'admin' ? <h1>Admin Panel</h1> : <Navigate to='/' />,
-      //   children:[
-      //     {
-      //       path:'/Admin',
-      //       element:<p>Component in Outlet</p>
-      //     }
-      //   ]
-    },
-    {
-      path: '/Recruiter',
-      element: User && User.userType === 'Recruiter' ? <h1>Recruiter Panel</h1> : <Navigate to='/' />,
-      // element:<h1>hello fuck u</h1>
-    },
-    {
-      path: '/',
-      element: <Layout />,
-      children: [
-        {
-          path: '/',
-          element: <h1>
-            Candidate Panel
-            {User && <p>Logout plz if you want no pressure </p>}
-            <br></br>
-            {!User && <Link to='/Login' > Login</Link>}
-          </h1>
-        }
-      ]
-    },
-    {
-      path: '/Login',
-      element: <Login />,
-    },
-    {
-      path: '/Signup',
-      element: <SignUp />
-    }
-  ])
+  const router = useMemo(() => {
+    return createBrowserRouter([
+      {
+        path: '/Admin',
+        element: User && User.userType === 'Admin' ? <h1>Admin Panel</h1> : <Navigate to='/' />,
+        //   children:[
+        //     {
+        //       path:'/Admin',
+        //       element:<p>Component in Outlet</p>
+        //     }
+        //   ]
+      },
+      {
+        path: '/Recruiter',
+        element: User && User.userType === 'Recruiter' ? <h1>Recruiter Panel</h1> : <Navigate to='/' />,
+        // element:<h1>hello fuck u</h1>
+      },
+      {
+        path: '/',
+        element: <Layout />,
+        children: [
+          {
+            path: '/',
+            element: User?.userType === 'Recruiter' ? (
+              <Navigate to='/Recruiter' />
+            ) : User?.userType === 'Admin' ? (
+              <Navigate to='/Admin' />
+            ) : (<h1>
+              Candidate Panel
+              {User && <p>Logout plz if you want no pressure </p>}
+              <br></br>
+              {!User && <Link to='/Login' > Login</Link>}
+            </h1>)
+          }
+        ]
+      },
+      {
+        path: '/Login',
+        element: <Login />,
+      },
+      {
+        path: '/Signup',
+        element: <SignUp />
+      },
+      {
+        path:"*",
+        element:error?<Navigate to='/Login'/>:<Navigate to='/'/>
+      }
+    ])
+  }, [User,error])
 
-  if(error) <Navigate to='/Login'/>
   if (isLoading) return <h1>Loading...</h1>
-  else
-  return (
 
-    <RouterProvider router={router} />
+  // if (error) return <Navigate to='/Login' />
 
-  )
+  return <RouterProvider router={router} />
+
 }
 
 export default App
