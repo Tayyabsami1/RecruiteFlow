@@ -1,0 +1,123 @@
+// Variables
+$darkest-color: #0F044C; 
+$dark-color: #141E61;
+$primary-color: #787A91;
+$light-color: #EEEEEE;
+$box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+$transition-speed: 0.3s;
+
+// Navbar Component
+.navbar {
+  background-color: $dark-color !important;
+  box-shadow: $box-shadow;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  // Dark mode styles
+  &.dark {
+    background-color: $darkest-color !important;
+  }
+
+  .navbar-logo,
+  .navbar-logo-mobile {
+    font-weight: lighter;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    color: $light-color;
+    transition: all $transition-speed ease;
+
+    &:hover {
+      transform: scale(1.05);
+      opacity: 0.9;
+    }
+  }
+
+  .nav-links {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+
+    .nav-link {
+      position: relative;
+      margin: 0 5px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      transition: all $transition-speed ease;
+      color: $light-color !important;
+
+      &:hover {
+        background-color: rgba($light-color, 0.1);
+        transform: translateY(-2px);
+      }
+
+      &.active {
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 20%;
+          width: 60%;
+          height: 3px;
+          background-color: $primary-color;
+          border-radius: 10px 10px 0 0;
+        }
+      }
+    }
+  }
+
+  .theme-toggle {
+    margin: 0 10px;
+    border: 1px solid rgba($light-color, 0.3);
+    color: $light-color;
+    
+    &:hover {
+      background-color: rgba($light-color, 0.1);
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .navbar {
+    .nav-links {
+      gap: 0;
+    }
+  }
+}
+
+// Animation for mobile menu
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.MuiMenu-paper {
+  animation: fadeIn 0.2s ease;
+  border-radius: 8px !important;
+  
+  .MuiMenuItem-root {
+    transition: background-color $transition-speed ease;
+    
+    &:hover {
+      background-color: rgba($primary-color, 0.1);
+    }
+  }
+}
+
+// User avatar styling
+.MuiAvatar-root {
+  cursor: pointer;
+  transition: all $transition-speed ease;
+  background-color: $primary-color;
+  
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 5px rgba($light-color, 0.5);
+  }
+}

@@ -66,7 +66,6 @@ export const LoginUser = asyncHandler(async (req, res) => {
 
 export const SignUpUser = asyncHandler(async (req, res) => {
     const { name, cnic, phone, email, password, userType } = req.body;
-    const role = "user";
 
     if (!email || !password || !name || !cnic || !phone || !userType) {
         throw new ApiError(400, "Please fill in all the credentials");
@@ -79,10 +78,10 @@ export const SignUpUser = asyncHandler(async (req, res) => {
 
     // If user exists we simply throw the Error
     if (UserExist) return res.status(409).json(new ApiError(409, "This User already exists"))
-    
+
     let MyNewUser;
     try {
-         MyNewUser = await User.create({
+        MyNewUser = await User.create({
             name: name.toLowerCase(),
             password,
             email,
@@ -148,10 +147,18 @@ export const AuthorizationCheck = asyncHandler(async (req, res) => {
     if (!token) return res.status(401).json(new ApiError(401, "Unauthorized Request"));
 
     // lets verify the token with our jwt 
-    const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
-    // Take the ID from our DB and remove the password and refresh token from it 
-    const user = await User.findById(decodedToken._id).select("-password -refreshToken");
+    let user;
+    try {
+        const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        // Take the ID from our DB and remove the password and refresh token from it 
+        user = await User.findById(decodedToken._id).select("-password -refreshToken");
+    }
+    catch (err) {
+        return res.status(401).json(new ApiError(401, "Your Session has expired, please login again"));
+    }
+
+
 
     // At this point if we dont have the user then our Invalid Token is incorrect 
     if (!user)
