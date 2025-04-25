@@ -3,5 +3,6 @@
 import Login from "./Login";
 import SignUp from "./SignUp";
 import Layout from "./Layout";
+import Home from "./Home"
 
-export {Login, SignUp, Layout,};
+export {Login, SignUp, Layout,Home};

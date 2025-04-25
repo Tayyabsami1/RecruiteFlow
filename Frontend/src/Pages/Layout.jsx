@@ -4,6 +4,8 @@ import { Outlet } from 'react-router-dom'
 
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import Navbar from '../Components/Navbar';
+import Footer from '../Components/Footer';
 
 const useScrollToTop = () => {
   const { pathname } = useLocation();
@@ -23,13 +25,14 @@ const Layout = () => {
   return (
     <div className='layout'>
       <div className="navbar">
-        <h1>Navbar</h1>
+        <Navbar />
       </div>
 
       <div className="content">
         <Outlet />
-        <h1>Footer</h1>
-
+      </div>
+      <div className="footer">
+        <Footer />
       </div>
 
     </div>
