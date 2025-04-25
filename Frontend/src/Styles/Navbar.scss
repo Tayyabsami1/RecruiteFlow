@@ -14,11 +14,6 @@ $transition-speed: 0.3s;
   top: 0;
   z-index: 1000;
 
-  // Dark mode styles
-  &.dark {
-    background-color: $darkest-color !important;
-  }
-
   .navbar-logo,
   .navbar-logo-mobile {
     font-weight: lighter;
