@@ -56,15 +56,15 @@ function App() {
       },
       {
         path: '/Recruiter',
-        element:<Layout/>,
+        element:User && User.userType === 'Recruiter' ?<Layout/>:<Navigate to='/' />,
         children:[
           {
             path:'/Recruiter',
-            element: User && User.userType === 'Recruiter' ? <Home/> : <Navigate to='/' />,
+            element:  <Home/>,
           },
           {
              path: 'post-job', // added by Imran Ahmad
-            element: User && User.userType === 'Recruiter' ? <PostJob /> : <Navigate to='/' />,
+            element:  <PostJob />,
           }
         ]
         // element:<h1>hello </h1>
