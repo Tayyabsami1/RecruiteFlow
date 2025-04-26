@@ -1,21 +1,38 @@
 import React, {  useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Avatar, Button, Tooltip, MenuItem } from '@mui/material';
 import { ActionIcon, useMantineColorScheme } from '@mantine/core';
 import { FiSun, FiMoon } from 'react-icons/fi';
 import { AiOutlineUser, AiOutlineMenu } from 'react-icons/ai';
 import "../Styles/Navbar.scss";
+import axios from 'axios';
+import { clearUserData } from '../Features/User/UserSlice';
 
 const Navbar = () => {
+  // states
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const { colorScheme, setColorScheme } = useMantineColorScheme();
+
+  // location and Navigation hooks
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
   
   // You can get the user info from Redux store when implemented
-  const user = useSelector((state) => state.User) || null;
+  const {User} = useSelector((state) => state.User) || null;
+
+  const handleLogout =async()=>{
+    try{
+    await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/Auth/logout`, { withCredentials: true });
+    dispatch(clearUserData());
+    }
+    catch(err)
+    {
+      console.log(err.response.data.msg);
+    }
+  }
 
   const pages = [
     { name: 'Home', path: '/' },
@@ -24,11 +41,11 @@ const Navbar = () => {
     { name: 'About', path: '/about' }
   ];
   
-  const userMenu = user ? [
+  const userMenu = User ? [
     { name: 'Profile', action: () => navigate('/profile') },
     { name: 'Dashboard', action: () => navigate('/dashboard') },
     { name: 'Settings', action: () => navigate('/settings') },
-    { name: 'Logout', action: () => console.log('Logout clicked') }
+    { name: 'Logout', action: () => handleLogout() }
   ] : [
     { name: 'Login', action: () => navigate('/login') },
     { name: 'Sign Up', action: () => navigate('/signup') }
@@ -162,10 +179,10 @@ const Navbar = () => {
             </ActionIcon>
 
             <Box sx={{ ml: 2 }}>
-              <Tooltip title={user ? "Account settings" : "Login/Register"}>
+              <Tooltip title={User ? "Account settings" : "Login/Register"}>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  {user ? (
-                    <Avatar alt={user.name} src={user.avatar || ''} />
+                  {User ? (
+                    <Avatar alt={User.name} src={User.avatar || ''} />
                   ) : (
                     <Avatar>
                       <AiOutlineUser />
