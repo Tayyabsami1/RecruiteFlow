@@ -6,59 +6,27 @@ import bcrypt from "bcrypt";
 //  For generating JWT access and refresh tokens
 import jwt from "jsonwebtoken";
 
+
 const userSchema = new Schema({
-    name: {
-        type: String,
-        required: true,
-    },
-    cnic: {
-        type: String,
-        required: true,
-        unique: true,
-        minlength: 13,
-        maxlength: 13,
-    },
-    phone: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    password: {
-        type: String,
-        required: true,
-    },
+    name: { type: String, required: true },
+    cnic: { type: String, required: true, unique: true, minlength: 13, maxlength: 13 },
+    phone: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
     userType: {
         type: String,
         required: true,
-        enum: ['Jobseeker', 'Recruiter', 'Admin'], // Assuming these are the user types
+        enum: ['Jobseeker', 'Recruiter', 'Admin']
     },
-    refreshToken: {
-        type: String,
-    },
+    refreshToken: { type: String },
 
-    // * Job Seeker Specific Fields 
-    resume: { type: String },
-    skills: [{ type: String }],
-    experienceLevel: { type: String },
-    //  TODO 
-    // appliedJobs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Job' }],
-    preferredLocations: [{ type: String }],
-    jobInterests: [{ type: String }],
-
-    // * Recruiter Specific Fields
-    companyName: { type: String },
-    companyLogo: { type: String },
-    // TODO
-    // postedJobs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Job' }],
-    designation: { type: String },
-    contactNumber: { type: String },
+    // Linking to role-specific models
+    jobSeekerProfile: { type: mongoose.Schema.Types.ObjectId, ref: 'JobSeeker' },
+    recruiterProfile: { type: mongoose.Schema.Types.ObjectId, ref: 'Recruiter' }
 
 }, { timestamps: true });
+
+
 
 // Before saving user we will check if password is modified
 userSchema.pre('save', async function (next) {
@@ -69,6 +37,7 @@ userSchema.pre('save', async function (next) {
 })
 
 userSchema.methods.generateAccessToken = function () {
+    
     return jwt.sign({
         _id: this._id,
         email: this.email,
