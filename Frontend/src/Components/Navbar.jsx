@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Avatar, Button, Tooltip, MenuItem } from '@mui/material';
@@ -16,7 +16,6 @@ const Navbar = () => {
   
   // You can get the user info from Redux store when implemented
   const user = useSelector((state) => state.User) || null;
-
 
   const pages = [
     { name: 'Home', path: '/' },
