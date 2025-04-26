@@ -7,7 +7,7 @@ import "./index.css"
 import { setUserData } from './Features/User/UserSlice';
 import axios from 'axios';
 
-import { Login,SignUp,Home,Layout } from './Pages';
+import { Login, SignUp, Home, Layout, About } from './Pages';
 
 function App() {
   
@@ -75,6 +75,10 @@ function App() {
             ) : User?.userType === 'Admin' ? (
               <Navigate to='/Admin' />
             ) : <Home/>
+          },
+          {
+            path: '/about',
+            element: <About />
           }
         ]
       },
