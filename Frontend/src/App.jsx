@@ -55,7 +55,13 @@ function App() {
       },
       {
         path: '/Recruiter',
-        element: User && User.userType === 'Recruiter' ? <h1>Recruiter Panel</h1> : <Navigate to='/' />,
+        element:<Layout/>,
+        children:[
+          {
+            path:'/Recruiter',
+            element: User && User.userType === 'Recruiter' ? <Home/> : <Navigate to='/' />,
+          }
+        ]
         // element:<h1>hello </h1>
       },
       {
