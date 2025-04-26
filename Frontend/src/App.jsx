@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo } from 'react'
 import { createBrowserRouter, Link, Navigate, RouterProvider } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
+import PostJob from './Components/Recruiter/PostJob';//added by Imran Ahmad
 
 import "./index.css"
 
@@ -60,6 +61,10 @@ function App() {
           {
             path:'/Recruiter',
             element: User && User.userType === 'Recruiter' ? <Home/> : <Navigate to='/' />,
+          },
+          {
+             path: 'post-job', // added by Imran Ahmad
+            element: User && User.userType === 'Recruiter' ? <PostJob /> : <Navigate to='/' />,
           }
         ]
         // element:<h1>hello </h1>

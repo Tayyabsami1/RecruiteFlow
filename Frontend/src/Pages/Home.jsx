@@ -23,7 +23,7 @@ const Home = () => {
                 <Link to="/dashboard">
                   <button className="primary-btn">My Dashboard</button>
                 </Link>
-                <Link to="/jobs">
+                <Link to={User.userType === 'Recruiter' ? '/post-job' : '/jobs'}> 
                   <button className="secondary-btn">{User.userType === 'Recruiter' ? 'Post a Job' : 'Find Jobs'}</button>
                 </Link>
               </>
