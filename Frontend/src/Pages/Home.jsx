@@ -171,13 +171,13 @@ const Home = () => {
         <div className="cta-content">
           {User ? (
             <>
-              <h2>{User.userType === 'jobseeker' ? 'Ready to Find Your Dream Job?' : 'Need to Expand Your Team?'}</h2>
-              <p>{User.userType === 'jobseeker' 
+              <h2>{User.userType === 'Jobseeker' ? 'Ready to Find Your Dream Job?' : 'Need to Expand Your Team?'}</h2>
+              <p>{User.userType === 'Jobseeker' 
                 ? 'Update your profile to improve matching and increase your chances of getting noticed by recruiters.' 
                 : 'Create a compelling job listing to attract the best talent for your organization.'}</p>
-              <Link to={User.userType === 'jobseeker' ? '/profile' : '/post-job'}>
+              <Link to={User.userType === 'Jobseeker' ? '/profile' : '/post-job'}>
                 <button className="primary-btn">
-                  {User.userType === 'jobseeker' ? 'Update Profile' : 'Post a Job'}
+                  {User.userType === 'Jobseeker' ? 'Update Profile' : 'Post a Job'}
                 </button>
               </Link>
             </>
