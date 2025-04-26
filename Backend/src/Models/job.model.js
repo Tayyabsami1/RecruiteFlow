@@ -26,38 +26,27 @@ const jobSchema = new Schema({
     whoApplied: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
+        default: []  // Default empty array if not provided
     }],
     shortlisted: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-    }],
-    interviewed: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-    }],
-    hired: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        default: []  // Default empty array if not provided
     }],
     rejected: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
+        default: []  // Default empty array if not provided
     }],
 
-    // Recruiter who posted the job
-    whoPosted: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Recruiter',
-        required: true,
-    },
-
+   
     // Status of the job
     status: {
         type: String,
         enum: ['open', 'closed'],
         default: 'open',
     }
-
 }, { timestamps: true });
 
-export const Job  = mongoose.model('Job', jobSchema);
+export const Job = mongoose.model('Job', jobSchema);
+export default Job;
