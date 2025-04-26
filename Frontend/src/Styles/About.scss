@@ -1,0 +1,290 @@
+@import '../index.css';
+// Color scheme variables from the provided color scheme
+$darkest: #0F044C;
+$dark: #141E61;
+$primary: #787A91;
+$light: #EEEEEE;
+
+// Additional colors for better UI
+$accent: #4b0082; // A complementary purple for accents
+$text-dark: #333333;
+$text-light: #FFFFFF;
+$shadow: rgba(15, 4, 76, 0.15);
+$shadow-dark: rgba(0, 0, 0, 0.25);
+
+// Dark mode color variables
+$darkest-mode: #0A0235;
+$dark-mode: #0F0F42;
+$primary-mode: #5B5C6E;
+$light-mode: #1F1F1F;
+$text-dark-mode: #EEEEEE;
+$text-light-mode: #FFFFFF;
+
+.about-page {
+  min-height: 100vh;
+  color: $dark;
+  background-color: $light;
+  
+  &.dark-mode {
+    color: $light;
+    background-color: $dark-mode;
+  }
+
+  .hero-section {
+    background-color: $darkest;
+    color: $light;
+    padding: 4rem 0;
+    text-align: center;
+    margin-bottom: 3rem;
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      max-width: 800px;
+      margin: 0 auto;
+      opacity: 0.9;
+    }
+    
+    &.dark-mode {
+      background-color: $dark-mode;
+    }
+  }
+
+  .main-content {
+    padding-bottom: 4rem;
+    
+    &.dark-mode {
+      background-color: $darkest;
+    }
+
+    section {
+      margin-bottom: 3.5rem;
+      
+      &.dark-mode {
+        background-color: $dark;
+        padding: 1.5rem;
+        border-radius: 8px;
+      }
+    }
+
+    .section-title {
+      color: $darkest;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+      position: relative;
+      display: inline-block;
+
+      &::after {
+        content: '';
+        display: block;
+        width: 50%;
+        height: 3px;
+        background-color: $primary;
+        margin-top: 8px;
+      }
+    }
+    
+    .dark-mode .section-title {
+      color: $light;
+        
+      &::after {
+        background-color: $light;
+      }
+    }
+
+    .section-text {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: $dark;
+      max-width: 900px;
+    }
+    
+    .dark-mode .section-text {
+      color: $light;
+    }
+
+    .feature-card {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      background-color: $light;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(120, 122, 145, 0.2);
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(15, 4, 76, 0.1);
+      }
+
+      .feature-icon {
+        margin-bottom: 1rem;
+        background-color: $dark;
+        color: $light;
+      }
+
+      .feature-title {
+        margin-bottom: 0.5rem;
+        font-size: 1.2rem;
+        color: $darkest;
+      }
+
+      .feature-description {
+        color: $primary;
+      }
+    }
+    
+    .dark-mode .feature-card {
+      background-color: $darkest;
+      border: 1px solid $light;
+      
+      &:hover {
+        box-shadow: 0 10px 20px rgba(238, 238, 238, 0.1);
+      }
+      
+      .feature-icon {
+        background-color: $light;
+        color: $darkest;
+      }
+      
+      .feature-title {
+        color: $light;
+      }
+      
+      .feature-description {
+        color: $light;
+        opacity: 0.8;
+      }
+    }
+
+    .history-section {
+      padding: 2rem;
+      background-color: $light;
+      border-radius: 8px;
+
+      .timeline-text {
+        color: $primary;
+      }
+    }
+    
+    .dark-mode.history-section {
+      background-color: $dark-mode;
+      
+      .timeline-text {
+        color: $light;
+        opacity: 0.8;
+      }
+    }
+
+    .values-section {
+      padding: 2rem 0;
+    }
+    
+    .dark-mode.values-section {
+      li {
+        color: $light;
+      }
+    }
+
+    .team-member-card {
+      background-color: $light;
+      text-align: center;
+      transition: transform 0.3s ease;
+      height: 100%;
+
+      &:hover {
+        transform: translateY(-5px);
+      }
+
+      .team-avatar {
+        border: 3px solid $dark;
+        margin-bottom: 1rem;
+      }
+
+      .team-name {
+        color: $darkest;
+      }
+
+      .team-position {
+        color: $primary;
+      }
+    }
+    
+    .dark-mode .team-member-card {
+      background-color: $dark-mode;
+      
+      .team-avatar {
+        border: 3px solid $light;
+      }
+      
+      .team-name {
+        color: $light;
+      }
+      
+      .team-position {
+        color: $light;
+        opacity: 0.8;
+      }
+    }
+
+    .contact-section {
+      background-color: $light;
+      padding: 2rem;
+      border-radius: 8px;
+      text-align: center;
+
+      .contact-details {
+        margin-top: 2rem;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .contact-item {
+        padding: 0 1rem;
+      }
+    }
+    
+    .dark-mode.contact-section {
+      background-color: $dark-mode;
+      
+      .contact-item {
+        color: $light;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero-section {
+      padding: 2.5rem 0;
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1rem;
+      }
+    }
+
+    .contact-details {
+      flex-direction: column;
+      align-items: center;
+
+      .mantine-Divider-root {
+        display: none;
+      }
+
+      .contact-item {
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+    }
+  }
+}
