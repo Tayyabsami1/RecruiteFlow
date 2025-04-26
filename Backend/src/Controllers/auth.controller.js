@@ -9,15 +9,22 @@ import { ApiResponse } from "../Utils/apiResponse.js"
 
 // User Model 
 import { User } from "../Models/user.model.js"
+import {JobSeeker} from "../Models/jobseeker.model.js"
+import {Recruiter} from "../Models/recruiter.model.js"
 import jwt from "jsonwebtoken";
 
 
 // Utility Function to generate access and refresh tokens with the help of methods we made in User Model
 const generateAccessAndRefreshToken = async (userID) => {
     try {
+        
         const user = await User.findById(userID);
-        const accessToken = user.generateAccessToken()
+        
+        
+        const accessToken = user.generateAccessToken() 
+        
         const refreshToken = user.generateRefreshTokens()
+        
 
         user.refreshToken = refreshToken;
         // We update the data in the db
@@ -91,8 +98,18 @@ export const SignUpUser = asyncHandler(async (req, res) => {
         });
     }
     catch (err) {
+        console.log(err)
         return res.status(409).json(new ApiError(500, "The Email, CNIC or Phone Number is already registered"));
     }
+    if (MyNewUser.userType === 'Jobseeker') {
+        const jobSeekerProfile = await JobSeeker.create({ user: MyNewUser._id });
+        MyNewUser.jobSeekerProfile = jobSeekerProfile._id;
+      } else if (MyNewUser.userType === 'Recruiter') {
+        const recruiterProfile = await Recruiter.create({ user: MyNewUser._id });
+        MyNewUser.recruiterProfile = recruiterProfile._id;
+      }
+      
+      await MyNewUser.save(); // Now the reference is stored
 
     const { accessToken, refreshToken } = await generateAccessAndRefreshToken(MyNewUser._id);
 
