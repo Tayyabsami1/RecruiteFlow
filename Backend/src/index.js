@@ -7,8 +7,9 @@ connectDB().then(() => {
         console.log("Server Error ", err)
         throw new Error(err);
     })
-    app.listen(process.env.PORT || 800, () => {
-        console.log("Server is Started on port", process.env.PORT);
-    })
+    app.listen(process.env.PORT || 8000, () => {
+        console.log("Server is started on port", process.env.PORT );
+    });
+    
 })
 .catch((err) => console.log(err));
