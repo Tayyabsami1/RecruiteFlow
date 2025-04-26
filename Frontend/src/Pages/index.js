@@ -3,6 +3,7 @@
 import Login from "./Login";
 import SignUp from "./SignUp";
 import Layout from "./Layout";
-import Home from "./Home"
+import Home from "./Home";
+import About from "./About";
 
-export {Login, SignUp, Layout,Home};
+export {Login, SignUp, Layout, Home, About};

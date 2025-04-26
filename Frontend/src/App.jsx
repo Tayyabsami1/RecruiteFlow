@@ -8,7 +8,7 @@ import "./index.css"
 import { setUserData } from './Features/User/UserSlice';
 import axios from 'axios';
 
-import { Login,SignUp,Home,Layout } from './Pages';
+import { Login, SignUp, Home, Layout, About } from './Pages';
 
 function App() {
   
@@ -61,6 +61,10 @@ function App() {
           {
             path:'/Recruiter',
             element: User && User.userType === 'Recruiter' ? <Home/> : <Navigate to='/' />,
+          },
+          {
+             path: 'post-job', // added by Imran Ahmad
+            element: User && User.userType === 'Recruiter' ? <PostJob /> : <Navigate to='/' />,
           }
         ]
         // element:<h1>hello </h1>
@@ -78,8 +82,8 @@ function App() {
             ) : <Home/>
           },
           {
-            path: '/post-job', // added by Imran Ahmad
-            element: User && User.userType === 'Recruiter' ? <PostJob /> : <Navigate to='/' />
+            path: '/about',
+            element: <About />
           }
         ]
       },
