@@ -1,0 +1,651 @@
+@import '../index.css';
+
+// Color scheme variables from the provided color scheme
+$darkest: #0F044C;
+$dark: #141E61;
+$primary: #787A91;
+$light: #EEEEEE;
+
+// Additional colors for better UI
+$accent: #4b0082; // A complementary purple for accents
+$text-dark: #333333;
+$text-light: #FFFFFF;
+$shadow: rgba(15, 4, 76, 0.15);
+$shadow-dark: rgba(0, 0, 0, 0.25);
+
+// Dark mode color variables
+$darkest-mode: #0A0235;
+$dark-mode: #0F0F42;
+$primary-mode: #5B5C6E;
+$light-mode: #1F1F1F;
+$text-dark-mode: #EEEEEE;
+$text-light-mode: #FFFFFF;
+
+// General styles
+.home-container {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  color: $text-dark;
+  
+  &.dark-mode {
+    color: $text-light;
+    background-color: $dark-mode;
+  }
+  
+  // For every section in Home Page  
+  section {
+    padding: 5rem 2rem;
+    
+    h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: $darkest;
+    }
+    
+    .section-description {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto 3rem;
+      font-size: 1.1rem;
+      color: $primary;
+    }
+    
+    &.dark-mode {
+      h2 {
+        color: $light !important;
+      }
+      
+      .section-description {
+        color: $text-light;
+      }
+    }
+  }
+
+  // Generic Styles for Primary Btn
+  .primary-btn {
+    background-color: $dark;
+    color: $light;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background-color: $darkest;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px $shadow;
+    }
+  }
+  
+  // Generic Styles for Secondary Btn  
+  .secondary-btn {
+    background-color: transparent;
+    color: $dark;
+    border: 2px solid $dark;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: 1rem;
+    
+    &:hover {
+      background-color: rgba($dark, 0.1);
+      transform: translateY(-2px);
+    }
+  }
+ 
+  // Hero section
+  .hero-section {
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    background: linear-gradient(135deg, $light 0%, rgba($primary, 0.2) 100%);
+    overflow: hidden;
+    
+    &.dark-mode {
+      background: linear-gradient(135deg, $darkest-mode 0%, $dark-mode 100%);
+      
+      &::before {
+        background-color: rgba($light, 0.05);
+      }
+      
+      .hero-content {
+        h1 {
+          color: $light;
+        }
+        
+        p {
+          color: rgba($light, 0.8);
+        }
+
+        .primary-btn {
+          background-color: $light;
+          color: $darkest;
+          
+          &:hover {
+            background-color: $text-light;
+            box-shadow: 0 4px 8px $shadow-dark;
+          }
+        }
+
+        .secondary-btn {
+          color: $light;
+          border-color: $light;
+          
+          &:hover {
+            background-color: rgba($light, 0.1);
+          }
+        }
+      }
+      
+      .hero-image {
+        .abstract-shape {
+          background: linear-gradient(45deg, $light 0%, $primary 100%);
+          box-shadow: 0 15px 30px $shadow-dark;
+        }
+      }
+    }
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background-color: rgba($darkest, 0.05);
+      z-index: 0;
+    }
+    
+    .hero-content {
+      flex: 1;
+      max-width: 600px;
+      padding: 2rem;
+      position: relative;
+      z-index: 1;
+      
+      h1 {
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        color: $darkest;
+        line-height: 1.2;
+      }
+      
+      p {
+        font-size: 1.25rem;
+        color: $primary;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+      }
+      
+      .hero-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+    }
+    
+    .hero-image {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      
+      .abstract-shape {
+        width: 400px;
+        height: 400px;
+        background: linear-gradient(45deg, $dark 0%, $darkest 100%);
+        border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+        box-shadow: 0 15px 30px $shadow;
+        animation: morphShape 15s ease-in-out infinite;
+        opacity: 0.8;
+      }
+      
+      @keyframes morphShape {
+        0% {
+          border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+        }
+        25% {
+          border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%;
+        }
+        50% {
+          border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%;
+        }
+        75% {
+          border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%;
+        }
+        100% {
+          border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+        }
+      }
+    }
+    
+    @media (max-width: 992px) {
+      flex-direction: column;
+      text-align: center;
+      
+      .hero-content {
+        max-width: 100%;
+        
+        .hero-buttons {
+          justify-content: center;
+        }
+      }
+      
+      .hero-image {
+        margin-top: 3rem;
+        
+        .abstract-shape {
+          width: 300px;
+          height: 300px;
+        }
+      }
+    }
+  }
+
+  // Features section
+  .features-section {
+    background-color: $light;
+    
+    &.dark-mode {
+      background-color: $dark-mode;
+      
+      h2 {
+        color: $light;
+      }
+      
+      .section-description {
+        color: rgba($light, 0.8);
+      }
+      
+      .features-grid {
+        .feature-card {
+          background-color: $darkest-mode;
+          box-shadow: 0 5px 15px $shadow-dark;
+          
+          &:hover {
+            box-shadow: 0 10px 25px $shadow-dark;
+          }
+          
+          h3 {
+            color: $light;
+          }
+          
+          p {
+            color: rgba($light, 0.8);
+          }
+        }
+      }
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      
+      .feature-card {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px $shadow;
+        transition: all 0.3s ease;
+        
+        &:hover {
+          transform: translateY(-10px);
+          box-shadow: 0 10px 25px $shadow;
+        }
+        
+        .feature-icon {
+          font-size: 2.5rem;
+          margin-bottom: 1rem;
+        }
+        
+        h3 {
+          color: $dark;
+          margin-bottom: 1rem;
+          font-size: 1.5rem;
+        }
+        
+        p {
+          color: $primary;
+          font-size: 1rem;
+          line-height: 1.6;
+        }
+      }
+    }
+  }
+
+  // How it works section
+  .how-it-works {
+    background: linear-gradient(135deg, $darkest 0%, $dark 100%);
+    color: $light;
+    
+    &.dark-mode {
+      background: linear-gradient(135deg, $darkest-mode 0%, $dark-mode 100%);
+      
+      .steps-container {
+        &::before {
+          background-color: rgba($primary, 0.3);
+        }
+        
+        .step {
+          .step-number {
+            background-color: $primary;
+            color: $light;
+          }
+        }
+      }
+    }
+    
+    h2 {
+      color: $light !important;
+    }
+    
+    .steps-container {
+      display: flex;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      flex-wrap: wrap;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        top: 60px;
+        left: 10%;
+        right: 10%;
+        height: 2px;
+        background-color: rgba($light, 0.3);
+        z-index: 0;
+      }
+      
+      .step {
+        flex: 1;
+        min-width: 200px;
+        text-align: center;
+        padding: 0 1rem;
+        position: relative;
+        z-index: 1;
+        
+        .step-number {
+          width: 60px;
+          height: 60px;
+          background-color: $light;
+          color: $dark;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto 1.5rem;
+          font-size: 1.5rem;
+          font-weight: 700;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        h3 {
+          font-size: 1.3rem;
+          margin-bottom: 1rem;
+        }
+        
+        p {
+          color: rgba($light, 0.8);
+          font-size: 0.95rem;
+          line-height: 1.6;
+        }
+      }
+      
+      @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 3rem;
+        
+        &::before {
+          display: none;
+        }
+        
+        .step {
+          max-width: 100%;
+        }
+      }
+    }
+  }
+
+  // Testimonials section
+  .testimonials-section {
+    background-color: $light;
+    
+    &.dark-mode {
+      background-color: $dark-mode;
+      
+      h2 {
+        color: $light;
+      }
+      
+      .testimonials-container {
+        .testimonial-card {
+          background-color: $darkest-mode;
+          box-shadow: 0 5px 15px $shadow-dark;
+          
+          p {
+            color: rgba($light, 0.9);
+          }
+          
+          .testimonial-author {
+            .author-avatar {
+              background-color: $primary-mode;
+            }
+            
+            .author-info {
+              h4 {
+                color: $light;
+              }
+              
+              p {
+                color: rgba($light, 0.7);
+              }
+            }
+          }
+        }
+      }
+    }
+    
+    .testimonials-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      
+      .testimonial-card {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px $shadow;
+        flex: 1;
+        min-width: 280px;
+        max-width: 500px;
+        
+        p {
+          font-style: italic;
+          color: $text-dark;
+          line-height: 1.6;
+          font-size: 1.1rem;
+          margin-bottom: 1.5rem;
+        }
+        
+        .testimonial-author {
+          display: flex;
+          align-items: center;
+          
+          .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: $primary;
+            margin-right: 1rem;
+          }
+          
+          .author-info {
+            h4 {
+              font-size: 1.1rem;
+              margin-bottom: 0.2rem;
+              color: $dark;
+            }
+            
+            p {
+              font-size: 0.9rem;
+              margin: 0;
+              font-style: normal;
+              color: $primary;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // CTA section
+  .cta-section {
+    background: linear-gradient(135deg, $dark 0%, $darkest 100%);
+    text-align: center;
+    
+    &.dark-mode {
+      background: linear-gradient(135deg, $darkest-mode 0%, $dark-mode 100%);
+      
+      .cta-content {
+        .primary-btn {
+          background-color: $primary;
+          color: $light;
+          
+          &:hover {
+            background-color: $light;
+            color: $darkest;
+          }
+        }
+      }
+    }
+    
+    .cta-content {
+      max-width: 800px;
+      margin: 0 auto;
+      
+      h2 {
+        color: $light !important;
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      p {
+        color: rgba($light, 0.9);
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+      }
+      
+      .primary-btn {
+        background-color: $light;
+        color: $darkest;
+        font-size: 1.1rem;
+        padding: 1rem 2rem;
+        
+        &:hover {
+          background-color: white;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+      }
+    }
+  }
+
+  // Personalized section for logged-in users
+  .personalized-section {
+    background-color: rgba($primary, 0.1);
+    
+    &.dark-mode {
+      background-color: $dark-mode;
+      .personalized-container{
+      .personalized-content {
+        background-color: $darkest-mode;
+        box-shadow: 0 5px 15px $shadow-dark;
+        
+        h3 {
+          color: $light;
+        }
+        
+        p {
+          color: rgba($light, 0.8);
+        }
+        .action-buttons {
+          .primary-btn {
+            background-color: $light;
+            color: $darkest;
+            
+            &:hover {
+              background-color: $darkest;
+              color: $light;
+              border:2px solid  #EEEEEE;
+            }
+          }
+          .secondary-btn {
+            background-color: transparent;
+            color: $light;
+            border: 2px solid $light;
+            
+            &:hover {
+              background-color: rgba($light, 0.1);
+            }
+          }
+        }
+
+      }
+      }
+    }
+    
+    .personalized-container {
+      max-width: 900px;
+      margin: 0 auto;
+      
+      .personalized-content {
+        text-align: center;
+        padding: 2rem;
+        border-radius: 10px;
+        background-color: white;
+        box-shadow: 0 5px 15px $shadow;
+        
+        h3 {
+          font-size: 1.8rem;
+          color: $dark;
+          margin-bottom: 1rem;
+        }
+        
+        p {
+          font-size: 1.1rem;
+          color: $primary;
+          margin-bottom: 1.5rem;
+          line-height: 1.6;
+        }
+        
+        .action-buttons {
+          display: flex;
+          justify-content: center;
+          gap: 1rem;
+          flex-wrap: wrap;
+        }
+      }
+    }
+  }
+}
