@@ -27,6 +27,7 @@ function App() {
       catch (err) {
         console.log(err.response.data.msg);
         setError(err.response.data.msg);
+        dispatch(setUserData(null));
         setIsLoading(false);
       }
     }
