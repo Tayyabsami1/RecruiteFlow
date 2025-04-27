@@ -8,7 +8,7 @@ import "./index.css"
 import { setUserData } from './Features/User/UserSlice';
 import axios from 'axios';
 
-import { Login, SignUp, Home, Layout, About } from './Pages';
+import { Login, SignUp, Home, Layout, About,AdminLayout,AdminHome } from './Pages';
 
 function App() {
   
@@ -46,13 +46,13 @@ function App() {
     return createBrowserRouter([
       {
         path: '/Admin',
-        element: User && User.userType === 'Admin' ? <h1>Admin Panel</h1> : <Navigate to='/' />,
-        //   children:[
-        //     {
-        //       path:'/Admin',
-        //       element:<p>Component in Outlet</p>
-        //     }
-        //   ]
+        element: User && User.userType === 'Admin' ? <AdminLayout/>: <Navigate to='/' />,
+          children:[
+            {
+              path:'/Admin',
+              element:<AdminHome/>
+            }
+          ]
       },
       {
         path: '/Recruiter',

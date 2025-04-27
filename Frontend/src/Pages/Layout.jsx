@@ -1,6 +1,5 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet,useLocation } from 'react-router-dom'
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import { useMantineColorScheme } from '@mantine/core';
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';

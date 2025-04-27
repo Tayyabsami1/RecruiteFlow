@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import { store } from './App/Store.js'
 import './index.css'
 import '@mantine/core/styles.css';
+import '@mantine/charts/styles.css';
 
 import { MantineProvider, createTheme } from '@mantine/core';
 

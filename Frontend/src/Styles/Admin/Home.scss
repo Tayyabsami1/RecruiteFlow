@@ -1,0 +1,127 @@
+.admin-home {
+  padding: 24px;
+  
+  .greeting-section {
+    margin-bottom: 24px;
+    &.dark-mode {
+        .greeting-text{
+            color: #EEEEEE;
+        }
+        .date-text{
+            color: #EEEEEE;
+
+        }
+      } 
+    
+    .greeting-text {
+      font-weight: 600;
+      color: #0F044C;
+      margin-bottom: 8px;
+    }
+    
+    .date-text {
+      color: #787A91;
+      font-weight: 400;
+    }
+  }
+  
+  .stats-container {
+    margin-bottom: 32px;
+    
+    .stat-card {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      }
+      
+      .stat-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin-right: 16px;
+        color: #EEEEEE;
+      }
+      
+      .stat-content {
+        .stat-value {
+          font-weight: 700;
+          color: #0F044C;
+          margin-bottom: 4px;
+        }
+        
+        .stat-title {
+          color: #787A91;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+  
+  .charts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .small-charts-container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 50px;
+        @media screen and (max-width: 768px) {
+          flex-direction: column;
+          gap: 20px;
+            
+        }
+
+    }
+    
+    .chart-paper {
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      height: 100%;
+      
+      .chart-title {
+        color: #141E61;
+        font-weight: 600;
+        margin-bottom: 16px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #EEEEEE;
+      }
+      
+      .donut-chart {
+        display: flex;
+        justify-content: center;
+        padding: 16px 0;
+      }
+      
+      .performance-metrics {
+        padding: 8px 0;
+        
+        .metric-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          
+          .metric-label {
+            margin-top: 16px;
+            color: #787A91;
+            font-weight: 500;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}

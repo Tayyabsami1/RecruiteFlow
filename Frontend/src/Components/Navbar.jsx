@@ -31,10 +31,19 @@ const Navbar = () => {
     catch(err)
     {
       console.log(err.response.data.msg);
+      dispatch(clearUserData());
+      navigate('/');
     }
   }
 
-  const pages = [
+  const pages =User?.userType==='Admin'?[
+    {name:'Manage Users', path:'users'},
+    {name:'Manage Jobs', path:'jobs'},
+    {name:'Comming Soon', path:'/'},
+  ]:User?.userType==='Recruiter'?[
+    {name:'Comming Soon', path:'/'},
+    { name: 'About', path: '/about' }
+  ]: [
     { name: 'Home', path: '/' },
     { name: 'Jobs', path: '/jobs' },
     { name: 'Companies', path: '/companies' },
