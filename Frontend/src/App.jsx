@@ -8,20 +8,17 @@ import "./index.css"
 import { setUserData } from './Features/User/UserSlice';
 import axios from 'axios';
 
-import { Login, SignUp, Home, Layout, About,AdminLayout,AdminHome } from './Pages';
-import CompleteProfile from './Components/JobSeeker/CompleteProfile';
-import JobsList from './Components/JobSeeker/JobsList';
-import Dashboard from './Components/JobSeeker/Dashboard';
-
+import { Login, SignUp, Home, Layout, About, AdminLayout, AdminHome,CompleteProfile,Dashboard,JobList } from './Pages';
+import ProtectedRoute from './Components/ProtectedRoute';
 function App() {
-  
+
   const { User } = useSelector((state) => state.User);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
 
   const dispatch = useDispatch();
 
-  useEffect(() => { 
+  useEffect(() => {
     const checkAuth = async () => {
       try {
         const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/Auth`, { withCredentials: true });
@@ -49,48 +46,25 @@ function App() {
     return createBrowserRouter([
       {
         path: '/Admin',
-        element: User && User.userType === 'Admin' ? <AdminLayout/>: <Navigate to='/' />,
-          children:[
-            {
-              path:'/Admin',
-              element:<AdminHome/>
-            }
-          ]
+        element: User && User.userType === 'Admin' ? <AdminLayout /> : <Navigate to='/' />,
+        children: [
+          {
+            path: '/Admin',
+            element: <AdminHome />
+          }
+        ]
       },
       {
         path: '/Recruiter',
-        element:User && User.userType === 'Recruiter' ?<Layout/>:<Navigate to='/' />,
-        children:[
+        element: User && User.userType === 'Recruiter' ? <Layout /> : <Navigate to='/' />,
+        children: [
           {
-            path:'/Recruiter',
-            element:  <Home/>,
+            path: '/Recruiter',
+            element: <Home />,
           },
           {
-             path: 'post-job', // added by Imran Ahmad
-            element:  <PostJob />,
-          }
-        ]
-        // element:<h1>hello </h1>
-      },
-      {
-        path: '/Jobseeker',
-        element:User && User.userType === 'Jobseeker' ?<Layout/>:<Navigate to='/' />,
-        children:[
-          {
-            path:'/Jobseeker',
-            element:  <Home/>,
-          },
-          {
-            path: 'profile', 
-            element:  <CompleteProfile />,
-          },
-          {
-            path: 'jobs', 
-            element:  <JobsList />,
-          },
-          {
-            path: 'dashboard', 
-            element:  <Dashboard />,
+            path: 'post-job', // added by Imran Ahmad
+            element: <PostJob />,
           }
         ]
       },
@@ -104,14 +78,32 @@ function App() {
               <Navigate to='/Recruiter' />
             ) : User?.userType === 'Admin' ? (
               <Navigate to='/Admin' />
-            ) : User?.userType === 'Jobseeker' ? (
-              <Navigate to='/Jobseeker' />
-            ) : <Home/>
+            ) :  <Home />
 
           },
           {
             path: '/about',
             element: <About />
+          },
+          {
+            path: 'profile',
+            element: <ProtectedRoute>
+              <CompleteProfile />
+            </ProtectedRoute>,
+          },
+          {
+            path: 'jobs',
+            element:
+              <ProtectedRoute>
+                <JobList/>
+              </ProtectedRoute>,
+          },
+          {
+            path: 'dashboard',
+            element:
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>,
           }
         ]
       },
@@ -124,11 +116,11 @@ function App() {
         element: <SignUp />
       },
       {
-        path:"*",
-        element:error?<Navigate to='/Login'/>:<Navigate to='/'/>
+        path: "*",
+        element: error ? <Navigate to='/Login' /> : <Navigate to='/' />
       }
     ])
-  }, [User,error])
+  }, [User, error])
 
   if (isLoading) return <h1>Loading...</h1>
 

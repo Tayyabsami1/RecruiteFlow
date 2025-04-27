@@ -5,8 +5,13 @@ import SignUp from "./SignUp";
 import Layout from "./Layout";
 import Home from "./Home";
 import About from "./About";
-import AdminHome from "./Admin/Home";
 
+import AdminHome from "./Admin/Home";
 import AdminLayout from "./Admin/AdminLayout";
 
-export {Login, SignUp, Layout, Home, About,AdminLayout,AdminHome};
+import CompleteProfile from "./JobSeeker/CompleteProfile"
+import Dashboard from "./JobSeeker/Dashboard"
+import JobList from "./JobSeeker/JobsList"
+
+
+export {Login, SignUp, Layout, Home, About,AdminLayout,AdminHome,CompleteProfile,Dashboard,JobList};

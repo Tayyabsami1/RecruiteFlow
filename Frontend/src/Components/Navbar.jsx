@@ -37,22 +37,24 @@ const Navbar = () => {
   }
 
   const pages =User?.userType==='Admin'?[
+    {name:'Home', path:'/Admin'},
     {name:'Manage Users', path:'users'},
     {name:'Manage Jobs', path:'jobs'},
     {name:'Comming Soon', path:'/'},
+
   ]:User?.userType==='Recruiter'?[
     {name:'Comming Soon', path:'/'},
     { name: 'About', path: '/about' }
   ]: [
     { name: 'Home', path: '/' },
-    { name: 'Jobs', path: '/jobs' },
+    { name: 'Jobs', path: 'jobs' },
     { name: 'Companies', path: '/companies' },
     { name: 'About', path: '/about' }
   ];
   
   const userMenu = User ? [
-    { name: 'Profile', action: () => navigate('/profile') },
-    { name: 'Dashboard', action: () => navigate('/dashboard') },
+    { name: 'Profile', action: () => navigate('profile') },
+    { name: 'Dashboard', action: () => navigate('dashboard') },
     { name: 'Settings', action: () => navigate('/settings') },
     { name: 'Logout', action: () => handleLogout() }
   ] : [
