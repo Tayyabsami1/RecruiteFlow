@@ -5,6 +5,9 @@ import AuthRouter from "./Routes/auth.routes.js"
 import jobRouter from './Routes/job.routes.js';
 
 import AdminUserRoute from './Routes/AdminRoutes/user.routes.js';
+
+import jobSeekerRouter from './Routes/jobseeker.routes.js';
+
 const app = express();
 
 // Some security options using Middlewares
@@ -18,6 +21,9 @@ app.use(express.urlencoded({
 
 app.use(cookieparser())
 
+app.use('/uploads', express.static('uploads'));
+
+
 // Configuring the Middlewares
 app.use(cors({
     origin: process.env.CORS_ORIGIN,
@@ -26,7 +32,11 @@ app.use(cors({
 
 app.use("/api/Auth",AuthRouter);
 app.use('/api/job', jobRouter);
+
 app.use('/api/Admin/Users',AdminUserRoute);
+
+app.use('/api/jobseeker', jobSeekerRouter);
+
 
 
 export { app };

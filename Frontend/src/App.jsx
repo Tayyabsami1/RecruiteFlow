@@ -8,17 +8,19 @@ import "./index.css"
 import { setUserData } from './Features/User/UserSlice';
 import axios from 'axios';
 
-import { Login, SignUp, Home, Layout, About, AdminLayout, AdminHome, ManageUsers } from './Pages';
+import { Login, SignUp, Home, Layout, About, AdminLayout, AdminHome,CompleteProfile,Dashboard,JobList,ManageUsers } from './Pages';
+
+import ProtectedRoute from './Components/ProtectedRoute';
 
 function App() {
-  
+
   const { User } = useSelector((state) => state.User);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
 
   const dispatch = useDispatch();
 
-  useEffect(() => { 
+  useEffect(() => {
     const checkAuth = async () => {
       try {
         const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/Auth`, { withCredentials: true });
@@ -46,6 +48,7 @@ function App() {
     return createBrowserRouter([
       {
         path: '/Admin',
+
         element: User && User.userType === 'Admin' ? <AdminLayout/>: <Navigate to='/' />,
           children:[
             {
@@ -60,18 +63,17 @@ function App() {
       },
       {
         path: '/Recruiter',
-        element:User && User.userType === 'Recruiter' ?<Layout/>:<Navigate to='/' />,
-        children:[
+        element: User && User.userType === 'Recruiter' ? <Layout /> : <Navigate to='/' />,
+        children: [
           {
-            path:'/Recruiter',
-            element:  <Home/>,
+            path: '/Recruiter',
+            element: <Home />,
           },
           {
-             path: 'post-job', // added by Imran Ahmad
-            element:  <PostJob />,
+            path: 'post-job', // added by Imran Ahmad
+            element: <PostJob />,
           }
         ]
-        // element:<h1>hello </h1>
       },
       {
         path: '/',
@@ -83,11 +85,32 @@ function App() {
               <Navigate to='/Recruiter' />
             ) : User?.userType === 'Admin' ? (
               <Navigate to='/Admin' />
-            ) : <Home/>
+            ) :  <Home />
+
           },
           {
             path: '/about',
             element: <About />
+          },
+          {
+            path: 'profile',
+            element: <ProtectedRoute>
+              <CompleteProfile />
+            </ProtectedRoute>,
+          },
+          {
+            path: 'jobs',
+            element:
+              <ProtectedRoute>
+                <JobList/>
+              </ProtectedRoute>,
+          },
+          {
+            path: 'dashboard',
+            element:
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>,
           }
         ]
       },
@@ -100,11 +123,11 @@ function App() {
         element: <SignUp />
       },
       {
-        path:"*",
-        element:error?<Navigate to='/Login'/>:<Navigate to='/'/>
+        path: "*",
+        element: error ? <Navigate to='/Login' /> : <Navigate to='/' />
       }
     ])
-  }, [User,error])
+  }, [User, error])
 
   if (isLoading) return <h1>Loading...</h1>
 
