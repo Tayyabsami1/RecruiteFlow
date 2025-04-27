@@ -28,7 +28,7 @@ import {
   Tooltip
 } from '@mui/material';
 
-import { Search as SearchIcon } from '@mui/icons-material';
+import { CloseFullscreen, Search as SearchIcon } from '@mui/icons-material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import FilterListIcon from '@mui/icons-material/FilterList';
@@ -36,6 +36,8 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import '../../Styles/Admin/ManageUsers.scss';
 
 import { useMantineColorScheme } from '@mantine/core';
+
+import axios from "axios"
 
 const ManageUsers = () => {
   const { colorScheme } = useMantineColorScheme();
@@ -63,30 +65,11 @@ const ManageUsers = () => {
     const fetchUsers = async () => {
       setIsLoading(true);
       try {
-        // In a real implementation, replace with actual API call
-        // const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/admin/users`);
-        // setUsers(response.data.data);
-        
-        setTimeout(() => {
-          const mockUsers = [
-            { id: 1, name: 'John Doe', email: 'john@example.com', userType: 'Recruiter', createdAt: '2023-01-15' },
-            { id: 2, name: 'Jane Smith', email: 'jane@example.com', userType: 'JobSeeker', createdAt: '2023-02-10' },
-            { id: 3, name: 'Bob Johnson', email: 'bob@example.com', userType: 'Recruiter', createdAt: '2023-01-20' },
-            { id: 4, name: 'Alice Brown', email: 'alice@example.com', userType: 'JobSeeker', createdAt: '2023-03-05' },
-            { id: 5, name: 'Charlie Davis', email: 'charlie@example.com', userType: 'Admin', createdAt: '2023-01-01' },
-            { id: 6, name: 'Emma Wilson', email: 'emma@example.com', userType: 'JobSeeker', createdAt: '2023-04-15' },
-            { id: 7, name: 'Frank Miller', email: 'frank@example.com', userType: 'Recruiter', createdAt: '2023-02-28' },
-            { id: 8, name: 'Grace Taylor', email: 'grace@example.com', userType: 'JobSeeker', createdAt: '2023-03-20' },
-            { id: 9, name: 'Henry Clark', email: 'henry@example.com', userType: 'Recruiter', createdAt: '2023-01-25' },
-            { id: 10, name: 'Ivy Moore', email: 'ivy@example.com', userType: 'JobSeeker', createdAt: '2023-04-01' },
-            { id: 11, name: 'Jack Wilson', email: 'jack@example.com', userType: 'Recruiter', createdAt: '2023-02-15' },
-            { id: 12, name: 'Karen Lee', email: 'karen@example.com', userType: 'JobSeeker', createdAt: '2023-03-10' },
-          ];
-          setUsers(mockUsers);
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/Admin/users`,{withCredentials:true});
+          setUsers(response.data.data.users);
           setIsLoading(false);
-        }, 1000);
       } catch (err) {
-        console.error('Error fetching users:', err);
+        console.log(err)
         setError('Failed to load users. Please try again.');
         setIsLoading(false);
       }

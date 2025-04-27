@@ -26,7 +26,7 @@ app.use(cors({
 
 app.use("/api/Auth",AuthRouter);
 app.use('/api/job', jobRouter);
-app.use('/api/Admin/User',AdminUserRoute);
+app.use('/api/Admin/Users',AdminUserRoute);
 
 
 export { app };
