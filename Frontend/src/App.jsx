@@ -9,6 +9,7 @@ import { setUserData } from './Features/User/UserSlice';
 import axios from 'axios';
 
 import { Login, SignUp, Home, Layout, About,AdminLayout,AdminHome } from './Pages';
+import CompleteProfile from './Components/JobSeeker/CompleteProfile';
 
 function App() {
   
@@ -70,6 +71,20 @@ function App() {
         // element:<h1>hello </h1>
       },
       {
+        path: '/Jobseeker',
+        element:User && User.userType === 'Jobseeker' ?<Layout/>:<Navigate to='/' />,
+        children:[
+          {
+            path:'/Jobseeker',
+            element:  <Home/>,
+          },
+          {
+            path: 'profile', 
+            element:  <CompleteProfile />,
+          }
+        ]
+      },
+      {
         path: '/',
         element: <Layout />,
         children: [
@@ -79,7 +94,10 @@ function App() {
               <Navigate to='/Recruiter' />
             ) : User?.userType === 'Admin' ? (
               <Navigate to='/Admin' />
+            ) : User?.userType === 'Jobseeker' ? (
+              <Navigate to='/Jobseeker' />
             ) : <Home/>
+
           },
           {
             path: '/about',
