@@ -71,4 +71,35 @@ export const getAllJobs = async (req, res) => {
       res.status(500).json({ message: "Error fetching jobs", error: error.message });
     }
   };
+
+export const getUserDashboard = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const jobs = await Job.find({ status: "open" });
+   
+    const appliedJobs = jobs.filter((job) =>
+      job.whoApplied.includes(userId)
+    );
+    const shortlistedJobs = jobs.filter((job) =>
+      job.shortlisted.includes(userId)
+    );
+    const interviewedJobs = jobs.filter((job) =>
+      job.interviewed.includes(userId)
+    );
+
+    res.status(200).json({
+      appliedJobs,
+      shortlistedJobs,
+      interviewedJobs,
+    });
+  } catch (error) {
+    console.error("Error fetching dashboard jobs:", error);
+    res.status(500).json({
+      message: "Failed to fetch dashboard data",
+      error: error.message,
+    });
+  }
+};
+
   
