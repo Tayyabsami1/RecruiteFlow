@@ -18,3 +18,57 @@ export const postJob = async (req, res) => {
         res.status(500).json({ error: "Error posting job", details: error.message });
     }
 };
+
+
+// Apply to a job
+export const applyToJob = async (req, res) => {
+  try {
+    const { jobId } = req.params;
+    const { userId } = req.body;
+
+    const job = await Job.findById(jobId);
+    if (!job) {
+      return res.status(404).json({ message: "Job not found" });
+    }
+
+    if (!job.whoApplied?.includes(userId)) {
+      job.whoApplied.push(userId);
+      await job.save();
+    }
+
+    res.status(200).json({ message: "Successfully applied" });
+  } catch (error) {
+    res.status(500).json({ message: "Error applying for job", error: error.message });
+  }
+};
+
+// Unapply from a job
+export const unapplyFromJob = async (req, res) => {
+  try {
+    const { jobId } = req.params;
+    const { userId } = req.body;
+
+    const job = await Job.findById(jobId);
+
+    if (!job) {
+      return res.status(404).json({ message: "Job not found" });
+    }
+
+    job.whoApplied = job.whoApplied.filter((id) => id.toString() !== userId);
+    await job.save();
+
+    res.status(200).json({ message: "Successfully unapplied" });
+  } catch (error) {
+    res.status(500).json({ message: "Error unapplying for job", error: error.message });
+  }
+};
+
+export const getAllJobs = async (req, res) => {
+    try {
+      const jobs = await Job.find({ status: "open" });
+      res.status(200).json({ jobs });
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching jobs", error: error.message });
+    }
+  };
+  

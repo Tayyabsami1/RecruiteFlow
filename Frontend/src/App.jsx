@@ -10,6 +10,7 @@ import axios from 'axios';
 
 import { Login, SignUp, Home, Layout, About,AdminLayout,AdminHome } from './Pages';
 import CompleteProfile from './Components/JobSeeker/CompleteProfile';
+import JobsList from './Components/JobSeeker/JobsList';
 
 function App() {
   
@@ -81,6 +82,10 @@ function App() {
           {
             path: 'profile', 
             element:  <CompleteProfile />,
+          },
+          {
+            path: 'jobs', 
+            element:  <JobsList />,
           }
         ]
       },
