@@ -8,8 +8,10 @@ import "./index.css"
 import { setUserData } from './Features/User/UserSlice';
 import axios from 'axios';
 
-import { Login, SignUp, Home, Layout, About, AdminLayout, AdminHome,CompleteProfile,Dashboard,JobList } from './Pages';
+import { Login, SignUp, Home, Layout, About, AdminLayout, AdminHome,CompleteProfile,Dashboard,JobList,ManageUsers } from './Pages';
+
 import ProtectedRoute from './Components/ProtectedRoute';
+
 function App() {
 
   const { User } = useSelector((state) => state.User);
@@ -46,13 +48,18 @@ function App() {
     return createBrowserRouter([
       {
         path: '/Admin',
-        element: User && User.userType === 'Admin' ? <AdminLayout /> : <Navigate to='/' />,
-        children: [
-          {
-            path: '/Admin',
-            element: <AdminHome />
-          }
-        ]
+
+        element: User && User.userType === 'Admin' ? <AdminLayout/>: <Navigate to='/' />,
+          children:[
+            {
+              path:'/Admin',
+              element:<AdminHome/>
+            },
+            {
+              path:'users',
+              element:<ManageUsers/>
+            }
+          ]
       },
       {
         path: '/Recruiter',
