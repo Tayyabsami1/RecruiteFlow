@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 const JobsList = () => {
   const { User } = useSelector((state) => state.User);
-
+  const [JobSeekerId, setJobSeekerId] = useState(null);
   const [jobs, setJobs] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [filterBy, setFilterBy] = useState("title"); 
@@ -16,6 +16,9 @@ const JobsList = () => {
       const res = await axios.get("/api/job/all"); 
       setJobs(res.data.jobs);
       setFilteredJobs(res.data.jobs);
+      const res1=await axios.get(`/api/jobseeker/getJobSeekerId/${User._id}`);
+      setJobSeekerId(res1.data.jobSeekerId);
+
     } catch (error) {
       console.error("Error fetching jobs:", error);
     }
@@ -28,9 +31,9 @@ const JobsList = () => {
   const handleApply = async (jobId, isApplied) => {
     try {
       if (isApplied) {
-        await axios.put(`/api/job/unapply/${jobId}`, { userId: User._id });
+        await axios.put(`/api/job/unapply/${jobId}`, { userId: JobSeekerId });
       } else {
-        await axios.put(`/api/job/apply/${jobId}`, { userId: User._id });
+        await axios.put(`/api/job/apply/${jobId}`, { userId: JobSeekerId});
       }
       fetchJobs(); 
     } catch (error) {
@@ -88,7 +91,7 @@ const JobsList = () => {
 
       <div className="jobs-grid">
         {filteredJobs.map((job) => {
-          const isApplied = job.whoApplied?.includes(User._id);
+          const isApplied = job.whoApplied?.includes(JobSeekerId);
           return (
             <div className="job-card" key={job._id}>
               <h2>{job.title}</h2>

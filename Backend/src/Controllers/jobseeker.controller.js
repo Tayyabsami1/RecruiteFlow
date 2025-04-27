@@ -45,3 +45,20 @@ export const completeJobSeekerProfile = async (req, res) => {
     return res.status(500).json({ message: "Internal server error", error: error.message });
     }
 };
+
+export const getJobSeekerIdByUserId = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const jobSeeker = await JobSeeker.findOne({ user: userId });
+
+    if (!jobSeeker) {
+      return res.status(404).json({ message: "Job Seeker not found for this user." });
+    }
+
+    res.status(200).json({ jobSeekerId: jobSeeker._id });
+  } catch (error) {
+    console.error("Error fetching Job Seeker ID:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
