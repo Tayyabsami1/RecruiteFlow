@@ -5,19 +5,34 @@ import "../../Styles/JobSeeker/Dashboard.scss";
 
 const Dashboard = () => {
   const { User } = useSelector((state) => state.User);
+  const [jobSeekerId, setJobSeekerId] = useState(null);
   const [appliedJobs, setAppliedJobs] = useState([]);
   const [shortlistedJobs, setShortlistedJobs] = useState([]);
   const [interviewedJobs, setInterviewedJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   
   useEffect(() => {
+    const fetchJobSeekerId = async () => {
+      try {
+        const res = await axios.get(`/api/jobseeker/getJobSeekerId/${User._id}`);
+        setJobSeekerId(res.data.jobSeekerId);
+      } catch (error) {
+        console.error("Error fetching job seeker id:", error);
+        setLoading(false);
+      }
+    };
+
+    if (User) {
+      fetchJobSeekerId();
+    }
+  }, [User]);
+
+  useEffect(() => {
     const fetchDashboardData = async () => {
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}
-                /api/job/UserDashboard/${User._id}`
-          );
-
+          `${import.meta.env.VITE_BACKEND_URL}/api/job/UserDashboard/${jobSeekerId}`
+        );
         setAppliedJobs(res.data.appliedJobs);
         setShortlistedJobs(res.data.shortlistedJobs);
         setInterviewedJobs(res.data.interviewedJobs);
@@ -28,10 +43,10 @@ const Dashboard = () => {
       }
     };
 
-    if (User) {
+    if (jobSeekerId) {
       fetchDashboardData();
     }
-  }, [User]);
+  }, [jobSeekerId]);
 
   if (loading) return <div className="dashboard">Loading...</div>;
 

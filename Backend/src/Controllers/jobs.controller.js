@@ -75,7 +75,6 @@ export const getAllJobs = async (req, res) => {
 export const getUserDashboard = async (req, res) => {
   try {
     const { userId } = req.params;
-
     const jobs = await Job.find({ status: "open" });
    
     const appliedJobs = jobs.filter((job) =>
