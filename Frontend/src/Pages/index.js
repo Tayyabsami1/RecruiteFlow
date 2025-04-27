@@ -6,7 +6,7 @@ import Layout from "./Layout";
 import Home from "./Home";
 import About from "./About";
 import AdminHome from "./Admin/Home";
-
+import ManageUsers from "./Admin/ManageUsers";
 import AdminLayout from "./Admin/AdminLayout";
 
-export {Login, SignUp, Layout, Home, About,AdminLayout,AdminHome};
+export {Login, SignUp, Layout, Home, About, AdminLayout, AdminHome, ManageUsers};

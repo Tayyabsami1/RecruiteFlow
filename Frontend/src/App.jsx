@@ -8,7 +8,7 @@ import "./index.css"
 import { setUserData } from './Features/User/UserSlice';
 import axios from 'axios';
 
-import { Login, SignUp, Home, Layout, About,AdminLayout,AdminHome } from './Pages';
+import { Login, SignUp, Home, Layout, About, AdminLayout, AdminHome, ManageUsers } from './Pages';
 
 function App() {
   
@@ -51,6 +51,10 @@ function App() {
             {
               path:'/Admin',
               element:<AdminHome/>
+            },
+            {
+              path:'users',
+              element:<ManageUsers/>
             }
           ]
       },

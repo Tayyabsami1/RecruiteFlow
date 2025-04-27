@@ -1,0 +1,129 @@
+// Color scheme variables based on the project's color scheme
+$darkest-color: #0F044C;
+$dark-color: #141E61;
+$primary-color: #787A91;
+$light-color: #EEEEEE;
+
+// Additional derived colors
+$secondary-color: #444973;
+$success-color: #4CAF50;
+$warning-color: #FFC107;
+$error-color: #F44336;
+$info-color: #2196F3;
+
+// Background colors
+$bg-light: $light-color;
+$bg-dark: $dark-color;
+
+// Text colors
+$text-light: $light-color;
+$text-dark: $darkest-color;
+$text-muted: rgba($primary-color, 0.7);
+
+// Spacing
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+
+// Border radius
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 12px;
+
+// Transitions
+$transition-quick: 0.2s ease;
+$transition-normal: 0.3s ease;
+$transition-slow: 0.5s ease;
+
+.manage-users-container {
+  padding: 24px;
+  
+  &.dark {
+    .page-title{
+      color: $light-color;
+    }
+    .pagination{
+      color: $light-color;
+    }
+  }
+  
+  .page-title {
+    margin-bottom: 24px;
+    color: $darkest-color;
+    font-weight: 600;
+  }
+  
+  .search-filter-container {
+    margin-bottom: 24px;
+    padding: 16px;
+    border-radius: 8px;
+    
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      
+      .search-input {
+        flex-grow: 1;
+      }
+      
+      .filter-button {
+        min-width: 100px;
+      }
+    }
+    
+    .filter-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+      
+      .filter-chip {
+        background-color: $primary-color;
+        color: $light-color;
+        
+        &:hover {
+          background-color: $primary-color;
+        }
+      }
+    }
+  }
+  
+  .table-container {
+    margin-bottom: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    
+    .MuiTableCell-head {
+      background-color: $darkest-color;
+      color: $light-color;
+      font-weight: 600;
+    }
+    
+    .action-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+  }
+  
+  .pagination {
+    margin-top: 16px;
+  }
+  
+  .loading-container, .error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    gap: 16px;
+    
+    .loading-text {
+      margin-top: 16px;
+      color: $primary-color;
+    }
+  }
+}
