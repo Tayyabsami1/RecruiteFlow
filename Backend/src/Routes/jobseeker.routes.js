@@ -1,11 +1,15 @@
 import express from 'express';
-import { completeJobSeekerProfile,getJobSeekerIdByUserId } from '../Controllers/jobseeker.controller.js';
+import { getJobSeekerIdByUserId,getJobSeekerProfile,updateJobSeekerProfile } from '../Controllers/jobseeker.controller.js';
 import upload from '../Middlewares/upload.middleware.js';
 
 const jobSeekerRouter = express.Router();
 
-// POST route to complete Jobseeker profile
-jobSeekerRouter.post('/complete-profile/:userId', upload.single('resume'), completeJobSeekerProfile);
 jobSeekerRouter.get("/getJobSeekerId/:userId", getJobSeekerIdByUserId);
+
+// Get Jobseeker Profile
+jobSeekerRouter.get('/get-profile/:userId', getJobSeekerProfile);
+
+// Update Jobseeker Profile
+jobSeekerRouter.put('/update-profile/:userId', upload.single('resume'), updateJobSeekerProfile);
 
 export default jobSeekerRouter;

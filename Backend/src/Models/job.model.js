@@ -37,11 +37,11 @@ const jobSchema = new Schema({
     }],
 
     // Recruiter who posted the job
-    whoPosted: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Recruiter',
-        required: true,
-    },
+    // whoPosted: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Recruiter',
+    //     required: true,
+    // },
    
     // Status of the job
     status: {
