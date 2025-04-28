@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../Styles/JobSeeker/JobsList.scss";
 import { useSelector } from "react-redux";
+import { ToastContainer, toast } from 'react-toastify';
 
 const JobsList = () => {
   const { User } = useSelector((state) => state.User);
@@ -32,8 +33,10 @@ const JobsList = () => {
     try {
       if (isApplied) {
         await axios.put(`/api/job/unapply/${jobId}`, { userId: JobSeekerId });
+        toast("UnApplied Successfully!");
       } else {
         await axios.put(`/api/job/apply/${jobId}`, { userId: JobSeekerId});
+        toast("Applied Successfully!");
       }
       fetchJobs(); 
     } catch (error) {
@@ -65,6 +68,7 @@ const JobsList = () => {
 
   return (
     <div className="jobs-list-container">
+      <ToastContainer />
       <h1>Available Jobs</h1>
 
       <div className="search-filter">
@@ -90,7 +94,10 @@ const JobsList = () => {
       </div>
 
       <div className="jobs-grid">
-        {filteredJobs.map((job) => {
+        {filteredJobs.length>0?
+
+        
+        (filteredJobs.map((job) => {
           const isApplied = job.whoApplied?.includes(JobSeekerId);
           return (
             <div className="job-card" key={job._id}>
@@ -108,7 +115,11 @@ const JobsList = () => {
               </button>
             </div>
           );
-        })}
+        })):
+        <div>
+          <p>No Such Jobs available</p>
+        </div>
+}
       </div>
     </div>
   );
