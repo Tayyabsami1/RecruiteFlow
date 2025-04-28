@@ -1,46 +1,97 @@
 .dashboard {
-    padding: 2rem;
-    background-color: #f7f9fc;
-    min-height: 100vh;
-  
-    h2 {
-      margin-top: 2rem;
-      font-size: 1.8rem;
-      color: #333;
+  padding: 2rem;
+  background-color: #f7f9fc;
+  min-height: 100vh;
+
+  h2 {
+    margin-top: 2rem;
+    font-size: 1.8rem;
+    color: #333;
+    text-align: center;
+  }
+
+  .job-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 1rem;
+    justify-content: center;
+  }
+
+  .job-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 1.5rem;
+    width: 300px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
-  
+
+    h3 {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+      color: #007bff;
+    }
+
+    p {
+      margin: 0.3rem 0;
+      font-size: 1rem;
+      color: #555;
+    }
+  }
+
+  // ---------- RESPONSIVENESS -----------
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+
     .job-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      margin-top: 1rem;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
     }
-  
+
     .job-card {
-      background: white;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      padding: 1.5rem;
-      width: 300px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
-  
-      &:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      }
-  
+      width: 90%;
+      padding: 1.2rem;
+
       h3 {
-        font-size: 1.4rem;
-        margin-bottom: 0.5rem;
-        color: #007bff;
+        font-size: 1.3rem;
       }
-  
+
       p {
-        margin: 0.3rem 0;
-        font-size: 1rem;
-        color: #555;
+        font-size: 0.95rem;
       }
     }
   }
-  
+
+  @media (max-width: 480px) {
+    padding: 0.5rem;
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    .job-list {
+      gap: 1rem;
+    }
+
+    .job-card {
+      width: 100%;
+      padding: 1rem;
+
+      h3 {
+        font-size: 1.2rem;
+      }
+
+      p {
+        font-size: 0.9rem;
+      }
+    }
+  }
+}

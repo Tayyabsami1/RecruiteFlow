@@ -35,21 +35,13 @@ const jobSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
     }],
-    hired: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-    }],
-    rejected: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-    }],
 
-    // // Recruiter who posted the job
-    // whoPosted: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Recruiter',
-    //     required: true,
-    // },
+    // Recruiter who posted the job
+    whoPosted: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Recruiter',
+        required: true,
+    },
    
     // Status of the job
     status: {
