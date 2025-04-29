@@ -11,34 +11,49 @@ const JobsList = () => {
   const [searchText, setSearchText] = useState("");
   const [filterBy, setFilterBy] = useState("title"); 
   const [filteredJobs, setFilteredJobs] = useState([]);
+  const [appliedJobs, setappliedJobs] = useState([]);
 
   const fetchJobs = async () => {
     try {
-      const res = await axios.get("/api/job/all"); 
+      if(JobSeekerId){
+      const res = await axios.get(`/api/job/get-jobs/${JobSeekerId}`); 
+     
       setJobs(res.data.jobs);
       setFilteredJobs(res.data.jobs);
-      const res1=await axios.get(`/api/jobseeker/getJobSeekerId/${User._id}`);
-      setJobSeekerId(res1.data.jobSeekerId);
-
+      }
     } catch (error) {
       console.error("Error fetching jobs:", error);
     }
   };
 
+  useEffect(()=>{
+    
+    const fetchJobSeekerId=async()=>{
+      try {
+        const res1=await axios.get(`/api/jobseeker/getJobSeekerId/${User._id}`);
+        setJobSeekerId(res1.data.jobSeekerId);
+        
+  
+      } catch (error) {
+        console.error("Error fetching JobSeekerId:", error);
+      }
+    };
+
+    fetchJobSeekerId();
+
+  },[])
+
   useEffect(() => {
     fetchJobs();
-  }, []);
+  }, [JobSeekerId]);
 
   const handleApply = async (jobId, isApplied) => {
     try {
-      if (isApplied) {
-        await axios.put(`/api/job/unapply/${jobId}`, { userId: JobSeekerId });
-        toast("UnApplied Successfully!");
-      } else {
+      if (!isApplied) {
         await axios.put(`/api/job/apply/${jobId}`, { userId: JobSeekerId});
         toast("Applied Successfully!");
+        setappliedJobs([...appliedJobs,jobId]);
       }
-      fetchJobs(); 
     } catch (error) {
       console.error("Error updating application status:", error);
     }
@@ -98,7 +113,8 @@ const JobsList = () => {
 
         
         (filteredJobs.map((job) => {
-          const isApplied = job.whoApplied?.includes(JobSeekerId);
+          const isApplied=appliedJobs.includes(job._id);       
+          
           return (
             <div className="job-card" key={job._id}>
               <h2>{job.title}</h2>
@@ -110,12 +126,14 @@ const JobsList = () => {
               <button
                 className={isApplied ? "applied-btn" : "apply-btn"}
                 onClick={() => handleApply(job._id, isApplied)}
+                disabled={isApplied}
               >
                 {isApplied ? "Applied" : "Apply"}
               </button>
             </div>
-          );
-        })):
+          )
+        }
+        )):
         <div>
           <p>No Such Jobs available</p>
         </div>

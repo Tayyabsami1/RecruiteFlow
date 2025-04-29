@@ -25,15 +25,15 @@ const jobSchema = new Schema({
     // Applicant status tracking (referencing Users)
     whoApplied: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'JobSeeker',
     }],
     shortlisted: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'JobSeeker',
     }],
     interviewed: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'JobSeeker',
     }],
 
     // Recruiter who posted the job
