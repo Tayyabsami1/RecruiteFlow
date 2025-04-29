@@ -45,7 +45,8 @@ const Navbar = () => {
 
   ]:User?.userType==='Recruiter'?[
     {name:'Home', path:'/'},
-    { name: 'About', path: '/about' }
+    { name: 'About', path: '/about' },
+    {name: 'Posted Jobs', path: '/Recruiter/postedjobs'}
   ]: [
     { name: 'Home', path: '/' },
     { name: 'Jobs', path: '/jobs' },

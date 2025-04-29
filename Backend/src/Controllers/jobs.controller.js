@@ -88,5 +88,24 @@ export const getUserDashboard = async (req, res) => {
     });
   }
 };
+//Getting Jobs logic for recruiters
+export const getPostedJobsByRecruiter = async (req, res) => {
+  try {
+    const { recruiterId } = req.params;
+
+    const jobs = await Job.find({
+      whoPosted: recruiterId
+    });
+
+    res.status(200).json({ jobs });
+  } catch (error) {
+    console.error("Error fetching jobs posted by recruiter:", error);
+    res.status(500).json({
+      message: "Failed to fetch posted jobs",
+      error: error.message,
+    });
+  }
+};
+
 
   
