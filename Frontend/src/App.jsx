@@ -11,6 +11,7 @@ import axios from 'axios';
 import { Login, SignUp, Home, Layout, About, AdminLayout, AdminHome,CompleteProfile,Dashboard,JobList,ManageUsers } from './Pages';
 
 import ProtectedRoute from './Components/ProtectedRoute';
+import PostedJobs from './Pages/Recruiter/PostedJobs';
 
 function App() {
 
@@ -72,6 +73,10 @@ function App() {
           {
             path: 'post-job', // added by Imran Ahmad
             element: <PostJob />,
+          },
+          {
+            path: 'postedjobs', // added by Imran Ahmad
+            element: <PostedJobs/>
           }
         ]
       },
