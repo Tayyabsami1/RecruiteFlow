@@ -42,35 +42,23 @@ export const applyToJob = async (req, res) => {
   }
 };
 
-// Unapply from a job
-export const unapplyFromJob = async (req, res) => {
+
+export const getJobs = async (req, res) => {
   try {
-    const { jobId } = req.params;
-    const { userId } = req.body;
+    const { jobseekerId } = req.params;
 
-    const job = await Job.findById(jobId);
+    // Find jobs with status "open" and where jobseekerId is not in the whoApplied array
+    const jobs = await Job.find({
+      status: "open",
+      whoApplied: { $nin: [jobseekerId] }
+    });
 
-    if (!job) {
-      return res.status(404).json({ message: "Job not found" });
-    }
 
-    job.whoApplied = job.whoApplied.filter((id) => id.toString() !== userId);
-    await job.save();
-
-    res.status(200).json({ message: "Successfully unapplied" });
+    res.status(200).json({ jobs });
   } catch (error) {
-    res.status(500).json({ message: "Error unapplying for job", error: error.message });
+    res.status(500).json({ message: "Error fetching jobs", error: error.message });
   }
 };
-
-export const getAllJobs = async (req, res) => {
-    try {
-      const jobs = await Job.find({ status: "open" });
-      res.status(200).json({ jobs });
-    } catch (error) {
-      res.status(500).json({ message: "Error fetching jobs", error: error.message });
-    }
-  };
 
 export const getUserDashboard = async (req, res) => {
   try {
