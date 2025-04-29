@@ -43,12 +43,13 @@ const Navbar = () => {
     {name:'Comming Soon', path:'/'},
 
   ]:User?.userType==='Recruiter'?[
-    {name:'Comming Soon', path:'/'},
+    {name:'Home', path:'/'},
     { name: 'About', path: '/about' }
   ]: [
     { name: 'Home', path: '/' },
     { name: 'Jobs', path: 'jobs' },
     { name: 'Companies', path: '/companies' },
+    { name: 'Dashboard', path: '/dashboard' },
     { name: 'About', path: '/about' }
   ];
   
