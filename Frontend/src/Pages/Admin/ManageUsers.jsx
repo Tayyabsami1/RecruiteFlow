@@ -105,6 +105,7 @@ const ManageUsers = () => {
 
   // Handle filter changes
   const handleFilterChange = (event) => {
+    console.log(event.target.value)
     setUserTypeFilter(event.target.value);
     setPage(0);
   };
@@ -263,7 +264,7 @@ const ManageUsers = () => {
             {filteredUsers
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((user) => (
-                <TableRow key={user.id} hover>
+                <TableRow key={user._id} hover>
                   <TableCell>{user.name}</TableCell>
                   <TableCell>{user.email}</TableCell>
                   <TableCell>
@@ -349,7 +350,7 @@ const ManageUsers = () => {
               <MenuItem value="all">All Types</MenuItem>
               <MenuItem value="Admin">Admin</MenuItem>
               <MenuItem value="Recruiter">Recruiter</MenuItem>
-              <MenuItem value="JobSeeker">Job Seeker</MenuItem>
+              <MenuItem value="Jobseeker">Job Seeker</MenuItem>
             </Select>
           </FormControl>
         </DialogContent>
@@ -412,7 +413,7 @@ const ManageUsers = () => {
             >
               <MenuItem value="Admin">Admin</MenuItem>
               <MenuItem value="Recruiter">Recruiter</MenuItem>
-              <MenuItem value="JobSeeker">Job Seeker</MenuItem>
+              <MenuItem value="Jobseeker">Job Seeker</MenuItem>
             </Select>
           </FormControl>
         </DialogContent>
