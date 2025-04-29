@@ -92,7 +92,8 @@ const CompleteProfile = () => {
                         </p>
                         <p><strong>Resume:</strong> 
                             {jobSeekerData.resume ? (
-                                <a href={`${import.meta.env.VITE_BACKEND_URL}/${jobSeekerData.resume}`} target="_blank" rel="noopener noreferrer">
+                                // TODO Make this URL dynamic before deploying 
+                                <a href={`http://localhost:3000/${jobSeekerData.resume}`} target="_blank" rel="noopener noreferrer">
                                     View Resume
                                 </a>
                             ) : ' No resume uploaded.'}

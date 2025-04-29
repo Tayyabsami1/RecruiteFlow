@@ -1,2 +1,4 @@
 node_modules
 .env
+# Remove the upload folder from git Ignore before deploying
+uploads

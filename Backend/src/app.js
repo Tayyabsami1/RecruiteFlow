@@ -37,6 +37,8 @@ app.use('/api/Admin/Users',AdminUserRoute);
 
 app.use('/api/jobseeker', jobSeekerRouter);
 
+app.use('/uploads', express.static('uploads'));
+
 
 
 export { app };

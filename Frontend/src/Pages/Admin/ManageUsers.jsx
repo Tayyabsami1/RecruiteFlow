@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
+// UI Imports 
 import {
   Paper,
   Table,
@@ -28,7 +29,7 @@ import {
   Tooltip
 } from '@mui/material';
 
-import { CloseFullscreen, Search as SearchIcon } from '@mui/icons-material';
+import {  Search as SearchIcon } from '@mui/icons-material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import FilterListIcon from '@mui/icons-material/FilterList';
@@ -43,22 +44,29 @@ const ManageUsers = () => {
   const { colorScheme } = useMantineColorScheme();
   const isDark = colorScheme === 'dark';
   
-  // State variables
+  // Pagination
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  // Search and filter dialogues 
   const [searchTerm, setSearchTerm] = useState('');
   const [userTypeFilter, setUserTypeFilter] = useState('all');
   const [openFilterDialog, setOpenFilterDialog] = useState(false);
+
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [users, setUsers] = useState([]);
+
+  // Edit User States
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [editFormData, setEditFormData] = useState({
     name: '',
     email: '',
-    userType: ''
+    cnic:'',
+    phone:'',
+    userType: '',
   });
 
   useEffect(() => {
@@ -69,7 +77,7 @@ const ManageUsers = () => {
           setUsers(response.data.data.users);
           setIsLoading(false);
       } catch (err) {
-        console.log(err)
+        console.log(err.response.data.msg)
         setError('Failed to load users. Please try again.');
         setIsLoading(false);
       }
@@ -116,7 +124,9 @@ const ManageUsers = () => {
     setEditFormData({
       name: user.name,
       email: user.email,
-      userType: user.userType
+      userType: user.userType,
+      cnic:user.cnic,
+      phone:user.phone,
     });
     setEditDialogOpen(true);
   };
@@ -133,22 +143,30 @@ const ManageUsers = () => {
     }));
   };
 
+  // Handle edit form submission
   const handleEditSubmit = async () => {
     try {
-      // In a real implementation, replace with actual API call
-      // await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/admin/users/${currentUser.id}`, editFormData);
+      const requestData = {
+        ...editFormData,
+        userId: currentUser._id
+      };
       
-      // Update local state for demonstration
-      const updatedUsers = users.map(user => 
-        user.id === currentUser.id ? { ...user, ...editFormData } : user
+       await axios.put(
+        `${import.meta.env.VITE_BACKEND_URL}/api/Admin/Users`, 
+        requestData,
+        { withCredentials: true }
       );
-      setUsers(updatedUsers);
-      setEditDialogOpen(false);
-      
-      // Show success message (implement toast notification in real app)
-      console.log('User updated successfully');
+        // Update the local state with the edited user
+        const updatedUsers = users.map(user => 
+          user._id === currentUser._id ? { ...user, ...editFormData } : user
+        );
+        setUsers(updatedUsers);
+        setEditDialogOpen(false);
+        
+        // Show success message (implement toast notification in real app)
+        console.log('User updated successfully');
     } catch (err) {
-      console.error('Error updating user:', err);
+      console.log(err.response.data.msg)
       // Show error message (implement toast notification in real app)
     }
   };
@@ -163,20 +181,22 @@ const ManageUsers = () => {
     setDeleteDialogOpen(false);
   };
 
+  // Handle delete confirmation
   const handleDeleteConfirm = async () => {
     try {
-      // In a real implementation, replace with actual API call
-      // await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/admin/users/${currentUser.id}`);
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/Admin/Users`, {
+        withCredentials: true,
+        data: { userId: currentUser._id }
+      });
       
-      // Update local state for demonstration
-      const updatedUsers = users.filter(user => user.id !== currentUser.id);
+      const updatedUsers = users.filter(user => user._id !== currentUser._id);
       setUsers(updatedUsers);
       setDeleteDialogOpen(false);
       
       // Show success message (implement toast notification in real app)
       console.log('User deleted successfully');
     } catch (err) {
-      console.error('Error deleting user:', err);
+      console.error('Error deleting user:', err.response?.data?.msg || err.message);
       // Show error message (implement toast notification in real app)
     }
   };
@@ -399,6 +419,24 @@ const ManageUsers = () => {
             type="email"
             fullWidth
             value={editFormData.email}
+            onChange={handleEditInputChange}
+          />
+          <TextField
+            margin="dense"
+            name="cnic"
+            label="CNIC"
+            type="text"
+            fullWidth
+            value={editFormData.cnic}
+            onChange={handleEditInputChange}
+          />
+          <TextField
+            margin="dense"
+            name="phone"
+            label="Phone Number"
+            type="number"
+            fullWidth
+            value={editFormData.phone}
             onChange={handleEditInputChange}
           />
           
