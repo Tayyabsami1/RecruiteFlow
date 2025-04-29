@@ -3,6 +3,8 @@ import cors from "cors"
 import cookieparser from 'cookie-parser'
 import AuthRouter from "./Routes/auth.routes.js"
 import jobRouter from './Routes/job.routes.js';
+import recruiterRouter from './Routes/recruiter.routes.js';
+
 
 import AdminUserRoute from './Routes/AdminRoutes/user.routes.js';
 
@@ -36,6 +38,9 @@ app.use('/api/job', jobRouter);
 app.use('/api/Admin/Users',AdminUserRoute);
 
 app.use('/api/jobseeker', jobSeekerRouter);
+
+app.use('/api/recruiter', recruiterRouter);
+
 
 app.use('/uploads', express.static('uploads'));
 
