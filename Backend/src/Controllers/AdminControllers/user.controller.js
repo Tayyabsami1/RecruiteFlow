@@ -36,3 +36,35 @@ export const GetAllUsers = asyncHandler(async (req, res) => {
     }
 });
 
+export const DeleteUser = asyncHandler(async(req, res) => {
+    try {
+        const { userId } = req.body;
+        console.log(userId)
+
+        if (!userId) {
+            return res.status(400).json(
+                new ApiError(400, "User ID is required")
+            );
+        }
+
+        const deletedUser = await User.findByIdAndDelete(userId);
+
+        if (!deletedUser) {
+            return res.status(404).json(
+                new ApiError(404, "User not found")
+            );
+        }
+
+        return res.status(200).json(
+            new ApiResponse(
+                200, 
+                {}, 
+                "User deleted successfully"
+            )
+        );
+    } catch (error) {
+        return res.status(500).json(
+            new ApiError(500, "Error deleting user")
+        );
+    }
+});
