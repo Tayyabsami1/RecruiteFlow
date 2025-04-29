@@ -27,6 +27,7 @@ const Navbar = () => {
     try{
     await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/Auth/logout`, { withCredentials: true });
     dispatch(clearUserData());
+    navigate('/');
     }
     catch(err)
     {
@@ -47,7 +48,7 @@ const Navbar = () => {
     { name: 'About', path: '/about' }
   ]: [
     { name: 'Home', path: '/' },
-    { name: 'Jobs', path: 'jobs' },
+    { name: 'Jobs', path: '/jobs' },
     { name: 'Companies', path: '/companies' },
     { name: 'Dashboard', path: '/dashboard' },
     { name: 'About', path: '/about' }
@@ -56,7 +57,7 @@ const Navbar = () => {
   const userMenu = User ? [
     { name: 'Profile', action: () => navigate('profile') },
     { name: 'Dashboard', action: () => navigate('dashboard') },
-    { name: 'Settings', action: () => navigate('/settings') },
+    { name: 'Settings', action: () => navigate('settings') },
     { name: 'Logout', action: () => handleLogout() }
   ] : [
     { name: 'Login', action: () => navigate('/login') },
