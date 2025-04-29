@@ -68,3 +68,52 @@ export const DeleteUser = asyncHandler(async(req, res) => {
         );
     }
 });
+
+export const EditUser = asyncHandler(async(req, res) => {
+    try {
+        const { userId, name, email, cnic, phone, userType } = req.body;
+
+        // Check if userId is provided
+        if (!userId) {
+            return res.status(400).json(
+                new ApiError(400, "User ID is required")
+            );
+        }
+
+        // Find the user by ID
+        const user = await User.findById(userId);
+        
+        if (!user) {
+            return res.status(404).json(
+                new ApiError(404, "User not found")
+            );
+        }
+
+        // Update user fields if they are provided in the request
+        if (name) user.name = name;
+        if (email) user.email = email;
+        if (cnic) user.cnic = cnic;
+        if (phone) user.phone = phone;
+        if (userType) user.userType = userType;
+
+        // Save the updated user
+        const updatedUser = await user.save();
+
+        // Return the updated user without sensitive information
+        const userWithoutSensitiveInfo = await User.findById(updatedUser._id)
+            .select("-password -refreshToken");
+
+        return res.status(200).json(
+            new ApiResponse(
+                200,
+                { user: userWithoutSensitiveInfo },
+                "User updated successfully"
+            )
+        );
+    } catch (error) {
+        console.error("Error updating user:", error);
+        return res.status(500).json(
+            new ApiError(500, "Error updating user")
+        );
+    }
+});

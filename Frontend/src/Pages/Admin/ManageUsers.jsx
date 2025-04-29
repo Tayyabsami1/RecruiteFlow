@@ -64,7 +64,9 @@ const ManageUsers = () => {
   const [editFormData, setEditFormData] = useState({
     name: '',
     email: '',
-    userType: ''
+    cnic:'',
+    phone:'',
+    userType: '',
   });
 
   useEffect(() => {
@@ -122,7 +124,9 @@ const ManageUsers = () => {
     setEditFormData({
       name: user.name,
       email: user.email,
-      userType: user.userType
+      userType: user.userType,
+      cnic:user.cnic,
+      phone:user.phone,
     });
     setEditDialogOpen(true);
   };
@@ -139,22 +143,30 @@ const ManageUsers = () => {
     }));
   };
 
+  // Handle edit form submission
   const handleEditSubmit = async () => {
     try {
-      // In a real implementation, replace with actual API call
-      // await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/admin/users/${currentUser.id}`, editFormData);
+      const requestData = {
+        ...editFormData,
+        userId: currentUser._id
+      };
       
-      // Update local state for demonstration
-      const updatedUsers = users.map(user => 
-        user.id === currentUser.id ? { ...user, ...editFormData } : user
+       await axios.put(
+        `${import.meta.env.VITE_BACKEND_URL}/api/Admin/Users`, 
+        requestData,
+        { withCredentials: true }
       );
-      setUsers(updatedUsers);
-      setEditDialogOpen(false);
-      
-      // Show success message (implement toast notification in real app)
-      console.log('User updated successfully');
+        // Update the local state with the edited user
+        const updatedUsers = users.map(user => 
+          user._id === currentUser._id ? { ...user, ...editFormData } : user
+        );
+        setUsers(updatedUsers);
+        setEditDialogOpen(false);
+        
+        // Show success message (implement toast notification in real app)
+        console.log('User updated successfully');
     } catch (err) {
-      console.error('Error updating user:', err);
+      console.log(err.response.data.msg)
       // Show error message (implement toast notification in real app)
     }
   };
@@ -407,6 +419,24 @@ const ManageUsers = () => {
             type="email"
             fullWidth
             value={editFormData.email}
+            onChange={handleEditInputChange}
+          />
+          <TextField
+            margin="dense"
+            name="cnic"
+            label="CNIC"
+            type="text"
+            fullWidth
+            value={editFormData.cnic}
+            onChange={handleEditInputChange}
+          />
+          <TextField
+            margin="dense"
+            name="phone"
+            label="Phone Number"
+            type="number"
+            fullWidth
+            value={editFormData.phone}
             onChange={handleEditInputChange}
           />
           
