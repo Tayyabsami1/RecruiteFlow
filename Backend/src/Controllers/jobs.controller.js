@@ -108,4 +108,130 @@ export const getPostedJobsByRecruiter = async (req, res) => {
 };
 
 
+// Update a job by ID
+export const updateJob = async (req, res) => {
+  try {
+    const { location, experienceLevel, skills, industry } = req.body;
+
+    const updatedFields = {
+      ...(location && { location }),
+      ...(experienceLevel && { experienceLevel }),
+      ...(skills && { skills }), // should be an array
+      ...(industry && { industry }),
+    };
+
+    const updatedJob = await Job.findByIdAndUpdate(
+      req.params.id,
+      { $set: updatedFields },
+      { new: true }
+    );
+
+    if (!updatedJob) {
+      return res.status(404).json({ message: "Job not found" });
+    }
+
+    res.status(200).json({ message: "Job updated successfully", job: updatedJob });
+  } catch (error) {
+    console.error("Error updating job:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+// Delete a job by ID
+export const deleteJob = async (req, res) => {
+  try {
+    const job = await Job.findByIdAndDelete(req.params.id);
+
+    if (!job) {
+      return res.status(404).json({ message: "Job not found" });
+    }
+
+    res.status(200).json({ message: "Job deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting job:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+// Get categorized applicants for a job
+export const getJobApplicants = async (req, res) => {
+  try {
+    const job = await Job.findById(req.params.jobId)
+      .populate({
+        path: "whoApplied",
+        model: "JobSeeker",
+        populate: {
+          path: "user",
+          model: "User",
+          select: "name email",
+        },
+      })
+      .populate({
+        path: "shortlisted",
+        model: "JobSeeker",
+        populate: {
+          path: "user",
+          model: "User",
+          select: "name email",
+        },
+      })
+      .populate({
+        path: "interviewed",
+        model: "JobSeeker",
+        populate: {
+          path: "user",
+          model: "User",
+          select: "name email",
+        },
+      });
+
+    if (!job) {
+      return res.status(404).json({ message: "Job not found" });
+    }
+
+    res.status(200).json({
+      applied: job.whoApplied,
+      shortlisted: job.shortlisted,
+      interviewed: job.interviewed,
+    });
+  } catch (error) {
+    console.error("Error fetching job applicants:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Update applicant status
+export const updateApplicantStatus = async (req, res) => {
+  const { jobId } = req.params;
+  const { userId, status } = req.body;
+
+  try {
+    const job = await Job.findById(jobId);
+    if (!job) return res.status(404).json({ message: "Job not found" });
+
+    const hasApplied = job.whoApplied.some(applicantId => applicantId.toString() === userId);
+    if (!hasApplied) {
+      return res.status(404).json({ message: "Applicant not found in whoApplied list" });
+    }
+
+    // Remove from both arrays first to prevent duplicates
+    job.shortlisted = job.shortlisted.filter(id => id.toString() !== userId);
+    job.interviewed = job.interviewed.filter(id => id.toString() !== userId);
+
+    if (status === "shortlisted") {
+      job.shortlisted.push(userId);
+    } else if (status === "interviewed") {
+      job.interviewed.push(userId);
+    }
+
+    await job.save();
+    res.status(200).json({ message: "Status updated successfully" });
+  } catch (error) {
+    console.error("Error updating status:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+
+
   
