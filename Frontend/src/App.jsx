@@ -8,7 +8,7 @@ import "./index.css"
 import { setUserData } from './Features/User/UserSlice';
 import axios from 'axios';
 
-import { Login, SignUp, Home, Layout, About, AdminLayout, AdminHome,CompleteProfile,Dashboard,JobList,ManageUsers } from './Pages';
+import { Login, SignUp, Home, Layout, About, AdminLayout, AdminHome,CompleteProfile,Dashboard,JobList,ManageUsers, ManageJobs } from './Pages';
 
 import ProtectedRoute from './Components/ProtectedRoute';
 import PostedJobs from './Pages/Recruiter/PostedJobs';
@@ -59,6 +59,10 @@ function App() {
             {
               path:'users',
               element:<ManageUsers/>
+            },
+            {
+              path:'jobs',
+              element:<ManageJobs/>
             }
           ]
       },
@@ -94,10 +98,6 @@ function App() {
 
           },
           {
-            path: '/about',
-            element: <About />
-          },
-          {
             path: 'profile',
             element: <ProtectedRoute>
               <CompleteProfile />
@@ -126,6 +126,10 @@ function App() {
       {
         path: '/Signup',
         element: <SignUp />
+      },
+      {
+        path: '/about',
+        element: <About />
       },
       {
         path: "*",
