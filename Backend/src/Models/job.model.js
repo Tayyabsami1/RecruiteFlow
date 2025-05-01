@@ -48,7 +48,16 @@ const jobSchema = new Schema({
         type: String,
         enum: ['open', 'closed'],
         default: 'open',
-    }
+    },
+    // For Future purposes dont remove 
+    // hired: [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'User',
+    // }],
+    // rejected: [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'User',
+    // }],
 }, { timestamps: true });
 
 export const Job = mongoose.model('Job', jobSchema);

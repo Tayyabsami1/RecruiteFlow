@@ -10,10 +10,11 @@ import About from "./About";
 import AdminHome from "./Admin/Home";
 import AdminLayout from "./Admin/AdminLayout";
 import ManageUsers from "./Admin/ManageUsers";
+import ManageJobs from "./Admin/ManageJobs";
 
 import CompleteProfile from "./JobSeeker/CompleteProfile"
 import Dashboard from "./JobSeeker/Dashboard"
 import JobList from "./JobSeeker/JobsList"
 
 
-export {Login, SignUp, Layout, Home, About,AdminLayout,AdminHome,CompleteProfile,Dashboard,JobList,ManageUsers};
+export {Login, SignUp, Layout, Home, About,AdminLayout,AdminHome,CompleteProfile,Dashboard,JobList,ManageUsers,ManageJobs};
