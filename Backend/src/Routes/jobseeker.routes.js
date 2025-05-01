@@ -1,8 +1,8 @@
-import express from 'express';
+import {Router} from 'express';
 import { getJobSeekerIdByUserId,getJobSeekerProfile,updateJobSeekerProfile } from '../Controllers/jobseeker.controller.js';
 import upload from '../Middlewares/upload.middleware.js';
 
-const jobSeekerRouter = express.Router();
+const jobSeekerRouter = Router();
 
 jobSeekerRouter.get("/getJobSeekerId/:userId", getJobSeekerIdByUserId);
 
