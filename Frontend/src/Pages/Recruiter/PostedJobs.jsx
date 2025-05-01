@@ -35,6 +35,7 @@ const PostedJobs = () => {
       try {
         const res = await axios.get(`/api/job/get-posted-jobs/${recruiterId}`);
         setJobs(res.data.jobs);
+        console.log(res.data.jobs)
         setFilteredJobs(res.data.jobs);
       } catch (error) {
         console.error("Error fetching recruiter jobs:", error);
@@ -170,6 +171,7 @@ const PostedJobs = () => {
           applicants={applicants}
           jobId={applicants.jobId}
           onBack={() => setShowApplicants(null)}
+          refreshApplicants={() => fetchApplicants(applicants.jobId)} 
         />
       ) : (
         <div className="jobs-grid">

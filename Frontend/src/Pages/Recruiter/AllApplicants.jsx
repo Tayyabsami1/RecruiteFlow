@@ -1,46 +1,17 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import "../../Styles/Recruiter/AllApplicants.scss";
 import { ToastContainer, toast } from "react-toastify";
 import { FaArrowLeft } from "react-icons/fa";
+import axios from "axios";
 
-const AllApplicants = ({ jobId, onBack }) => {
-  const [applicants, setApplicants] = useState({
-    applied: [],
-    shortlisted: [],
-    interviewed: [],
-  });
+const AllApplicants = ({ jobId, applicants, onBack, refreshApplicants }) => {
   const [filter, setFilter] = useState("applied");
-
-  useEffect(() => {
-    const fetchApplicants = async () => {
-      try {
-        const res = await axios.get(`/api/job/applicants/${jobId}`);
-        setApplicants({
-          applied: res.data.applied || [],
-          shortlisted: res.data.shortlisted || [],
-          interviewed: res.data.interviewed || [],
-        });
-      } catch (error) {
-        console.error("Error fetching applicants:", error);
-        toast.error("Failed to load applicants");
-      }
-    };
-
-    if (jobId) fetchApplicants();
-  }, [jobId]);
 
   const updateStatus = async (userId, status) => {
     try {
       await axios.put(`/api/job/update-status/${jobId}`, { userId, status });
       toast.success(`User marked as ${status}`);
-      // Refetch applicants to reflect changes
-      const res = await axios.get(`/api/job/applicants/${jobId}`);
-      setApplicants({
-        applied: res.data.applied || [],
-        shortlisted: res.data.shortlisted || [],
-        interviewed: res.data.interviewed || [],
-      });
+      refreshApplicants(); // Refresh applicants in parent (PostedJobs)
     } catch (error) {
       console.error("Error updating status:", error);
       toast.error("Failed to update status");
