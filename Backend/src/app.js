@@ -10,6 +10,8 @@ import AdminUserRoute from './Routes/AdminRoutes/user.routes.js';
 
 import jobSeekerRouter from './Routes/jobseeker.routes.js';
 
+import JobSeekerAIRouter from './Routes/JobseekerRoutes/Ai.routes.js';
+
 const app = express();
 
 // Some security options using Middlewares
@@ -22,8 +24,6 @@ app.use(express.urlencoded({
 }))
 
 app.use(cookieparser())
-
-app.use('/uploads', express.static('uploads'));
 
 
 // Configuring the Middlewares
@@ -38,10 +38,11 @@ app.use('/api/job', jobRouter);
 app.use('/api/Admin/Users',AdminUserRoute);
 
 app.use('/api/jobseeker', jobSeekerRouter);
+app.use('/api/jobseeker/ai',JobSeekerAIRouter);
 
 app.use('/api/recruiter', recruiterRouter);
 
-
+// To serve a path to view Resumes on the frontend 
 app.use('/uploads', express.static('uploads'));
 
 

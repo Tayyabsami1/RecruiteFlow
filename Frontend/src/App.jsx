@@ -116,6 +116,10 @@ function App() {
               <ProtectedRoute>
                 <Dashboard />
               </ProtectedRoute>,
+          },
+          {
+            path: '/about',
+            element: <About />
           }
         ]
       },
@@ -126,10 +130,6 @@ function App() {
       {
         path: '/Signup',
         element: <SignUp />
-      },
-      {
-        path: '/about',
-        element: <About />
       },
       {
         path: "*",

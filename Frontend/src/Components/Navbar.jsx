@@ -47,11 +47,14 @@ const Navbar = () => {
     {name:'Home', path:'/'},
     { name: 'About', path: '/about' },
     {name: 'Posted Jobs', path: '/Recruiter/postedjobs'}
-  ]: [
+  ]:User?.userType=='Jobseeker'? [
     { name: 'Home', path: '/' },
     { name: 'Jobs', path: '/jobs' },
     { name: 'Companies', path: '/companies' },
     { name: 'Dashboard', path: '/dashboard' },
+    { name: 'About', path: '/about' }
+  ]:[
+    { name: 'Home', path: '/' },
     { name: 'About', path: '/about' }
   ];
   
