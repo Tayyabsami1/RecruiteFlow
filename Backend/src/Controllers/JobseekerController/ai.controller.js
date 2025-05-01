@@ -66,7 +66,7 @@ export const GetReumeSkills = asyncHandler(async (req, res) => {
 
         // Send the resume to the Python Flask API
         const response = await axios.post(
-            "http://127.0.0.1:10000/api/extract-skills", 
+            `${process.env.PYTHON_BACKEND}/api/extract-skills`, 
             formData,
             {
                 headers: {
