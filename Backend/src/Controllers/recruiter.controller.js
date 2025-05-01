@@ -1,5 +1,21 @@
-import { User } from "../Models/user.model.js"; // Adjust the path if needed
 import { Recruiter } from "../Models/recruiter.model.js";
+import multer from "multer";
+import path from "path";
+
+// File upload configuration (e.g. storing in public folder)
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "public/uploads/companyLogos"); // adjust as per your folder
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+export const upload = multer({ storage: storage });
+
+// ──────────── CONTROLLERS ─────────────
 
 // Get Recruiter Profile
 export const getRecruiterProfile = async (req, res) => {
@@ -14,16 +30,16 @@ export const getRecruiterProfile = async (req, res) => {
   }
 };
 
-// Update Recruiter Profile
+// Update Recruiter Profile (with file upload support)
 export const updateRecruiterProfile = async (req, res) => {
   try {
-    const { companyName, companyWebsite, designation, industry } = req.body;
+    const { companyName, designation, contactNumber } = req.body;
 
     const updatedData = {
       ...(companyName && { companyName }),
-      ...(companyWebsite && { companyWebsite }),
       ...(designation && { designation }),
-      ...(industry && { industry }),
+      ...(contactNumber && { contactNumber }),
+      ...(req.file && { companyLogo: `uploads/companyLogos/${req.file.filename}` }),
     };
 
     const recruiter = await Recruiter.findOneAndUpdate(
