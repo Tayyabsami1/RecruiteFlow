@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from 'react'
 import { createBrowserRouter, Link, Navigate, RouterProvider } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
-import PostJob from './Components/Recruiter/PostJob';//added by Imran Ahmad
+import PostJob from './Pages/Recruiter/PostJob';//added by Imran Ahmad
 import RecruiterProfile from './Pages/Recruiter/RecruiterProfile'; // Adjust path if needed
 
 
@@ -81,7 +81,7 @@ function App() {
             element: <PostedJobs/>
           },
           {
-            path: 'profile', // ✅ New route: /Recruiter/profile
+            path: 'profile', 
             element: (
               <ProtectedRoute>
                 <RecruiterProfile />
