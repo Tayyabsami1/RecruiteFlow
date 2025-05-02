@@ -47,22 +47,77 @@ export const DeleteUser = asyncHandler(async(req, res) => {
             );
         }
 
-        const deletedUser = await User.findByIdAndDelete(userId);
+        // Find the user first to determine their type
+        const user = await User.findById(userId);
 
-        if (!deletedUser) {
+        if (!user) {
             return res.status(404).json(
                 new ApiError(404, "User not found")
             );
         }
 
+        // Based on user type, delete associated profile data
+        if (user.userType === "Jobseeker") {
+            // Import JobSeeker model if not already imported
+            const { JobSeeker } = await import("../../Models/jobseeker.model.js");
+            // Import Job model to clean up references
+            const { Job } = await import("../../Models/job.model.js");
+
+            // Delete associated JobSeeker profile
+            const jobSeeker = await JobSeeker.findOne({ user: userId });
+            
+            if (jobSeeker) {
+                // Remove this jobseeker from any jobs they applied to
+                await Job.updateMany(
+                    { whoApplied: jobSeeker._id },
+                    { $pull: { whoApplied: jobSeeker._id } }
+                );
+                
+                // Remove from shortlisted and interviewed arrays as well
+                await Job.updateMany(
+                    { shortlisted: jobSeeker._id },
+                    { $pull: { shortlisted: jobSeeker._id } }
+                );
+                
+                await Job.updateMany(
+                    { interviewed: jobSeeker._id },
+                    { $pull: { interviewed: jobSeeker._id } }
+                );
+                
+                // Delete the JobSeeker document
+                await JobSeeker.findByIdAndDelete(jobSeeker._id);
+            }
+        } else if (user.userType === "Recruiter") {
+            // Import Recruiter model if not already imported
+            const { Recruiter } = await import("../../Models/recruiter.model.js");
+            // Import Job model to handle posted jobs
+            const { Job } = await import("../../Models/job.model.js");
+            
+            // Delete associated Recruiter profile
+            const recruiter = await Recruiter.findOne({ user: userId });
+            
+            if (recruiter) {
+                // Find and delete all jobs posted by this recruiter
+                // This will also remove references to these jobs from jobseekers' applied jobs
+                await Job.deleteMany({ whoPosted: recruiter._id });
+                
+                // Delete the Recruiter document
+                await Recruiter.findByIdAndDelete(recruiter._id);
+            }
+        }
+
+        // Finally delete the user
+        const deletedUser = await User.findByIdAndDelete(userId);
+
         return res.status(200).json(
             new ApiResponse(
                 200, 
                 {}, 
-                "User deleted successfully"
+                "User and associated data deleted successfully"
             )
         );
     } catch (error) {
+        console.error("Error deleting user:", error);
         return res.status(500).json(
             new ApiError(500, "Error deleting user")
         );

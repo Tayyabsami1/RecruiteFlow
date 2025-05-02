@@ -1,18 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import "../../Styles/Admin/Home.scss";
 import { Box, Typography, Grid, Paper } from '@mui/material';
 import { AreaChart, DonutChart } from '@mantine/charts';
 import {  LineChart, ResponsiveContainer, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Area } from 'recharts';
 import {  RingProgress, Text } from '@mantine/core';
-import { Person, BusinessCenter, AccessTime } from '@mui/icons-material';
-
+import { Person, BusinessCenter} from '@mui/icons-material';
+import axios from 'axios';
 import { useMantineColorScheme } from '@mantine/core';
+import { CircularProgress } from '@mui/material';
 
 const Home = () => {
   const { colorScheme } = useMantineColorScheme();
   const isDark = colorScheme === 'dark';
   // Current time for greeting
   const currentHour = new Date().getHours();
+  const [statsData, setStatsData] = useState({
+    totalJobs: 0,
+    totalRecruiters: 0,
+    totalJobSeekers: 0
+  });
+  const [isLoading, setIsLoading] = useState(true);
 
   let greeting = "Good Morning";
   if (currentHour >= 12 && currentHour < 17) {
@@ -21,12 +28,32 @@ const Home = () => {
     greeting = "Good Evening";
   }
 
-  // Dummy data for statistics
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get('/api/Admin/Stats');
+        const { totalJobs, totalRecruiters, totalJobSeekers } = response.data.data;
+        setStatsData({
+          totalJobs,
+          totalRecruiters,
+          totalJobSeekers
+        });
+      } catch (error) {
+        console.error("Error fetching statistics:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
+  // Stats data using real values from API
   const stats = [
-    { title: "Total Jobs", value: 256, icon: <BusinessCenter fontSize="large" />, color: "#141E61" },
-    { title: "Total Recruiters", value: 84, icon: <Person fontSize="large" />, color: "#0F044C" },
-    { title: "Job Seekers", value: 1243, icon: <Person fontSize="large" />, color: "#787A91" },
-    { title: "Jobs Posted Today", value: 12, icon: <AccessTime fontSize="large" />, color: "#141E61" }
+    { title: "Total Jobs", value: statsData.totalJobs, icon: <BusinessCenter fontSize="large" />, color: "#141E61" },
+    { title: "Total Recruiters", value: statsData.totalRecruiters, icon: <Person fontSize="large" />, color: "#0F044C" },
+    { title: "Job Seekers", value: statsData.totalJobSeekers, icon: <Person fontSize="large" />, color: "#787A91" }
   ];
 
   // Dummy data for charts
@@ -60,6 +87,16 @@ const Home = () => {
     { date: 'May', users: 910 },
     { date: 'Jun', users: 1050 },
   ];
+
+  // Render loading state
+    if (isLoading) {
+      return (
+        <Box className="loading-container">
+          <CircularProgress />
+          <Typography variant="h6" className="loading-text">Loading Statistics</Typography>
+        </Box>
+      );
+    }
 
   return (
 
