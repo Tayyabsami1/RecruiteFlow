@@ -7,6 +7,7 @@ import recruiterRouter from './Routes/recruiter.routes.js';
 
 
 import AdminUserRoute from './Routes/AdminRoutes/user.routes.js';
+import AdminStatsRoute from './Routes/AdminRoutes/stats.routes.js';
 
 import jobSeekerRouter from './Routes/jobseeker.routes.js';
 
@@ -36,6 +37,7 @@ app.use("/api/Auth",AuthRouter);
 app.use('/api/job', jobRouter);
 
 app.use('/api/Admin/Users',AdminUserRoute);
+app.use('/api/Admin/Stats',AdminStatsRoute);
 
 app.use('/api/jobseeker', jobSeekerRouter);
 app.use('/api/jobseeker/ai',JobSeekerAIRouter);
