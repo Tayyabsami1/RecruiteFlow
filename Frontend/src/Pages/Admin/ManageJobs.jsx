@@ -184,7 +184,7 @@ const ManageJobs = () => {
       };
       // Use admin route for updating jobs
       await axios.put(
-        `${import.meta.env.VITE_BACKEND_URL}/api/Admin/Jobs/updatejob/${currentJob._id}`, 
+        `${import.meta.env.VITE_BACKEND_URL}/api/Admin/Jobs/updatejob`, 
         requestData,
         { withCredentials: true }
       );
@@ -217,8 +217,9 @@ const ManageJobs = () => {
   // Handle delete confirmation
   const handleDeleteConfirm = async () => {
     try {
-      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/Admin/Jobs/deletejob/${currentJob._id}`, {
-        withCredentials: true
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/Admin/Jobs/deletejob`, {
+        withCredentials: true,
+        data:{jobId: currentJob._id}
       });
       
       const updatedJobs = jobs.filter(job => job._id !== currentJob._id);

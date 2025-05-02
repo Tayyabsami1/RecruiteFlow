@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { DeleteUser, EditUser, GetAllUsers } from "../../Controllers/AdminControllers/user.controller.js";
 import { verifyJWT } from "../../Middlewares/auth.middleware.js";
+import { DeleteUser, EditUser, GetAllUsers } from "../../Controllers/AdminControllers/user.controller.js";
 
 const AdminUserRoute = Router();
 

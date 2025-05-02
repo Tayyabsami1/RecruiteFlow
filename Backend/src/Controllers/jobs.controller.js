@@ -1,4 +1,4 @@
-import Job from '../Models/job.model.js';  // Adjust the path based on your project structure
+import {Job} from '../Models/job.model.js';  // Adjust the path based on your project structure
 export const postJob = async (req, res) => {
     try {
         const jobData = req.body;
@@ -111,13 +111,15 @@ export const getPostedJobsByRecruiter = async (req, res) => {
 // Update a job by ID
 export const updateJob = async (req, res) => {
   try {
-    const { location, experienceLevel, skills, industry } = req.body;
+    const { title, location, experienceLevel, skills, industry, status } = req.body;
 
     const updatedFields = {
+      ...(title && { title }),
       ...(location && { location }),
       ...(experienceLevel && { experienceLevel }),
       ...(skills && { skills }), // should be an array
       ...(industry && { industry }),
+      ...(status && { status }),
     };
 
     const updatedJob = await Job.findByIdAndUpdate(
@@ -234,4 +236,4 @@ export const updateApplicantStatus = async (req, res) => {
 
 
 
-  
+
