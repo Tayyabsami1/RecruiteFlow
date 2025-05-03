@@ -3,6 +3,50 @@
   background: #f9f9f9;
   min-height: 100vh;
 
+  &.dark-mode {
+    background: #0F0F42;
+
+    h1 {
+      color: #EEEEEE;
+    }
+
+    .search-filter {
+      .filter-dropdown,
+      .search-input {
+        background-color: #0A0235;
+        color: #EEEEEE;
+        border-color: #2a2a5a;
+
+        &::placeholder {
+          color: #EEEEEE;
+        }
+
+        option {
+          background-color: #0A0235;
+          color: #EEEEEE;
+        }
+      }
+    }
+
+    .jobs-grid {
+      .job-card {
+        background: #0A0235;
+        
+        h2 {
+          color: #EEEEEE;
+        }
+
+        p {
+          color: #EEEEEE;
+        }
+
+        strong {
+          color: #EEEEEE;
+        }
+      }
+    }
+  }
+
   h1 {
     text-align: center;
     margin-bottom: 2rem;

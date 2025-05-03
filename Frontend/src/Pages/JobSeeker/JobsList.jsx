@@ -3,9 +3,12 @@ import axios from "axios";
 import "../../Styles/JobSeeker/JobsList.scss";
 import { useSelector } from "react-redux";
 import { ToastContainer, toast } from 'react-toastify';
+import { useMantineColorScheme } from "@mantine/core";
 
 const JobsList = () => {
   const { User } = useSelector((state) => state.User);
+  const { colorScheme } = useMantineColorScheme();
+  const isDark = colorScheme === 'dark';
   const [JobSeekerId, setJobSeekerId] = useState(null);
   const [jobs, setJobs] = useState([]);
   const [searchText, setSearchText] = useState("");
@@ -82,7 +85,7 @@ const JobsList = () => {
   };
 
   return (
-    <div className="jobs-list-container">
+    <div className={`jobs-list-container ${isDark ? 'dark-mode' : ''}`}>
       <ToastContainer />
       <h1>Available Jobs</h1>
 

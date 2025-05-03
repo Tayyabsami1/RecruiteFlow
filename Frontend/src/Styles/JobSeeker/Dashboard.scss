@@ -3,6 +3,32 @@
   background-color: #f7f9fc;
   min-height: 100vh;
 
+  &.dark-mode {
+    background: #0F0F42;
+
+    h2 {
+      color: #EEEEEE;
+    }
+
+    .job-list {
+      .job-card {
+        background: #0A0235;
+        
+        h3 {
+          color: #EEEEEE;
+        }
+
+        p {
+          color: #EEEEEE;
+        }
+
+        strong {
+          color: #EEEEEE;
+        }
+      }
+    }
+  }
+
   h2 {
     margin-top: 2rem;
     font-size: 1.8rem;
