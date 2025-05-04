@@ -15,40 +15,49 @@ const JobsList = () => {
   const [filterBy, setFilterBy] = useState("title"); 
   const [filteredJobs, setFilteredJobs] = useState([]);
   const [appliedJobs, setappliedJobs] = useState([]);
+  const [isRecommended, setIsRecommended] = useState(false);
 
-  const fetchJobs = async () => {
+  const fetchJobs = async (recommended = false) => {
     try {
       if(JobSeekerId){
-      const res = await axios.get(`/api/job/get-jobs/${JobSeekerId}`); 
-     
-      setJobs(res.data.jobs);
-      setFilteredJobs(res.data.jobs);
+        const url = recommended 
+          ? `/api/jobseeker/ai/recommended-jobs/${JobSeekerId}`
+          : `/api/job/get-jobs/${JobSeekerId}`;
+        const res = await axios.get(url);
+        // Ensure jobs is always an array, even if empty
+        const jobsData = res.data?.jobs || [];
+        setJobs(jobsData);
+        setFilteredJobs(jobsData);
+        setIsRecommended(recommended);
       }
     } catch (error) {
       console.error("Error fetching jobs:", error);
+      setJobs([]);
+      setFilteredJobs([]);
+      toast.error("Error fetching jobs");
     }
   };
 
   useEffect(()=>{
-    
     const fetchJobSeekerId=async()=>{
       try {
         const res1=await axios.get(`/api/jobseeker/getJobSeekerId/${User._id}`);
         setJobSeekerId(res1.data.jobSeekerId);
-        
-  
       } catch (error) {
         console.error("Error fetching JobSeekerId:", error);
       }
     };
 
     fetchJobSeekerId();
-
   },[])
 
   useEffect(() => {
     fetchJobs();
   }, [JobSeekerId]);
+
+  const toggleJobsView = () => {
+    fetchJobs(!isRecommended);
+  };
 
   const handleApply = async (jobId, isApplied) => {
     try {
@@ -87,7 +96,15 @@ const JobsList = () => {
   return (
     <div className={`jobs-list-container ${isDark ? 'dark-mode' : ''}`}>
       <ToastContainer />
-      <h1>Available Jobs</h1>
+      <div className="header-container">
+        <h1>{isRecommended ? 'Recommended Jobs' : 'Available Jobs'}</h1>
+        <button 
+          className={`toggle-view-btn ${isDark ? 'dark' : 'light'}`}
+          onClick={toggleJobsView}
+        >
+          {isRecommended ? 'All Jobs' : 'Recommended Jobs'}
+        </button>
+      </div>
 
       <div className="search-filter">
         <select
@@ -112,35 +129,36 @@ const JobsList = () => {
       </div>
 
       <div className="jobs-grid">
-        {filteredJobs.length>0?
+        {filteredJobs.length > 0 ? (
+          filteredJobs.map((job) => {
+            const isApplied = appliedJobs.includes(job._id);       
+            
+            return (
+              <div className="job-card" key={job._id}>
+                <h2>{job.title}</h2>
+                <p><strong>Location:</strong> {job.location}</p>
+                <p><strong>Experience Level:</strong> {job.experienceLevel}</p>
+                <p><strong>Industry:</strong> {job.industry}</p>
+                <p><strong>Skills:</strong> {job.skills.join(", ")}</p>
 
-        
-        (filteredJobs.map((job) => {
-          const isApplied=appliedJobs.includes(job._id);       
-          
-          return (
-            <div className="job-card" key={job._id}>
-              <h2>{job.title}</h2>
-              <p><strong>Location:</strong> {job.location}</p>
-              <p><strong>Experience Level:</strong> {job.experienceLevel}</p>
-              <p><strong>Industry:</strong> {job.industry}</p>
-              <p><strong>Skills:</strong> {job.skills.join(", ")}</p>
-
-              <button
-                className={isApplied ? "applied-btn" : "apply-btn"}
-                onClick={() => handleApply(job._id, isApplied)}
-                disabled={isApplied}
-              >
-                {isApplied ? "Applied" : "Apply"}
-              </button>
-            </div>
-          )
-        }
-        )):
-        <div>
-          <p>No Such Jobs available</p>
-        </div>
-}
+                <button
+                  className={isApplied ? "applied-btn" : "apply-btn"}
+                  onClick={() => handleApply(job._id, isApplied)}
+                  disabled={isApplied}
+                >
+                  {isApplied ? "Applied" : "Apply"}
+                </button>
+              </div>
+            );
+          })
+        ) : (
+          <div className="no-jobs-message">
+            <p>{isRecommended 
+              ? "No recommended jobs found. Try updating your skills and preferred locations in your profile." 
+              : "No jobs available matching your search criteria."}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
