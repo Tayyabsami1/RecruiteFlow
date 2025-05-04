@@ -5,8 +5,11 @@ import '../../Styles/JobSeeker/CompleteProfile.scss';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CircularProgress } from '@mui/material';
+import { useMantineColorScheme } from '@mantine/core';
 
 const CompleteProfile = () => {
+    const { colorScheme } = useMantineColorScheme();
+    const isDark = colorScheme === 'dark';
     const { User } = useSelector((state) => state.User);
     const [jobSeekerData, setJobSeekerData] = useState(null);
     let NewResumeCheck=false;
@@ -104,9 +107,8 @@ const CompleteProfile = () => {
 
     return (
         <>
-
             <ToastContainer />
-            <div className="complete-profile-container">
+            <div className={`complete-profile-container ${isDark ? 'dark-mode' : ''}`}>
                 <h2>Jobseeker Profile</h2>
 
 

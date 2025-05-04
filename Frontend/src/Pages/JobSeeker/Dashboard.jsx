@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import "../../Styles/JobSeeker/Dashboard.scss";
+import { useMantineColorScheme } from "@mantine/core";
 
 const Dashboard = () => {
   const { User } = useSelector((state) => state.User);
+  const { colorScheme } = useMantineColorScheme();
+  const isDark = colorScheme === 'dark';
   const [jobSeekerId, setJobSeekerId] = useState(null);
   const [appliedJobs, setAppliedJobs] = useState([]);
   const [shortlistedJobs, setShortlistedJobs] = useState([]);
@@ -48,10 +51,10 @@ const Dashboard = () => {
     }
   }, [jobSeekerId]);
 
-  if (loading) return <div className="dashboard">Loading...</div>;
+  if (loading) return <div className={`dashboard ${isDark ? 'dark-mode' : ''}`}>Loading...</div>;
 
   return (
-    <div className="dashboard">
+    <div className={`dashboard ${isDark ? 'dark-mode' : ''}`}>
       <h2>Applied Jobs</h2>
       <div className="job-list">
         {appliedJobs.length > 0 ? (
