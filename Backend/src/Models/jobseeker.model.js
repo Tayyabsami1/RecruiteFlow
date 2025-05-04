@@ -8,7 +8,6 @@ const jobSeekerSchema = new Schema(
     experienceLevel: { type: String },
     preferredLocations: [{ type: String }],
     jobInterests: [{ type: String }],
-    appliedJobs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Job" }],
   },
   { timestamps: true }
 );

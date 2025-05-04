@@ -17,6 +17,7 @@ import fs from "fs"
 import path from "path"
 import FormData from "form-data"
 import { fileURLToPath } from "url"
+import { Job } from "../../Models/job.model.js"
 
 // Get the current module's directory
 const __filename = fileURLToPath(import.meta.url)
@@ -88,3 +89,81 @@ export const GetReumeSkills = asyncHandler(async (req, res) => {
         throw new ApiError(500, "Failed to extract skills from resume: " + (error.message || "Unknown error"))
     }
 })
+
+export const getRecommendedJobs = asyncHandler(async (req, res) => {
+    const { jobSeekerId } = req.params;
+    
+    // Find the JobSeeker
+    const jobSeeker = await JobSeeker.findById(jobSeekerId);
+    if (!jobSeeker) {
+        throw new ApiError(404, "JobSeeker not found");
+    }
+
+    // Get all active jobs and find jobs where this jobseeker has applied
+    const activeJobs = await Job.find({ status: "open" });
+    const appliedJobs = await Job.find({ 
+        whoApplied: jobSeekerId,
+        status: "open"
+    });
+    
+    // Get IDs of jobs where user has already applied
+    const appliedJobIds = appliedJobs.map(job => job._id.toString());
+
+    // First, get jobs matching both preferred locations AND skills
+    const recommendedJobs = activeJobs.filter(job => {
+        // Skip if already applied
+        if (appliedJobIds.includes(job._id.toString())) {
+            return false;
+        }
+
+        // Check if job location matches any preferred location
+        const locationMatch = jobSeeker.preferredLocations.some(
+            loc => job.location.toLowerCase() === loc.toLowerCase()
+        );
+
+        // Check if any job skill matches jobseeker skills
+        const skillsMatch = job.skills.some(
+            jobSkill => jobSeeker.skills.some(
+                seekerSkill => seekerSkill.toLowerCase() === jobSkill.toLowerCase()
+            )
+        );
+
+        // Return true only if both conditions are met
+        return locationMatch && skillsMatch;
+    });
+
+    // Extract unique skills from jobs where user has applied
+    const appliedJobsSkills = [...new Set(
+        appliedJobs.flatMap(job => job.skills.map(skill => skill.toLowerCase()))
+    )];
+
+    // Find similar jobs based on applied jobs' skills AND preferred locations
+    const similarJobs = activeJobs.filter(job => {
+        // Skip if already in recommended jobs or already applied
+        if (recommendedJobs.some(rec => rec._id.toString() === job._id.toString()) ||
+            appliedJobIds.includes(job._id.toString())) {
+            return false;
+        }
+
+        // Check if job location matches any preferred location
+        const locationMatch = jobSeeker.preferredLocations.some(
+            loc => job.location.toLowerCase() === loc.toLowerCase()
+        );
+
+        // Check if any job skill matches with skills from applied jobs
+        const skillsMatch = job.skills.some(
+            jobSkill => appliedJobsSkills.includes(jobSkill.toLowerCase())
+        );
+
+        // Return true only if both conditions are met
+        return locationMatch && skillsMatch;
+    });
+
+    // Combine both types of recommendations
+    const allRecommendedJobs = [...recommendedJobs, ...similarJobs];
+
+    return res.status(200).json(
+            { jobs: allRecommendedJobs }, 
+            "Jobs recommended successfully"
+        )
+});
