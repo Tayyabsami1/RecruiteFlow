@@ -8,6 +8,8 @@ import { AiOutlineUser, AiOutlineMenu } from 'react-icons/ai';
 import "../Styles/Navbar.scss";
 import axios from 'axios';
 import { clearUserData } from '../Features/User/UserSlice';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Navbar = () => {
   // states
@@ -27,13 +29,12 @@ const Navbar = () => {
     try{
     await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/Auth/logout`, { withCredentials: true });
     dispatch(clearUserData());
+    toast.success("User Logout Successful")
     navigate('/');
     }
     catch(err)
     {
-      console.log(err.response.data.msg);
-      dispatch(clearUserData());
-      navigate('/');
+      toast.error(err.response.data.msg);
     }
   }
 
@@ -96,6 +97,7 @@ const Navbar = () => {
   return (
     // App Bar the MUI component for the top navigation bar
     <AppBar position="static" className={`navbar ${colorScheme === 'dark' ? 'dark' : ''}`}>
+    <ToastContainer position="top-center" autoClose={3000} hideProgressBar={true} />
 
       <Container maxWidth="xl">
 
