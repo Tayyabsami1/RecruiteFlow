@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import "../../Styles/Admin/Home.scss";
 import { Box, Typography, Grid, Paper } from '@mui/material';
 import { AreaChart, DonutChart } from '@mantine/charts';
-import {  LineChart, ResponsiveContainer, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Area } from 'recharts';
-import {  RingProgress, Text } from '@mantine/core';
-import { Person, BusinessCenter} from '@mui/icons-material';
+import { LineChart, ResponsiveContainer, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Area } from 'recharts';
+import { RingProgress, Text } from '@mantine/core';
+import { Person, BusinessCenter } from '@mui/icons-material';
 import axios from 'axios';
 import { useMantineColorScheme } from '@mantine/core';
 import { CircularProgress } from '@mui/material';
@@ -18,6 +18,13 @@ const Home = () => {
     totalJobs: 0,
     totalRecruiters: 0,
     totalJobSeekers: 0
+  });
+  const [monthlyApplicationsData, setMonthlyApplicationsData] = useState([]);
+  const [userGrowthData, setUserGrowthData] = useState([]);
+  const [jobCategoryData, setJobCategoryData] = useState([]);
+  const [systemPerformance, setSystemPerformance] = useState({
+    uptime: 0,
+    responseRate: 0
   });
   const [isLoading, setIsLoading] = useState(true);
 
@@ -33,12 +40,27 @@ const Home = () => {
       try {
         setIsLoading(true);
         const response = await axios.get('/api/Admin/Stats');
-        const { totalJobs, totalRecruiters, totalJobSeekers } = response.data.data;
+        const {
+          totalJobs,
+          totalRecruiters,
+          totalJobSeekers,
+          monthlyApplicationsData,
+          userGrowthData,
+          jobCategoryData,
+          systemPerformance
+        } = response.data.data;
+
         setStatsData({
           totalJobs,
           totalRecruiters,
           totalJobSeekers
         });
+
+        // Set the new data from our enhanced API
+        setMonthlyApplicationsData(monthlyApplicationsData || []);
+        setUserGrowthData(userGrowthData || []);
+        setJobCategoryData(jobCategoryData || []);
+        setSystemPerformance(systemPerformance || { uptime: 0, responseRate: 0 });
       } catch (error) {
         console.error("Error fetching statistics:", error);
       } finally {
@@ -56,52 +78,18 @@ const Home = () => {
     { title: "Job Seekers", value: statsData.totalJobSeekers, icon: <Person fontSize="large" />, color: "#787A91" }
   ];
 
-  // Dummy data for charts
-  const monthlyApplicationsData = [
-    { name: 'Jan', applications: 65 },
-    { name: 'Feb', applications: 59 },
-    { name: 'Mar', applications: 80 },
-    { name: 'Apr', applications: 81 },
-    { name: 'May', applications: 56 },
-    { name: 'Jun', applications: 55 },
-    { name: 'Jul', applications: 40 },
-    { name: 'Aug', applications: 70 },
-    { name: 'Sep', applications: 90 },
-    { name: 'Oct', applications: 110 },
-    { name: 'Nov', applications: 105 },
-    { name: 'Dec', applications: 120 },
-  ];
-
-  const jobCategoryData = [
-    { name: 'IT & Software', value: 400, color: `${isDark ? '#EEEEEE' : '#0F044C'}` },
-    { name: 'Design', value: 300, color: '#141E61' },
-    { name: 'Marketing', value: 300, color: '#787A91' },
-    { name: 'Finance', value: 200, color: `${isDark ? '#0F044C' : '#EEEEEE'}` },
-  ];
-
-  const userGrowthData = [
-    { date: 'Jan', users: 400 },
-    { date: 'Feb', users: 580 },
-    { date: 'Mar', users: 700 },
-    { date: 'Apr', users: 850 },
-    { date: 'May', users: 910 },
-    { date: 'Jun', users: 1050 },
-  ];
-
   // Render loading state
-    if (isLoading) {
-      return (
-        <Box className="loading-container">
-          <CircularProgress />
-          <Typography variant="h6" className="loading-text">Loading Statistics</Typography>
-        </Box>
-      );
-    }
+  if (isLoading) {
+    return (
+      <Box className="loading-container">
+        <CircularProgress />
+        <Typography variant="h6" className="loading-text">Loading Statistics</Typography>
+      </Box>
+    );
+  }
 
   return (
-
     <div className="admin-home">
-
       <Box className={`greeting-section ${isDark ? 'dark-mode' : ''}`}>
         <Typography variant="h4" className="greeting-text">
           {greeting}, Admin!
@@ -113,9 +101,7 @@ const Home = () => {
 
       {/* Stats Grid Container to put them in one Row */}
       <Grid container spacing={3} className="stats-container">
-
         {stats.map((stat, index) => (
-
           <Grid item xs={12} sm={6} md={3} key={index}>
             <Paper className="stat-card">
               <div className="stat-icon" style={{ backgroundColor: stat.color }}>
@@ -127,12 +113,10 @@ const Home = () => {
               </div>
             </Paper>
           </Grid>
-
         ))}
       </Grid>
 
       <Grid spacing={3} className="charts-container">
-
         {/* Grid for Monthly Application */}
         <Grid item xs={12} md={8}>
           <Paper className="chart-paper">
@@ -145,18 +129,15 @@ const Home = () => {
                 series={[{ name: 'applications', color: 'indigo' }]}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-
                 <YAxis />
-                <Legend  />
+                <Legend />
                 <Area
                   type="monotone"
                   dataKey="applications"
                   stroke={'#141E61'}
-                  fill={ 'rgba(20, 30, 97, 0.2)'}
+                  fill={'rgba(20, 30, 97, 0.2)'}
                 />
-
               </AreaChart>
-
             </ResponsiveContainer>
           </Paper>
         </Grid>
@@ -187,9 +168,8 @@ const Home = () => {
           </Paper>
         </Grid>
 
-        {/* Box to hold Small Graphs  */}
+        {/* Box to hold Small Graphs */}
         <Box className='small-charts-container'>
-
           {/*Job Category Graph */}
           <Grid item xs={12} md={4}>
             <Paper className="chart-paper">
@@ -217,10 +197,10 @@ const Home = () => {
                       size={150}
                       thickness={12}
                       roundCaps
-                      sections={[{ value: 84, color: `${isDark ? '#EEEEEE' : '#141E61'}` }]}
+                      sections={[{ value: systemPerformance.uptime, color: `${isDark ? '#EEEEEE' : '#141E61'}` }]}
                       label={
                         <Text size="lg" ta="center" fw={700}>
-                          84%
+                          {systemPerformance.uptime}%
                         </Text>
                       }
                     />
@@ -233,10 +213,10 @@ const Home = () => {
                       size={150}
                       thickness={12}
                       roundCaps
-                      sections={[{ value: 92, color: '#787A91' }]}
+                      sections={[{ value: systemPerformance.responseRate, color: '#787A91' }]}
                       label={
                         <Text size="lg" ta="center" fw={700}>
-                          92%
+                          {systemPerformance.responseRate}%
                         </Text>
                       }
                     />
@@ -246,10 +226,7 @@ const Home = () => {
               </Grid>
             </Paper>
           </Grid>
-
         </Box>
-
-
       </Grid>
     </div>
   );
