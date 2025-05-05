@@ -3,6 +3,7 @@ import { createBrowserRouter, Link, Navigate, RouterProvider } from 'react-route
 import { useDispatch, useSelector } from 'react-redux';
 import PostJob from './Pages/Recruiter/PostJob';//added by Imran Ahmad
 import RecruiterProfile from './Pages/Recruiter/RecruiterProfile'; // Adjust path if needed
+import AllApplicants from './Pages/Recruiter/AllApplicants'; // Import AllApplicants
 
 
 import "./index.css"
@@ -83,6 +84,10 @@ function App() {
           {
             path: 'postedjobs', // added by Imran Ahmad
             element: <PostedJobs/>
+          },
+          {
+            path: 'job/:jobId/applicants', // New route for viewing applicants
+            element: <AllApplicants />
           },
           {
             path: 'profile', 
