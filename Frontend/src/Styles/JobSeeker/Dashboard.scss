@@ -1,10 +1,13 @@
 .dashboard {
-  padding: 2rem;
-  background-color: #f7f9fc;
+  padding: 0;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f7f9fc;
 
   &.dark-mode {
-    background: #0F0F42;
+    background: #0F044C;
 
     h2 {
       color: #EEEEEE;
@@ -13,7 +16,7 @@
     .job-list {
       .job-card {
         background: #0A0235;
-        
+
         h3 {
           color: #EEEEEE;
         }
@@ -34,6 +37,19 @@
     font-size: 1.8rem;
     color: #333;
     text-align: center;
+  }
+
+  .MuiContainer-root {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .section-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
   }
 
   .job-list {
@@ -71,7 +87,101 @@
     }
   }
 
-  // ---------- RESPONSIVENESS -----------
+  .MuiCard-root {
+    height: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.16);
+    }
+
+    .MuiCardContent-root {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+  }
+
+  .MuiChip-root {
+    margin: 0.2rem;
+    font-weight: 500;
+
+    &.dark-mode {
+      background-color: #0F044C;
+      color: #EEEEEE;
+    }
+  }
+
+  h1, h2, h3, h4, h5, h6, p {
+    text-align: center;
+
+    &.dark-mode {
+      color: #EEEEEE;
+    }
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    width: 100%;
+
+    .MuiSvgIcon-root {
+      margin-right: 0.8rem;
+    }
+  }
+
+  .no-content-message {
+    text-align: center;
+    padding: 2rem;
+    border-radius: 12px;
+    margin: 0 auto;
+    max-width: 600px;
+
+    &.dark-mode {
+      background-color: #141E61;
+      color: #EEEEEE;
+    }
+  }
+
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+
+    .MuiCircularProgress-root {
+      &.dark-mode {
+        color: #EEEEEE;
+      }
+    }
+  }
+
+  .MuiGrid-container {
+    justify-content: center;
+  }
+
+  .info-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (max-width: 960px) {
+    .section-header {
+      h2 {
+        font-size: 1.8rem;
+      }
+    }
+  }
 
   @media (max-width: 768px) {
     padding: 1rem;
@@ -93,6 +203,19 @@
       p {
         font-size: 0.95rem;
       }
+    }
+  }
+
+  @media (max-width: 600px) {
+    .section-header {
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+
+    .MuiContainer-root {
+      padding-left: 16px;
+      padding-right: 16px;
     }
   }
 
