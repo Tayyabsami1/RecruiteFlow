@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PostJob from './Pages/Recruiter/PostJob';//added by Imran Ahmad
 import RecruiterProfile from './Pages/Recruiter/RecruiterProfile'; // Adjust path if needed
 import AllApplicants from './Pages/Recruiter/AllApplicants'; // Import AllApplicants
+import RecruiterDashboard from './Pages/Recruiter/Dashboard'; // Import Recruiter Dashboard
 
 
 import "./index.css"
@@ -71,11 +72,10 @@ function App() {
       },
       {
         path: '/Recruiter',
-        element: User && User.userType === 'Recruiter' ? <Layout /> : <Navigate to='/' />,
-        children: [
+        element: User && User.userType === 'Recruiter' ? <Layout /> : <Navigate to='/' />,        children: [
           {
             path: '/Recruiter',
-            element: <Home />,
+            element: <RecruiterDashboard />,
           },
           {
             path: 'post-job', // added by Imran Ahmad
