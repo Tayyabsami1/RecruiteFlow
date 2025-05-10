@@ -75,6 +75,10 @@ function App() {
         element: User && User.userType === 'Recruiter' ? <Layout /> : <Navigate to='/' />,        children: [
           {
             path: '/Recruiter',
+            element: <Home />,
+          },
+          {
+            path: 'dashboard',
             element: <RecruiterDashboard />,
           },
           {

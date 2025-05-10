@@ -19,7 +19,7 @@ const Home = () => {
           <p>Streamlining the recruitment process for job seekers and recruiters alike</p>          <div className="hero-buttons">
             {User ? (
               <>
-                <Link to={User.userType === 'Recruiter' ? '/Recruiter' : '/dashboard'}>
+                <Link to={'dashboard'}>
                   <button className="primary-btn">My Dashboard</button>
                 </Link>
                 <Link to={User.userType === 'Recruiter' ? 'post-job' : '/jobs'}> 
