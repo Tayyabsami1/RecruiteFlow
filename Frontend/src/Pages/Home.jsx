@@ -16,11 +16,10 @@ const Home = () => {
         
         <div className="hero-content">
           <h1>{User ? `Welcome back, ${User.name}` : 'Welcome to Recruit Flow'}</h1>
-          <p>Streamlining the recruitment process for job seekers and recruiters alike</p>
-          <div className="hero-buttons">
+          <p>Streamlining the recruitment process for job seekers and recruiters alike</p>          <div className="hero-buttons">
             {User ? (
               <>
-                <Link to="/dashboard">
+                <Link to={User.userType === 'Recruiter' ? '/Recruiter' : '/dashboard'}>
                   <button className="primary-btn">My Dashboard</button>
                 </Link>
                 <Link to={User.userType === 'Recruiter' ? 'post-job' : '/jobs'}> 
