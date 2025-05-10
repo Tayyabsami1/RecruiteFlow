@@ -24,6 +24,7 @@ export const GetDashboardStats = asyncHandler(async (req, res) => {
         // Count total job seekers
         const totalJobSeekers = await JobSeeker.countDocuments();
         
+        
         // Get monthly job applications data
         const currentYear = new Date().getFullYear();
         const monthlyApplicationsData = await getMonthlyApplications(currentYear);
