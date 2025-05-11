@@ -124,10 +124,10 @@ const Home = () => {
                 <h3>Find the perfect candidates</h3>
                 <p>Post a job listing or browse profiles of qualified candidates ready to join your team.</p>
                 <div className="action-buttons">
-                  <Link to="/post-job">
+                  <Link to="post-job">
                     <button className="primary-btn">Post a Job</button>
                   </Link>
-                  <Link to="/candidates">
+                  <Link to="postedjobs">
                     <button className="secondary-btn">Browse Candidates</button>
                   </Link>
                 </div>
@@ -174,7 +174,7 @@ const Home = () => {
               <p>{User.userType === 'Jobseeker' 
                 ? 'Update your profile to improve matching and increase your chances of getting noticed by recruiters.' 
                 : 'Create a compelling job listing to attract the best talent for your organization.'}</p>
-              <Link to={User.userType === 'Jobseeker' ? '/profile' : '/post-job'}>
+              <Link to={User.userType === 'Jobseeker' ? '/profile' : 'post-job'}>
                 <button className="primary-btn">
                   {User.userType === 'Jobseeker' ? 'Update Profile' : 'Post a Job'}
                 </button>

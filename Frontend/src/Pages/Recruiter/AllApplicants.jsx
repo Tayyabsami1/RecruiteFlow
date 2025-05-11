@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "../../Styles/Recruiter/AllApplicants.scss";
 import { ToastContainer, toast } from "react-toastify";
@@ -17,21 +17,18 @@ const AllApplicants = () => {
   const [loading, setLoading] = useState(true);
   const [jobTitle, setJobTitle] = useState("");
 
-  useEffect(() => {
-    fetchApplicants();
-    fetchJobDetails();
-  }, [jobId]);
-
-  const fetchJobDetails = async () => {
+  // Optimized with useCallback
+  const fetchJobDetails = useCallback(async () => {
     try {
       const res = await axios.get(`/api/job/${jobId}`);
       setJobTitle(res.data.title || "Job Position");
     } catch (error) {
       console.error("Error fetching job details:", error);
     }
-  };
+  }, [jobId]);
 
-  const fetchApplicants = async () => {
+  // Optimized with useCallback
+  const fetchApplicants = useCallback(async () => {
     try {
       setLoading(true);
       const res = await axios.get(`/api/job/applicants/${jobId}`);
@@ -47,9 +44,15 @@ const AllApplicants = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [jobId]);
 
-  const updateStatus = async (userId, status) => {
+  useEffect(() => {
+    fetchApplicants();
+    fetchJobDetails();
+  }, [jobId, fetchApplicants, fetchJobDetails]);
+
+  // Optimized with useCallback
+  const updateStatus = useCallback(async (userId, status) => {
     try {
       await axios.put(`/api/job/update-status/${jobId}`, { userId, status });
       toast.success(`User marked as ${status}`);
@@ -58,9 +61,10 @@ const AllApplicants = () => {
       console.error("Error updating status:", error);
       toast.error("Failed to update status");
     }
-  };
+  }, [jobId, fetchApplicants]);
 
-  const renderApplicants = (list, type) => {
+  // Optimized with useCallback
+  const renderApplicants = useCallback((list, type) => {
     if (!list || list.length === 0) return null;
 
     return list.map((applicant) => (
@@ -105,20 +109,41 @@ const AllApplicants = () => {
         )}
       </div>
     ));
-  };
+  }, [applicants.shortlisted, applicants.interviewed, updateStatus]);
 
-  const getFilteredApplicants = () => {
+  // Optimized with useMemo
+  const getFilteredApplicants = useMemo(() => {
     return applicants[filter] || [];
-  };
+  }, [applicants, filter]);
 
-  const getStatusCount = (status) => {
-    return applicants[status]?.length || 0;
-  };
+  // Optimized with useMemo
+  const statusCounts = useMemo(() => {
+    return {
+      applied: applicants.applied?.length || 0,
+      shortlisted: applicants.shortlisted?.length || 0,
+      interviewed: applicants.interviewed?.length || 0
+    };
+  }, [applicants]);
+
+  // Optimized with useCallback
+  const getStatusCount = useCallback((status) => {
+    return statusCounts[status];
+  }, [statusCounts]);
+
+  // Optimized with useCallback
+  const handleNavigateBack = useCallback(() => {
+    navigate("/Recruiter/postedjobs");
+  }, [navigate]);
+
+  // Optimized with useCallback
+  const handleFilterChange = useCallback((newFilter) => {
+    setFilter(newFilter);
+  }, []);
 
   return (
     <div className="all-applicants-container">
       <ToastContainer />
-      <button className="back-button" onClick={() => navigate("/Recruiter/postedjobs")}>
+      <button className="back-button" onClick={handleNavigateBack}>
         <FaArrowLeft /> Back to Jobs
       </button>
 
@@ -151,19 +176,19 @@ const AllApplicants = () => {
             <div className="filter-tabs">
               <button 
                 className={`filter-tab ${filter === 'applied' ? 'active' : ''}`}
-                onClick={() => setFilter('applied')}
+                onClick={() => handleFilterChange('applied')}
               >
                 Applied ({getStatusCount('applied')})
               </button>
               <button 
                 className={`filter-tab ${filter === 'shortlisted' ? 'active' : ''}`}
-                onClick={() => setFilter('shortlisted')}
+                onClick={() => handleFilterChange('shortlisted')}
               >
                 Shortlisted ({getStatusCount('shortlisted')})
               </button>
               <button 
                 className={`filter-tab ${filter === 'interviewed' ? 'active' : ''}`}
-                onClick={() => setFilter('interviewed')}
+                onClick={() => handleFilterChange('interviewed')}
               >
                 Interviewed ({getStatusCount('interviewed')})
               </button>
@@ -171,8 +196,8 @@ const AllApplicants = () => {
           </div>
 
           <div className="applicant-list">
-            {getFilteredApplicants().length > 0 ? (
-              renderApplicants(getFilteredApplicants(), filter)
+            {getFilteredApplicants.length > 0 ? (
+              renderApplicants(getFilteredApplicants, filter)
             ) : (
               <div className="no-applicants">
                 <FaUser className="empty-icon" />

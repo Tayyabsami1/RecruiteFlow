@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 
 // UI Imports 
 import {
@@ -97,53 +97,54 @@ const ManageJobs = () => {
     fetchJobs();
   }, []);
 
-  // Filter jobs based on search and filter criteria
-  const filteredJobs = jobs.filter(job => {
+  // Filter jobs based on search and filter criteria using useMemo for performance optimization
+  const filteredJobs = useMemo(() => {
+    return jobs.filter(job => {
+      const matchesSearch = job.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          job.location.toLowerCase().includes(searchTerm.toLowerCase());
 
-    const matchesSearch = job.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                         job.location.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesIndustry = industryFilter === 'all' || job.industry === industryFilter;
+      const matchesExperience = experienceLevelFilter === 'all' || job.experienceLevel === experienceLevelFilter;
+      const matchesStatus = statusFilter === 'all' || job.status === statusFilter;
+      
+      return matchesSearch && matchesIndustry && matchesExperience && matchesStatus;
+    });
+  }, [jobs, searchTerm, industryFilter, experienceLevelFilter, statusFilter]);
 
-    const matchesIndustry = industryFilter === 'all' || job.industry === industryFilter;
-    const matchesExperience = experienceLevelFilter === 'all' || job.experienceLevel === experienceLevelFilter;
-    const matchesStatus = statusFilter === 'all' || job.status === statusFilter;
-    
-    return matchesSearch && matchesIndustry && matchesExperience && matchesStatus;
-  });
-
-  // Handle pagination
-  const handleChangePage = (event, newPage) => {
+  // Handle pagination with useCallback
+  const handleChangePage = useCallback((event, newPage) => {
     setPage(newPage);
-  };
+  }, []);
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = useCallback((event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-  };
+  }, []);
 
-  // Handle search
-  const handleSearchChange = (event) => {
+  // Handle search with useCallback
+  const handleSearchChange = useCallback((event) => {
     setSearchTerm(event.target.value);
     setPage(0);
-  };
+  }, []);
 
-  // Handle filter changes
-  const handleIndustryFilterChange = (event) => {
+  // Handle filter changes with useCallback
+  const handleIndustryFilterChange = useCallback((event) => {
     setIndustryFilter(event.target.value);
     setPage(0);
-  };
+  }, []);
 
-  const handleExperienceLevelFilterChange = (event) => {
+  const handleExperienceLevelFilterChange = useCallback((event) => {
     setExperienceLevelFilter(event.target.value);
     setPage(0);
-  };
+  }, []);
 
-  const handleStatusFilterChange = (event) => {
+  const handleStatusFilterChange = useCallback((event) => {
     setStatusFilter(event.target.value);
     setPage(0);
-  };
+  }, []);
 
-  // Handle edit job
-  const handleEditClick = (job) => {
+  // Handle edit job with useCallback
+  const handleEditClick = useCallback((job) => {
     setCurrentJob(job);
     setEditFormData({
       title: job.title,
@@ -154,29 +155,29 @@ const ManageJobs = () => {
       status: job.status
     });
     setEditDialogOpen(true);
-  };
+  }, []);
 
-  const handleEditDialogClose = () => {
+  const handleEditDialogClose = useCallback(() => {
     setEditDialogOpen(false);
-  };
+  }, []);
 
-  const handleEditInputChange = (e) => {
+  const handleEditInputChange = useCallback((e) => {
     const { name, value } = e.target;
     setEditFormData(prev => ({
       ...prev,
       [name]: value
     }));
-  };
+  }, []);
 
-  const handleSkillsChange = (event, newValue) => {
+  const handleSkillsChange = useCallback((event, newValue) => {
     setEditFormData(prev => ({
       ...prev,
       skills: newValue
     }));
-  };
+  }, []);
 
-  // Handle edit form submission
-  const handleEditSubmit = async () => {
+  // Handle edit form submission with useCallback
+  const handleEditSubmit = useCallback(async () => {
     try {
       const requestData = {
         ...editFormData,
@@ -202,20 +203,20 @@ const ManageJobs = () => {
       console.log(err.response?.data?.msg || err.message);
       toast.error('Failed to update job');
     }
-  };
+  }, [editFormData, currentJob, jobs]);
 
-  // Handle delete job
-  const handleDeleteClick = (job) => {
+  // Handle delete job with useCallback
+  const handleDeleteClick = useCallback((job) => {
     setCurrentJob(job);
     setDeleteDialogOpen(true);
-  };
+  }, []);
 
-  const handleDeleteDialogClose = () => {
+  const handleDeleteDialogClose = useCallback(() => {
     setDeleteDialogOpen(false);
-  };
+  }, []);
 
-  // Handle delete confirmation
-  const handleDeleteConfirm = async () => {
+  // Handle delete confirmation with useCallback
+  const handleDeleteConfirm = useCallback(async () => {
     try {
       await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/Admin/Jobs/deletejob`, {
         withCredentials: true,
@@ -231,12 +232,12 @@ const ManageJobs = () => {
       console.error('Error deleting job:', err.response?.data?.msg || err.message);
       toast.error('Failed to delete job');
     }
-  };
+  }, [currentJob, jobs]);
 
-  // Format date
-  const formatDate = (dateString) => {
+  // Format date with useCallback
+  const formatDate = useCallback((dateString) => {
     return new Date(dateString).toLocaleDateString();
-  };
+  }, []);
 
   // Render loading state
   if (isLoading) {
