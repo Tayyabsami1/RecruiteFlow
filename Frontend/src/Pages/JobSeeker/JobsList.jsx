@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import axios from "axios";
 import "../../Styles/JobSeeker/JobsList.scss";
 import { useSelector } from "react-redux";
@@ -37,7 +37,7 @@ const JobsList = () => {
   const [isRecommended, setIsRecommended] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const fetchJobs = async (recommended = false) => {
+  const fetchJobs = useCallback(async (recommended = false) => {
     try {
       setLoading(true);
       if(JobSeekerId){
@@ -59,42 +59,45 @@ const JobsList = () => {
     } finally {
       setLoading(false);
     }
-  };
-
+  }, [JobSeekerId]);
   useEffect(()=>{
     const fetchJobSeekerId=async()=>{
       try {
-        const res1=await axios.get(`/api/jobseeker/getJobSeekerId/${User._id}`);
-        setJobSeekerId(res1.data.jobSeekerId);
+        if (User?._id) {
+          const res1=await axios.get(`/api/jobseeker/getJobSeekerId/${User._id}`);
+          setJobSeekerId(res1.data.jobSeekerId);
+        }
       } catch (error) {
         console.error("Error fetching JobSeekerId:", error);
       }
     };
 
     fetchJobSeekerId();
-  },[])
+  },[User._id])
 
   useEffect(() => {
-    fetchJobs();
-  }, [JobSeekerId]);
+    if (JobSeekerId) {
+      fetchJobs();
+    }
+  }, [JobSeekerId, fetchJobs]);
 
-  const toggleJobsView = () => {
+  const toggleJobsView = useCallback(() => {
     fetchJobs(!isRecommended);
-  };
+  }, [fetchJobs, isRecommended]);
 
-  const handleApply = async (jobId, isApplied) => {
+  const handleApply = useCallback(async (jobId, isApplied) => {
     try {
       if (!isApplied) {
         await axios.put(`/api/job/apply/${jobId}`, { userId: JobSeekerId});
         toast("Applied Successfully!");
-        setappliedJobs([...appliedJobs,jobId]);
+        setappliedJobs(prev => [...prev, jobId]);
       }
     } catch (error) {
       console.error("Error updating application status:", error);
     }
-  };
+  }, [JobSeekerId]);
 
-  const handleSearch = (e) => {
+  const handleSearch = useCallback((e) => {
     const value = e.target.value;
     setSearchText(value);
 
@@ -114,7 +117,29 @@ const JobsList = () => {
       });
       setFilteredJobs(filtered);
     }
-  };
+  }, [jobs, filterBy]);
+
+  const memoizedFilteredJobs = useMemo(() => {
+    if (searchText.trim() === "") {
+      return jobs;
+    }
+    
+    return jobs.filter((job) => {
+      if (filterBy === "skills") {
+        return job.skills.some((skill) =>
+          skill.toLowerCase().includes(searchText.toLowerCase())
+        );
+      } else if (filterBy === "location") {
+        return job.location.toLowerCase().includes(searchText.toLowerCase());
+      } else {
+        return job[filterBy]?.toLowerCase().includes(searchText.toLowerCase());
+      }
+    });
+  }, [jobs, searchText, filterBy]);
+
+  useEffect(() => {
+    setFilteredJobs(memoizedFilteredJobs);
+  }, [memoizedFilteredJobs]);
 
   return (
     <Container maxWidth="xl" className={`jobs-list-container ${isDark ? 'dark-mode' : ''}`}>
