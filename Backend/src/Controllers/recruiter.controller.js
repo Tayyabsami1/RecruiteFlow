@@ -63,7 +63,8 @@ export const getRecruiterIdByUserId = async (req, res) => {
   try {
     const { userId } = req.params;
 
-    const recruiter = await Recruiter.findOne({ user: userId });
+    const recruiter = await Recruiter.findOne({ user: userId });//it will return the recruiter's document that has the userId in it that is being passed
+    //console.log("Recruiter",recruiter)
 
     if (!recruiter) {
       return res.status(404).json({ message: "Recruiter not found for this user." });

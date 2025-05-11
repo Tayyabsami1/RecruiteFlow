@@ -89,6 +89,7 @@ function App() {
             path: 'postedjobs', // added by Imran Ahmad
             element: <PostedJobs/>
           },
+           //The above two paths are also accessible from Navbar.jsx if user clicks any particular button on the navbar then the link changes and then one from above component can be rendered.
           {
             path: 'job/:jobId/applicants', // New route for viewing applicants
             element: <AllApplicants />

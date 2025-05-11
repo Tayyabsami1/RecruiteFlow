@@ -9,6 +9,7 @@ import { TextField, Autocomplete, Button, Typography, Box } from '@mui/material'
 const locationOptions = ['Lahore', 'Karachi', 'Islamabad', 'Multan', 'Faisalabad', 'Rawalpindi'];
 const experienceLevels = ['Entry Level', 'Mid Level', 'Senior Level'];
 const industryOptions = ['Information Technology', 'Finance', 'Healthcare', 'Education', 'Manufacturing'];
+//Above three arrays have options to be shown to user to enhance user experience
 
 const PostJob = () => {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ const PostJob = () => {
   useEffect(() => {
     const fetchRecruiterId = async () => {
       try {
-        const res = await axios.get(`/api/recruiter/getRecruiterId/${User._id}`);
+        const res = await axios.get(`/api/recruiter/getRecruiterId/${User._id}`); //Same logic as in PostedJobs.jsx
         setRecruiterId(res.data.recruiterId);
       } catch (error) {
         console.error('Error fetching RecruiterId:', error);
@@ -45,7 +46,8 @@ const PostJob = () => {
   };
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target; //name is title here and value is the user input
+    //console.log("Title", name, value)
     setFormData({ ...formData, [name]: value });
   };
 
@@ -66,12 +68,12 @@ const PostJob = () => {
           experienceLevel,
           skills,
           industry,
-          whoPosted: RecruiterId,
+          whoPosted: RecruiterId, //whoPosted field to store the reference of recruiter (recruiterId) so that it will be used to display the particular jobs of recruiter that he has posted.
         },
         { withCredentials: true }
       );
 
-      dispatch(addJob(response.data.data.createdJob));
+      dispatch(addJob(response.data.data.createdJob)); //It will store the job in store where we have jobs array.
 
       setFormData({
         title: '',
@@ -105,22 +107,22 @@ const PostJob = () => {
 
         <Autocomplete
           freeSolo
-          options={locationOptions}
-          value={location}
-          onChange={(_, value) => setFormData({ ...formData, location: value })}
+          options={locationOptions} //This is a predefined list of options being shown to user (as suggestions) which is filtered based on the user input.
+          value={location} //value is set with the default value from formData state.
+          onChange={(_, value) => setFormData({ ...formData, location: value })} //here value is the final selected value input by the user.
           renderInput={(params) => <TextField {...params} label="Location" required margin="normal" />}
         />
 
         <Autocomplete
           options={experienceLevels}
-          value={experienceLevel}
+          value={experienceLevel} 
           onChange={(_, value) => setFormData({ ...formData, experienceLevel: value })}
           renderInput={(params) => <TextField {...params} label="Experience Level" required margin="normal" />}
         />
 
         <Autocomplete
           multiple
-          freeSolo
+          freeSolo 
           options={[]}
           value={skills}
           onChange={(e, value) => setFormData({ ...formData, skills: value })}

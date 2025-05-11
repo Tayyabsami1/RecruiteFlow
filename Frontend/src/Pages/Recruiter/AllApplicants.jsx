@@ -175,7 +175,7 @@ const AllApplicants = () => {
               renderApplicants(getFilteredApplicants(), filter)
             ) : (
               <div className="no-applicants">
-                <FaUser className="empty-icon" />
+                <FaUser className="empty-icon" /> 
                 <p>No {filter} applicants yet.</p>
               </div>
             )}

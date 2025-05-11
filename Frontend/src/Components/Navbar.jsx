@@ -45,8 +45,8 @@ const Navbar = () => {
     {name:'Comming Soon', path:'/'},
 
   ]:User?.userType==='Recruiter'?[
-    {name:'Home', path:'/'},
-    { name: 'About', path: '/about' },
+    {name:'Home', path:'/'}, // url will be /Recruiter (base path)
+    { name: 'About', path: '/about' }, //base path, /Recruiter is not in this path becasue about page is same for every user type, so just /about is the path to render the component About.jsx being handled in App.jsx
     {name: 'Posted Jobs', path: '/Recruiter/postedjobs'},
     {name: 'Post New Job', path: '/Recruiter/post-job'}
   ]:User?.userType=='Jobseeker'? [

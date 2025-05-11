@@ -107,11 +107,11 @@ const Home = () => {
       </section>
 
       {/* Personalized Section for Logged-in Users */}
-      {User && (
+      {User && ( //Checks if the user is logged in then show the following based on user type
         <section className={`personalized-section ${isDark ? 'dark-mode' : ''}`}>
           <h2>Personalized For You</h2>
           <div className="personalized-container">
-            {User.userType === 'Jobseeker' ? (
+            {User.userType === 'Jobseeker' ? (//For Job Seeker
               <div className="personalized-content">
                 <h3>Ready to advance your career?</h3>
                 <p>Based on your profile, we've found job opportunities that match your skills and experience.</p>
@@ -119,7 +119,7 @@ const Home = () => {
                   <button className="primary-btn">Explore Matching Jobs</button>
                 </Link>
               </div>
-            ) : (
+            ) : (//For Recruiters
               <div className="personalized-content">
                 <h3>Find the perfect candidates</h3>
                 <p>Post a job listing or browse profiles of qualified candidates ready to join your team.</p>
@@ -138,6 +138,7 @@ const Home = () => {
       )}
 
       {/* Testimonials Section */}
+      {/* This section will be shown to both Recruiter and JobSeeker */}
       <section className={`testimonials-section ${isDark ? 'dark-mode' : ''}`}>
         <h2>What Our Users Say</h2>
         <div className="testimonials-container">
@@ -168,7 +169,7 @@ const Home = () => {
       {/* CTA Section - Different for logged in vs logged out users */}
       <section className={`cta-section ${isDark ? 'dark-mode' : ''}`}>
         <div className="cta-content">
-          {User ? (
+          {User ? ( //User Logged in and the content will be shown based on user type
             <>
               <h2>{User.userType === 'Jobseeker' ? 'Ready to Find Your Dream Job?' : 'Need to Expand Your Team?'}</h2>
               <p>{User.userType === 'Jobseeker' 
@@ -180,7 +181,7 @@ const Home = () => {
                 </button>
               </Link>
             </>
-          ) : (
+          ) : (//User not logged in
             <>
               <h2>Ready to Transform Your Recruitment Experience?</h2>
               <p>Join thousands of job seekers and recruiters who are simplifying their hiring process with Recruit Flow.</p>
