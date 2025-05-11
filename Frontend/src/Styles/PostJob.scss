@@ -1,52 +1,159 @@
+// Color scheme variables from the provided color scheme
+$darkest: #0F044C;
+$dark: #141E61;
+$primary: #787A91;
+$light: #EEEEEE;
+
+// Additional colors for better UI
+$shadow: rgba(15, 4, 76, 0.15);
+$shadow-dark: rgba(0, 0, 0, 0.25);
+
+// Dark mode color variables - improved container color
+$darkest-mode: #1A1464; // Slightly lighter than the darkest
+$dark-mode: #1A2177; // Better dark blue that's more pleasing
+$primary-mode: #9496AC; // Lighter primary for better visibility
+$input-bg-dark: rgba(238, 238, 238, 0.12); // Semi-transparent light for input backgrounds
+
 .postJob {
-    max-width: 600px;
-    margin: 3rem auto;
-    padding: 2rem;
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  max-width: 600px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: $light;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px $shadow;
+  transition: all 0.3s ease;
   
-    h2 {
-      text-align: center;
-      margin-bottom: 2rem;
-      color: #333;
+  &.dark-mode {
+    background: linear-gradient(145deg, $dark-mode, $darkest-mode);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba($primary-mode, 0.5); // Softer border
+    
+    
+    h4, h2 {
+      color: $light;
     }
-  
-    .postJobForm {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-  
-      label {
-        display: flex;
-        flex-direction: column;
-        font-size: 1rem;
-        color: #555;
-  
-        input {
-          margin-top: 0.5rem;
-          padding: 0.75rem;
-          border: 1px solid #ccc;
-          border-radius: 8px;
-          font-size: 1rem;
-        }
+    
+    p {
+      color: $light; // Full opacity for better readability
+    }
+    
+    .MuiInputLabel-root {
+      color: $light;
+    }
+    
+    .MuiOutlinedInput-root {
+      color: $light;
+      background-color: $input-bg-dark; // Add a subtle background color to input fields
+      
+      .MuiOutlinedInput-notchedOutline {
+        border-color: $primary-mode; // More visible border
       }
-  
-      .submitBtn {
-        margin-top: 2rem;
-        padding: 0.75rem;
-        background-color: #4caf50;
-        color: white;
-        font-size: 1rem;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-  
-        &:hover {
-          background-color: #45a049;
-        }
+      
+      &:hover .MuiOutlinedInput-notchedOutline {
+        border-color: $light;
+      }
+      
+      &.Mui-focused .MuiOutlinedInput-notchedOutline {
+        border-color: $light;
+        border-width: 2px; // Make focused border more prominent
+      }
+    }
+      .MuiAutocomplete-tag {
+      background-color: $primary-mode;
+      color: $darkest-mode;
+      font-weight: 500;
+      border: 1px solid $light;
+    }
+    
+    .MuiChip-deleteIcon {
+      color: $darkest-mode;
+      
+      &:hover {
+        color: $darkest;
       }
     }
   }
+  
+  h4, h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: $darkest;
+    font-weight: 600;
+  }
+  
+  .postJobForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    
+    .MuiFormControl-root {
+      width: 100%;
+    }
+    
+    .MuiInputLabel-root {
+      color: $dark;
+    }
+    
+    .MuiOutlinedInput-root {
+      border-radius: 8px;
+      
+      .MuiOutlinedInput-notchedOutline {
+        border-color: $primary;
+      }
+      
+      &:hover .MuiOutlinedInput-notchedOutline {
+        border-color: $dark;
+      }
+      
+      &.Mui-focused .MuiOutlinedInput-notchedOutline {
+        border-color: $darkest;
+      }
+    }
+      .MuiButton-contained {
+      margin-top: 1rem;
+      padding: 0.75rem;
+      background-color: $dark;
+      color: $light;
+      font-weight: 500;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background-color: $darkest;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px $shadow;
+      }
+    }
+    
+    .MuiAutocomplete-tag {
+      background-color: rgba($primary, 0.2);
+      color: $darkest;
+      border-radius: 4px;
+    }
+
+    // Dark mode overrides for post job form
+    .dark-mode & {
+      .MuiButton-contained {
+        background-color: $light;
+        color: $darkest;
+        font-weight: 600;
+        
+        &:hover {
+          box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+        }
+
+        &:disabled {
+          background-color: rgba($light, 0.3);
+          color: rgba($darkest, 0.7);
+        }
+      }
+
+      .MuiAutocomplete-tag {
+        background-color: $primary-mode;
+        color: $darkest-mode;
+        border: 1px solid $light;
+      }
+    }
+  }
+}
   
