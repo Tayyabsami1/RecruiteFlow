@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+// /* eslint-disable no-unused-vars */
 import { Link } from 'react-router-dom';
 import '../Styles/Login.scss'
 import { useNavigate } from 'react-router-dom';
@@ -54,7 +54,7 @@ const Login = () => {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/auth/login`, {
         email,
         password,
-      });
+      },{withCredentials:true});
 
     dispatch(setUserData(response.data.data.LoggedInUser));
     setLoading(false);

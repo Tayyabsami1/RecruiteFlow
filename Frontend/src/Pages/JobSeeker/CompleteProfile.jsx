@@ -27,7 +27,7 @@ const CompleteProfile = () => {
         const fetchJobSeekerData = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/jobseeker/get-profile/${User._id}`);
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/jobseeker/get-profile/${User._id}`,{withCredentials:true});
                 const data = response.data;
 
                 // Parse fields if they are strings
@@ -67,7 +67,8 @@ const CompleteProfile = () => {
             const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/jobseeker/update-profile/${User._id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
-                }
+                },
+                withCredentials:true
             });
             toast.success("Profile Updated Successfully!");
             setJobSeekerData(response.data); // update UI
@@ -100,7 +101,8 @@ const CompleteProfile = () => {
         setExtractingSkills(true);
         try {
             const response = await axios.get(
-                `${import.meta.env.VITE_BACKEND_URL}/api/jobseeker/ai/resume-skills`
+                `${import.meta.env.VITE_BACKEND_URL}/api/jobseeker/ai/resume-skills`,
+                {withCredentials:true}
             );
             
             const extractedSkills = response.data.data.skills;

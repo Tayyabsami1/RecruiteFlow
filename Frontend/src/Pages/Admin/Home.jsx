@@ -39,7 +39,7 @@ const Home = () => {
     const fetchStats = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get('/api/Admin/Stats');
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/Admin/Stats`,{withCredentials:true});
         const {
           totalJobs,
           totalRecruiters,

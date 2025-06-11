@@ -42,9 +42,9 @@ const JobsList = () => {
       setLoading(true);
       if(JobSeekerId){
         const url = recommended 
-          ? `/api/jobseeker/ai/recommended-jobs/${JobSeekerId}`
-          : `/api/job/get-jobs/${JobSeekerId}`;
-        const res = await axios.get(url);
+          ? `${import.meta.env.VITE_BACKEND_URL}/api/jobseeker/ai/recommended-jobs/${JobSeekerId}`
+          : `${import.meta.env.VITE_BACKEND_URL}/api/job/get-jobs/${JobSeekerId}`;
+        const res = await axios.get(url,{withCredentials:true});
         // Ensure jobs is always an array, even if empty
         const jobsData = res.data?.jobs || [];
         setJobs(jobsData);
@@ -64,7 +64,7 @@ const JobsList = () => {
     const fetchJobSeekerId=async()=>{
       try {
         if (User?._id) {
-          const res1=await axios.get(`/api/jobseeker/getJobSeekerId/${User._id}`);
+          const res1=await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/jobseeker/getJobSeekerId/${User._id}`,{withCredentials:true});
           setJobSeekerId(res1.data.jobSeekerId);
         }
       } catch (error) {
@@ -88,7 +88,7 @@ const JobsList = () => {
   const handleApply = useCallback(async (jobId, isApplied) => {
     try {
       if (!isApplied) {
-        await axios.put(`/api/job/apply/${jobId}`, { userId: JobSeekerId});
+        await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/job/apply/${jobId}`, { userId: JobSeekerId},{withCredentials:true});
         toast("Applied Successfully!");
         setappliedJobs(prev => [...prev, jobId]);
       }

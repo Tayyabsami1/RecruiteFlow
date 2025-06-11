@@ -68,7 +68,7 @@ export const GetReumeSkills = asyncHandler(async (req, res) => {
         // Send the resume to the Python Flask API
         const response = await axios.post(
             `${process.env.PYTHON_BACKEND}/api/extract-skills`, 
-            formData,
+            formData,{withCredentials:true},
             {
                 headers: {
                     ...formData.getHeaders() // This will set the correct content-type with boundaries
