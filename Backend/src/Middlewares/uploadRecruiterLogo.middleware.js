@@ -3,10 +3,10 @@ import path from 'path';
 import fs from 'fs';
 
 // Ensure upload directory exists
-const uploadDir = 'uploads/companyLogos/';
+const uploadDir = 'uploads/companyLogos';
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
-}
+} 
 
 // Storage engine
 const storage = multer.diskStorage({

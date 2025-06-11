@@ -4,7 +4,7 @@ import path from 'path';
 // Storage engine
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads/resumes/'); // Directory to save uploaded resumes
+        cb(null, 'uploads/resumes'); // Directory to save uploaded resumes
     },
     filename: function (req, file, cb) {
         cb(null, Date.now() + path.extname(file.originalname)); // Rename the file
