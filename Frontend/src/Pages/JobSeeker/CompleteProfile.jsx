@@ -197,11 +197,11 @@ const CompleteProfile = () => {
                                                 type="button" 
                                                 className="extract-skills-btn"
                                                 onClick={extractSkillsFromResume}
-                                                disabled={extractingSkills}
+                                                disabled={true}
                                             >
                                                 {extractingSkills ? (
                                                     <CircularProgress size={20} color="inherit" />
-                                                ) : "Extract from Resume"}
+                                                ) : "Extract from Resume (This feature is not available yet)"}
                                             </button>
                                         )}
                                     </div>
