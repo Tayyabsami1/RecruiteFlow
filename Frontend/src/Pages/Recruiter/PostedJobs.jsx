@@ -71,7 +71,7 @@ const PostedJobs = () => {
   useEffect(() => {
     const fetchRecruiterId = async () => {
       try {
-        const res = await axios.get(`/api/recruiter/getRecruiterId/${User._id}`);
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/recruiter/getRecruiterId/${User._id}`, { withCredentials: true });
         setRecruiterId(res.data.recruiterId);
       } catch (error) {
         console.error("Error fetching RecruiterId:", error);
@@ -87,7 +87,7 @@ const PostedJobs = () => {
     const fetchPostedJobs = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`/api/job/get-posted-jobs/${recruiterId}`);
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/job/get-posted-jobs/${recruiterId}`, { withCredentials: true });
         setJobs(res.data.jobs);
         setFilteredJobs(res.data.jobs);
       } catch (error) {
@@ -128,7 +128,7 @@ const PostedJobs = () => {
 
   const handleDeleteConfirm = async () => {
     try {
-      await axios.delete(`/api/job/deletejob/${jobToDelete._id}`);
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/job/deletejob/${jobToDelete._id}`, { withCredentials: true });
       const updated = jobs.filter((job) => job._id !== jobToDelete._id);
       setJobs(updated);
       setFilteredJobs(updated);
@@ -177,7 +177,7 @@ const PostedJobs = () => {
         industry: editFormData.industry,
       };
 
-      await axios.put(`/api/job/updatejob/${currentJob._id}`, updatedJob);
+      await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/job/updatejob/${currentJob._id}`, updatedJob,{ withCredentials: true });
 
       const updatedJobs = jobs.map((job) =>
         job._id === currentJob._id ? { ...job, ...updatedJob } : job

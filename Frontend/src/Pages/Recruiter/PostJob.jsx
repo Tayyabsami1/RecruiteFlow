@@ -32,7 +32,7 @@ const PostJob = () => {
   // Optimized with useCallback
   const fetchRecruiterId = useCallback(async () => {
     try {
-      const res = await axios.get(`/api/recruiter/getRecruiterId/${User._id}`);
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/recruiter/getRecruiterId/${User._id}`,{ withCredentials: true });
       setRecruiterId(res.data.recruiterId);
     } catch (error) {
       console.error('Error fetching RecruiterId:', error);

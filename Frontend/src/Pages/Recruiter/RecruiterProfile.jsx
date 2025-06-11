@@ -23,7 +23,7 @@ const RecruiterProfile = () => {
     const fetchRecruiterProfile = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/recruiter/get-profile/${User._id}`);
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/recruiter/get-profile/${User._id}`,{ withCredentials: true });
         setRecruiterData(res.data);
 
         setCompanyName(res.data.companyName || '');
@@ -50,7 +50,7 @@ const RecruiterProfile = () => {
     if (companyLogo) formData.append('companyLogo', companyLogo);
 
     try {
-      const res = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/recruiter/update-profile/${User._id}`, formData, {
+      const res = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/recruiter/update-profile/${User._id}`, formData,{withCredentials:true}, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       toast.success("Profile Updated Successfully!");

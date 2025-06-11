@@ -20,7 +20,7 @@ const AllApplicants = () => {
   // Optimized with useCallback
   const fetchJobDetails = useCallback(async () => {
     try {
-      const res = await axios.get(`/api/job/${jobId}`);
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/job/${jobId}`,{withCredentials: true});
       setJobTitle(res.data.title || "Job Position");
     } catch (error) {
       console.error("Error fetching job details:", error);
@@ -31,7 +31,7 @@ const AllApplicants = () => {
   const fetchApplicants = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`/api/job/applicants/${jobId}`);
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/job/applicants/${jobId}`,{withCredentials: true});
       setApplicants({
         jobId,
         applied: res.data.applied || [],
@@ -54,7 +54,7 @@ const AllApplicants = () => {
   // Optimized with useCallback
   const updateStatus = useCallback(async (userId, status) => {
     try {
-      await axios.put(`/api/job/update-status/${jobId}`, { userId, status });
+      await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/job/update-status/${jobId}`, { userId, status },{withCredentials: true});
       toast.success(`User marked as ${status}`);
       fetchApplicants(); // Refresh applicants
     } catch (error) {

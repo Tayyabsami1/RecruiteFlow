@@ -53,7 +53,7 @@ const Dashboard = () => {
     useEffect(() => {
         const fetchRecruiterId = async () => {
             try {
-                const res = await axios.get(`/api/recruiter/getRecruiterId/${User._id}`);
+                const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/recruiter/getRecruiterId/${User._id}`,{withCredentials:true});
                 setRecruiterId(res.data.recruiterId);
             } catch (error) {
                 console.error("Error fetching RecruiterId:", error);
@@ -69,7 +69,7 @@ const Dashboard = () => {
             setLoading(true);
             try {
                 // Fetch posted jobs
-                const jobsRes = await axios.get(`/api/job/get-posted-jobs/${recruiterId}`);
+                const jobsRes = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/job/get-posted-jobs/${recruiterId}`,{withCredentials:true});
                 const jobs = jobsRes.data.jobs || [];
 
                 // Sort jobs by creation date (newest first) and take only 3

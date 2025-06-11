@@ -38,7 +38,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchJobSeekerId = async () => {
       try {
-        const res = await axios.get(`/api/jobseeker/getJobSeekerId/${User._id}`);
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/jobseeker/getJobSeekerId/${User._id}`,{withCredentials: true});
         setJobSeekerId(res.data.jobSeekerId);
       } catch (error) {
         console.error("Error fetching job seeker id:", error);
@@ -55,7 +55,8 @@ const Dashboard = () => {
     const fetchDashboardData = async () => {
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/job/UserDashboard/${jobSeekerId}`
+          `${import.meta.env.VITE_BACKEND_URL}/api/job/UserDashboard/${jobSeekerId}`,
+          {withCredentials:true}
         );
         setAppliedJobs(res.data.appliedJobs);
         setShortlistedJobs(res.data.shortlistedJobs);
