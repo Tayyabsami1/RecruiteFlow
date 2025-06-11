@@ -5,7 +5,7 @@ import path from "path";
 // File upload configuration (e.g. storing in public folder)
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "public/uploads/companyLogos"); // adjust as per your folder
+    cb(null, "uploads/companyLogos"); // adjust as per your folder
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
