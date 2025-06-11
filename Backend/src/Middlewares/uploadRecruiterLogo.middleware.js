@@ -4,9 +4,9 @@ import fs from 'fs';
 
 // Ensure upload directory exists
 const uploadDir = 'uploads/companyLogos';
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-} 
+// if (!fs.existsSync(uploadDir)) {
+//   fs.mkdirSync(uploadDir, { recursive: true });
+// } 
 
 // Storage engine
 const storage = multer.diskStorage({
