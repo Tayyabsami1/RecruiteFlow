@@ -10,6 +10,6 @@ jobSeekerRouter.get("/getJobSeekerId/:userId", getJobSeekerIdByUserId);
 jobSeekerRouter.get('/get-profile/:userId', getJobSeekerProfile);
 
 // Update Jobseeker Profile
-jobSeekerRouter.put('/update-profile/:userId', upload.single('resume'), updateJobSeekerProfile);
+jobSeekerRouter.put('/update-profile/:userId', ...upload.single('resume'), updateJobSeekerProfile);
 
 export default jobSeekerRouter;

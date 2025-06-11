@@ -39,8 +39,8 @@ export const updateJobSeekerProfile = async (req, res) => {
       if (!jobSeeker) {
           return res.status(404).json({ message: 'JobSeeker not found' });
       }
-
-      res.json(jobSeeker);
+      console.log(jobSeeker)
+     return res.json(jobSeeker);
   } catch (error) {
       res.status(500).json({ error: error.message });
   }

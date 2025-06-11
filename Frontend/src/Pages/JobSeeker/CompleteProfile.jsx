@@ -162,7 +162,7 @@ const CompleteProfile = () => {
                                     <p><strong>Resume:</strong>
                                         {jobSeekerData.resume ? (
                                             // TODO Make this URL dynamic before deploying 
-                                            <a href={`http://localhost:3000/${jobSeekerData.resume}`} target="_blank" rel="noopener noreferrer">
+                                            <a href={`${jobSeekerData.resume}`} target="_blank" rel="noopener noreferrer">
                                                 View Resume
                                             </a>
                                         ) : ' No resume uploaded yet.'}

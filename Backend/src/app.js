@@ -47,7 +47,7 @@ app.use('/api/jobseeker/ai',JobSeekerAIRouter);
 app.use('/api/recruiter', recruiterRouter);
 
 // To serve a path to view Resumes on the frontend 
-app.use('/uploads', express.static('uploads'));
+// app.use('/uploads', express.static('uploads'));
 
 
 

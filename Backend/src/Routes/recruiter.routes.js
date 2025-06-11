@@ -15,7 +15,7 @@ recruiterRouter.get('/getRecruiterId/:userId', getRecruiterIdByUserId);
 recruiterRouter.get('/get-profile/:userId', getRecruiterProfile);
 
 // Update Recruiter Profile with file upload
-recruiterRouter.put('/update-profile/:userId', uploadRecruiterLogo.single('companyLogo'), updateRecruiterProfile);
+recruiterRouter.put('/update-profile/:userId', ...uploadRecruiterLogo.single('companyLogo'), updateRecruiterProfile);
 
 
 
