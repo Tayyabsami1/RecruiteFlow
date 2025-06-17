@@ -8,7 +8,7 @@ authRouter.route('/login').post(LoginUser);
 
 authRouter.route('/signup').post(SignUpUser);
 
-authRouter.route('/logout').post(verifyJWT, LogoutUser);
+authRouter.route('/logout').post(LogoutUser);
 authRouter.route('/').get(AuthorizationCheck);
 
 export default authRouter;
