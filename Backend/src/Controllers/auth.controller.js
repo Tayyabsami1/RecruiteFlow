@@ -152,13 +152,14 @@ export const LogoutUser = asyncHandler(async (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: 'None',
-        path:"/"
+        path:"/",
+        expires:new Date(0)
     }
 
     return res
         .status(200)
-        .clearCookie("refreshToken", options)
-        .clearCookie("accessToken", options)
+        .cookie("refreshToken","",options)
+        .cookie("accessToken","",options)
         .json(new ApiResponse(200, {}, "User Logged out"));
 });
 
