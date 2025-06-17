@@ -61,6 +61,7 @@ export const LoginUser = asyncHandler(async (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: 'None',
+        path:"/"
     }
 
     // Sending Response and setting Cookies
