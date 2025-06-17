@@ -136,9 +136,10 @@ export const SignUpUser = asyncHandler(async (req, res) => {
 });
 
 export const LogoutUser = asyncHandler(async (req, res) => {
+   const {id}= req.body
     // Update the DB Remove the refreshToken from the user document
     await User.findByIdAndUpdate(
-        req.user._id,
+        id,
         {
             $unset: {
                 refreshToken: 1,
